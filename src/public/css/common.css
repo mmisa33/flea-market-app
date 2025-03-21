@@ -13,7 +13,7 @@ body {
 .header {
     display: grid;
     align-items: center;
-    padding: 16px 0;
+    padding: 20px 30px;
     height: 80px;
     background-color: black;
     border: 1px solid black;
@@ -23,8 +23,11 @@ body {
     grid-template-rows: 1fr;
 }
 
-.header__heading {
+.header__logo {
     grid-column: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 /* 後ほど設定
@@ -38,8 +41,7 @@ body {
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
-    align-items: center;
-    padding: 48px;
+    padding: 60px;
 }
 
 .content__heading {
