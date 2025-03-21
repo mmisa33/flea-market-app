@@ -50,11 +50,11 @@
 
             {{--  確認用パスワード入力  --}}
             <div class="register-form__group">
-                <label class="register-form__label" for="confirm_password">確認用パスワード</label>
-                <input class="register-form__input" type="password" name="confirm_password" id="confirm_password">
+                <label class="register-form__label" for="password_confirmation">確認用パスワード</label>
+                <input class="register-form__input" type="password" name="password_confirmation" id="password_confirmation">
                 {{--  エラーメッセージ  --}}
                 <p class="register-form__error-message">
-                @error('confirm-password')
+                @error('password_confirmation')
                 {{ $message }}
                 @enderror
                 </p>
