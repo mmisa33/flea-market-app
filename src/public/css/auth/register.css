@@ -61,7 +61,7 @@
     font-size: 20px;
 }
 
-/* 1400px ～ 1540px のPC */
+/* 1400px ～ 1540pxのPC */
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
     .register-form__form {
         width: 40vw;
@@ -69,7 +69,7 @@
     }
 }
 
-/* 768px ～ 850px のタブレット */
+/* 768px ～ 850pxのタブレット */
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .register-form__form {
         width: 65vw;

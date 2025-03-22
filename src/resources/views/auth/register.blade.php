@@ -15,7 +15,7 @@
             @csrf
             <div class="register-form__group">
                 <label class="register-form__label" for="name">ユーザー名</label>
-                <input class="register-form__input" type="text" name="name" id="name">
+                <input class="register-form__input" type="text" name="name" id="name" value="{{ old('name') }}">
                 {{--  エラーメッセージ  --}}
                 <p class="register-form__error-message">
                 @error('name')
@@ -27,7 +27,7 @@
             {{--  メールアドレス入力  --}}
             <div class="register-form__group">
                 <label class="register-form__label" for="email">メールアドレス</label>
-                <input class="register-form__input" type="mail" name="email" id="email">
+                <input class="register-form__input" type="mail" name="email" id="email" value="{{ old('email') }}">
                 {{--  エラーメッセージ  --}}
                 <p class="register-form__error-message">
                 @error('email')
@@ -43,7 +43,9 @@
                 {{--  エラーメッセージ  --}}
                 <p class="register-form__error-message">
                 @error('password')
-                {{ $message }}
+                    @if ($message !== 'パスワードと一致しません')
+                        {{ $message }}
+                    @endif
                 @enderror
                 </p>
             </div>
@@ -54,8 +56,10 @@
                 <input class="register-form__input" type="password" name="password_confirmation" id="password_confirmation">
                 {{--  エラーメッセージ  --}}
                 <p class="register-form__error-message">
-                @error('password_confirmation')
-                {{ $message }}
+                @error('password')
+                    @if ($message === 'パスワードと一致しません')
+                        {{ $message }}
+                    @endif
                 @enderror
                 </p>
             </div>
