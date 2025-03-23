@@ -57,7 +57,7 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function likedItems()
+    public function likes()
     {
         return $this->belongsToMany(Item::class, 'item_likes');
     }

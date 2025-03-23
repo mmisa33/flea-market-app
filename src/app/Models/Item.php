@@ -9,7 +9,7 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'description', 'price', 'sold_status', 'condition'];
+    protected $fillable = ['user_id', 'image_path', 'name', 'brand', 'price', 'description', 'condition', 'sold_status'];
 
     public function user()
     {
@@ -23,16 +23,16 @@ class Item extends Model
 
     public function likes()
     {
-        return $this->hasMany(ItemLike::class);
-    }
-
-    public function likedUsers()
-    {
         return $this->belongsToMany(User::class, 'item_likes');
     }
 
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
