@@ -47,22 +47,22 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    public function items()
+    public function item()
     {
         return $this->hasMany(Item::class);
     }
 
-    public function purchases()
+    public function purchase()
     {
         return $this->hasMany(Purchase::class);
     }
 
-    public function likes()
+    public function like()
     {
         return $this->belongsToMany(Item::class, 'item_likes');
     }
 
-    public function comments()
+    public function comment()
     {
         return $this->hasMany(Comment::class);
     }

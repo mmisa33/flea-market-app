@@ -16,22 +16,22 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function categories()
+    public function category()
     {
         return $this->belongsToMany(Category::class, 'item_categories');
     }
 
-    public function likes()
+    public function like()
     {
         return $this->belongsToMany(User::class, 'item_likes');
     }
 
-    public function comments()
+    public function comment()
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function purchases()
+    public function purchase()
     {
         return $this->hasMany(Purchase::class);
     }
