@@ -17,8 +17,3 @@ use App\Http\Controllers\ItemController;
 Route::middleware('auth')->group(function () {
     Route::get('/', [ItemController::class, 'index']);
 });
-
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-});

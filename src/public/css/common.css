@@ -13,11 +13,10 @@ body {
 .header {
     display: grid;
     align-items: center;
-    padding: 20px 30px;
-    height: 80px;
+    padding: 0px 30px;
+    min-height: 80px;
     background-color: black;
     border: 1px solid black;
-    text-align: center;
 
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
@@ -27,13 +26,88 @@ body {
     grid-column: 1;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
 }
 
-/* 後ほど設定
+.header__search {
+    grid-column: 2;
+    width: 500px;
+    height: 50px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.search-form__input {
+    padding: 8px 50px;
+    min-width: 330px;
+    font-size: 24px;
+}
+
+.search-form__input::placeholder {
+    color: black;
+}
+
 .header__link {
     grid-column: 3;
-} */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+}
+
+.link__logout,
+.link__mypage {
+    width: 135px;
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.link__sell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 50px;
+    background-color: white;
+    border-radius: 4px;
+    color: black;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+/* ナビ */
+.nav {
+    display: grid;
+    padding: 5px 30px;
+    min-height: 80px;
+    border-bottom: 2px solid #5F5F5F;
+
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+}
+
+.nav__inner {
+    grid-column: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.nav__inner a {
+    color: #5F5F5F;
+    font-size: 24px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nav__inner-top {
+    margin-right: 100px;
+}
+
+.nav__inner-top.active,
+.nav__inner-mylist.active {
+    color: red;
+}
 
 /* コンテンツ */
 .content {

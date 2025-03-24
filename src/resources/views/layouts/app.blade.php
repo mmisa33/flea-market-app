@@ -18,13 +18,16 @@
                 <img src="{{ asset('images/logo.svg') }}" alt="coachtechフリマ">
             </div>
 
-            {{--  ナビ   --}}
-            <div class="header__nav">
-                @yield('link')
-            </div>
+            {{--  ヘッダーリンク   --}}
+            @yield('link')
         </header>
 
-            {{--  メインコンテンツ  --}}
+        {{--  ナビ  --}}
+        <main class="nav">
+            @yield('nav')
+        </main>
+
+        {{--  メインコンテンツ  --}}
         <main class="content">
             @yield('content')
         </main>
