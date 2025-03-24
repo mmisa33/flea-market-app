@@ -5,31 +5,53 @@
 @endsection
 
 @section('link')
+{{--  検索ボックス  --}}
 <div class="header__search">
     <form class="search-form" action="/search" method="get">
         @csrf
-        <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか" value="{{request('keyword')}}">
+        <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{request('keyword')}}">
     </form>
 </div>
 
+{{--  ヘッダーリンク  --}}
 <div class="header__link">
-    <form action="/logout" method="post">
-        @csrf
-        <input class="link__logout" type="submit" value="ログアウト">
-    </form>
+    {{--  ログインしている場合  --}}
+    @if ($isAuthenticated)
+        <form action="/logout" method="post">
+            @csrf
+            <input class="link__logout" type="submit" value="ログアウト">
+        </form>
+    {{--  ログインしていない場合  --}}
+    @else
+        <a class="link__login" href="/login">ログイン</a>
+    @endif
     <a class="link__mypage" href="/mypage">マイページ</a>
     <a class="link__sell" href="/sell">出品</a>
 </div>
 @endsection
 
+{{--  ナビ  --}}
 @section('nav')
 <div class="nav__inner">
-    <a class="nav__inner-top {{ Request::is('/') ? 'active' : '' }}" href="/">おすすめ</a>
-    <a class="nav__inner-mylist {{ Request::is('*tab=mylist') ? 'active' : '' }}" href="/?tab=mylist">マイリスト</a>
+    <a class="nav__inner-top {{ Request::is('/') && !request()->query('tab') ? 'active' : '' }}" href="/">おすすめ</a>
+    <a href="/mylist" @class(['nav__inner-mylist', 'active' => Request::is('mylist') || request()->query('tab') === 'mylist'])>マイリスト</a>
 </div>
 @endsection
 
 @section('content')
-<div class="top-page">
+<div class="item__group">
+    <div class="grid-container">
+        @foreach ($items as $item)
+            <div class="card">
+                <img class="card-img" src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
+                <div class="card-body">
+                    <p class="card-title">{{ $item->name }}</p>
+                    @if ($item->sold_status)
+                        <span class="sold-label">Sold</span>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+    </div>
 </div>
 @endsection

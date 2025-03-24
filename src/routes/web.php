@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 
 /*
@@ -14,6 +15,8 @@ use App\Http\Controllers\ItemController;
 |
 */
 
-Route::middleware('auth')->group(function () {
-    Route::get('/', [ItemController::class, 'index']);
-});
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
+Route::get('/mylist', [ItemController::class, 'index'])->name('items.mylist')->middleware('auth');
+
+// ログアウトルート
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

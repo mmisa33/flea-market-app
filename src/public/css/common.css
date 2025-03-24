@@ -54,6 +54,7 @@ body {
     gap: 30px;
 }
 
+.link__login,
 .link__logout,
 .link__mypage {
     width: 135px;
@@ -104,8 +105,7 @@ body {
     margin-right: 100px;
 }
 
-.nav__inner-top.active,
-.nav__inner-mylist.active {
+.nav__inner a.active {
     color: red;
 }
 
@@ -114,7 +114,6 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: center;
     padding: 60px;
 }
 
