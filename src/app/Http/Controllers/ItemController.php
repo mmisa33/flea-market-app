@@ -4,44 +4,38 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
     public function index(Request $request)
     {
-        // どのタブを表示するか判定
-        $isMyList = $request->tab === 'mylist' || $request->is('mylist');
+        // 'tab'パラメータが'mylist'の場合、マイリストタブを表示
+        $isMyList = $request->query('tab') === 'mylist';
 
+        // ログインしていない場合、マイリストを表示するにはログインが必要
+        if ($isMyList && !auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        // 商品データを取得
+        $itemsQuery = Item::where('sold_status', 0);
+
+        // マイリストの場合、ユーザーIDでフィルタリング
         if ($isMyList) {
-            // マイリストならログインユーザーの商品を取得
-            if (auth()->check()) {
-                $items = Item::where('user_id', auth()->id())->where('sold_status', 0)->get();
-            } else {
-                $items = collect(); // 未ログインなら空データ
-            }
+            $itemsQuery->where('user_id', auth()->id());
         } else {
-            // おすすめ（他のユーザーの商品を取得）
-            $items = Item::where('sold_status', 0)
-                ->where(function ($query) {
-                    if (auth()->check()) {
-                        $query->where('user_id', '!=', auth()->id());
-                    }
-                })
-                ->get();
+            $itemsQuery->where('user_id', '!=', auth()->id());
         }
 
-        // 検索処理（共通）
+        // 検索処理
         if ($request->has('keyword')) {
-            $items = $items->filter(function ($item) use ($request) {
-                return str_contains($item->name, $request->keyword);
-            });
+            $itemsQuery->where('name', 'like', '%' . $request->keyword . '%');
         }
 
-        return view('index', compact('items', 'isMyList'))->with('isAuthenticated', auth()->check());
-    }
+        $items = $itemsQuery->get();
 
+        return view('index', compact('items', 'isMyList'))->with('isAuth', auth()->check());
+    }
 
     public function store(Request $request)
     {
@@ -52,16 +46,16 @@ class ItemController extends Controller
 
         // アイテムの保存
         Item::create([
-            'user_id' => auth()->id(), // 現在のユーザーIDを設定
+            'user_id' => auth()->id(),
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
             'condition' => $request->condition,
-            'image_path' => $imagePath, // 画像パスを保存
+            'image_path' => $imagePath,
             'sold_status' => false,
         ]);
 
-        return redirect()->route('items.index');
+        return redirect('/');
     }
 
     public function mylist(Request $request)

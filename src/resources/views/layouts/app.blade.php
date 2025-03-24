@@ -23,9 +23,7 @@
         </header>
 
         {{--  ナビ  --}}
-        <div class="nav">
-            @yield('nav')
-        </div>
+        @yield('nav')
 
         {{--  メインコンテンツ  --}}
         <main class="content">

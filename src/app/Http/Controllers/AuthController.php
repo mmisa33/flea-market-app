@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    // ログアウト処理
     public function logout(Request $request)
     {
-        Auth::logout(); // ログアウト処理
-        $request->session()->invalidate(); // セッションを無効化
-        $request->session()->regenerateToken(); // CSRFトークンを再生成
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect('/'); // トップページにリダイレクト
+        return redirect('/');
     }
 }

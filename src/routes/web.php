@@ -15,8 +15,9 @@ use App\Http\Controllers\ItemController;
 |
 */
 
-Route::get('/', [ItemController::class, 'index'])->name('items.index');
-Route::get('/mylist', [ItemController::class, 'index'])->name('items.mylist')->middleware('auth');
+// トップページ
+Route::get('/', [ItemController::class, 'index']);
+Route::get('/?tab=mylist', [ItemController::class, 'index'])->middleware('auth');
 
-// ログアウトルート
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// ログアウト処理
+Route::post('/logout', [AuthController::class, 'logout']);

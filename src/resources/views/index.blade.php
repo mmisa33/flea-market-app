@@ -16,7 +16,7 @@
 {{--  ヘッダーリンク  --}}
 <div class="header__link">
     {{--  ログインしている場合  --}}
-    @if ($isAuthenticated)
+    @if ($isAuth)
         <form action="/logout" method="post">
             @csrf
             <input class="link__logout" type="submit" value="ログアウト">
@@ -32,13 +32,16 @@
 
 {{--  ナビ  --}}
 @section('nav')
-<div class="nav__inner">
-    <a class="nav__inner-top {{ Request::is('/') && !request()->query('tab') ? 'active' : '' }}" href="/">おすすめ</a>
-    <a href="/mylist" @class(['nav__inner-mylist', 'active' => Request::is('mylist') || request()->query('tab') === 'mylist'])>マイリスト</a>
+<div class="nav">
+    <div class="nav__inner">
+        <a class="nav__inner-top {{ Request::is('/') && !request()->query('tab') ? 'active' : '' }}" href="/">おすすめ</a>
+        <a class="nav__inner-mylist {{ request()->query('tab') === 'mylist' ? 'active' : '' }}" href="/?tab=mylist">マイリスト</a>
+    </div>
 </div>
 @endsection
 
 @section('content')
+{{--  商品リスト  --}}
 <div class="item__group">
     <div class="grid-container">
         @foreach ($items as $item)
