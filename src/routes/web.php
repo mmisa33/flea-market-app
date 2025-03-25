@@ -20,7 +20,8 @@ Route::get('/', [ItemController::class, 'index']);
 Route::get('/?tab=mylist', [ItemController::class, 'index'])->middleware('auth');
 
 // 商品詳細ページ
-Route::get('/item/{item_id}', [ItemController::class, 'show']);
+Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
+Route::post('/item/{item_id}/comment', [ItemController::class, 'comment'])->name('item.comment.store');
 
 // ログアウト処理
 Route::post('/logout', [AuthController::class, 'logout']);

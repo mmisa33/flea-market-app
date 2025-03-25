@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Comment;
+use App\Models\Like;
+use App\Http\Requests\CommentRequest;
 
 class ItemController extends Controller
 {
@@ -61,6 +64,28 @@ class ItemController extends Controller
 
         return view('item.detail', compact('item', 'isAuth', 'likeCount', 'commentCount'));
     }
+
+    public function comment(CommentRequest $request, $item_id)
+    {
+
+        // ログインユーザーのみコメント可能
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        $item = Item::findOrFail($item_id);
+
+        // コメントの作成
+        $comment = new Comment();
+        $comment->user_id = auth()->id();
+        $comment->item_id = $item->id;
+        $comment->content = $request->content;
+        $comment->save();
+
+        return redirect()->route('item.show', $item_id);
+    }
+
+    
 
     // public function purchase($item_id)
     // {

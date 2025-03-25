@@ -122,29 +122,51 @@ h3 {
     color: #5F5F5F;
 }
 
+.error-message {
+    color: #FF5555;
+}
 
+.comment {
+    margin-bottom: 30px;
+}
 
-+++++++++++++++++
-.item-detail__comments {
-    grid-column: 1 / span 2;
-    /* コメントセクションは2列分使用 */
+.comment__user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment__user-name {
+    margin-left: 15px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.comment__content {
+    padding: 15px 20px;
+    background-color: #E5E5E5;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.comment-form {
+    margin: 40px 0;
+}
+
+.comment-form__btn {
     margin-top: 40px;
 }
 
-
-.comment {
-    margin-bottom: 15px;
+.comment-form__textarea {
+    font-size: 28px;
+    font-weight: 700;
 }
 
-.comment p {
-    margin: 5px 0;
-}
-
-textarea {
+.comment-form__textarea-input {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    border: 1px solid #ccc;
+    border: 2px solid black;
     border-radius: 5px;
 }
 
@@ -165,3 +187,4 @@ textarea {
         /* 商品情報も2列分使う */
     }
 }
+

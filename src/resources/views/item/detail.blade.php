@@ -54,12 +54,12 @@
 
     <!-- いいね数（アイコン） -->
         <p>
-            <i class="fas fa-thumbs-up"></i> {{ $likeCount }} いいね
+            <i class="far fa-thumbs-up"></i> {{ $likeCount }}
         </p>
 
         <!-- コメント数（アイコン） -->
         <p>
-            <i class="fas fa-comment"></i> {{ $commentCount }} コメント
+            <i class="far fa-comment"></i> {{ $commentCount }}
         </p>
 
 
@@ -120,21 +120,29 @@
 
             @if($item->comments->count() > 0)
                 @foreach($item->comments as $comment)
-                    <div class="comment">
-                        <p><strong>{{ $comment->user->name }}</strong>さん:</p>
-                        <p>{{ $comment->content }}</p>
+                <div class="comment">
+                    <div class="comment__user">
+                        <p class="comment__user-photo">写真</p>
+                        <p class="comment__user-name">{{ $comment->user->name }}</p>
                     </div>
+                    <div class="comment__content">{{ $comment->content }}</div>
+                </div>
                 @endforeach
             @endif
 
             {{-- コメント投稿フォーム --}}
-            @auth
-                {{-- <form action="{{ route('', $item->id) }}" method="POST"> --}}
-                    @csrf
-                    <textarea name="content" rows="8" required></textarea><br>
-                    <input class="comment-form__btn btn" type="submit" value="コメントする">
-                </form>
-            @endauth
+            <form class="comment-form" action="{{ route('item.comment.store', $item->id) }}" method="POST">
+                @csrf
+                <div class="comment-form__textarea">商品へのコメント</div>
+                <textarea class="comment-form__textarea-input" name="content" rows="10" required></textarea><br>
+
+                {{-- エラーメッセージ表示 --}}
+                @error('content')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
+
+                <input class="comment-form__btn btn" type="submit" value="コメントする">
+            </form>
         </div>
     </div>
 </div>
