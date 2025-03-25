@@ -46,7 +46,9 @@
     <div class="grid-container">
         @foreach ($items as $item)
             <div class="card">
-                <img class="card-img" src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
+                <a href="/item/{{ $item->id }}">
+                    <img class="card-img" src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
+                </a>
                 <div class="card-body">
                     <p class="card-title">{{ $item->name }}</p>
                     @if ($item->sold_status)

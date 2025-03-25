@@ -19,5 +19,10 @@ use App\Http\Controllers\ItemController;
 Route::get('/', [ItemController::class, 'index']);
 Route::get('/?tab=mylist', [ItemController::class, 'index'])->middleware('auth');
 
+// 商品詳細ページ
+Route::get('/item/{item_id}', [ItemController::class, 'show']);
+
 // ログアウト処理
 Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
