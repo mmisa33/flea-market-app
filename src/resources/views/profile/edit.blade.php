@@ -15,12 +15,10 @@
 
 {{-- ヘッダーリンク --}}
 <div class="header__link">
-
-        <form action="/logout" method="post">
-            @csrf
-            <input class="link__logout" type="submit" value="ログアウト">
-        </form>
-
+    <form action="/logout" method="post">
+        @csrf
+        <input class="link__logout" type="submit" value="ログアウト">
+    </form>
     <a class="link__mypage" href="/mypage">マイページ</a>
     <a class="link__sell" href="/sell">出品</a>
 </div>
@@ -30,7 +28,6 @@
 <div class="profile-form">
     {{-- ページタイトル --}}
     <h2 class="profile-form__heading content__heading">プロフィール設定</h2>
-
 
     {{-- ユーザー登録フォーム --}}
     <div class="profile-form__inner">

@@ -8,9 +8,30 @@ use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Item;
+use App\Models\Purchase;
 
 class ProfileController extends Controller
 {
+    public function show()
+    {
+        $user = auth()->user();
+
+        // ユーザーのプロフィール情報を取得
+        $profileImage = $user->profile->profile_image;
+        $userName = $user->name;
+
+        // 出品した商品一覧
+        $items = Item::where('user_id', $user->id)->get();
+
+        // 購入した商品一覧
+        $purchasedItems = Purchase::where('user_id', $user->id)->get()->map(function ($order) {
+            return $order->item;  // 購入した商品の情報を取得
+        });
+
+        return view('profile.index', compact('profileImage', 'userName', 'items', 'purchasedItems'));
+    }
+
     public function edit()
     {
         return view('profile.edit');

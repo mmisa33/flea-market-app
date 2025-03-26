@@ -1,0 +1,46 @@
+.mypage__profile {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    margin: 60px 0 ;
+}
+
+.mypage__profile-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 60px;
+    gap: 100px;
+}
+
+.profile__item-name {
+    font-weight: bold;
+    font-size: 36px;
+}
+
+.profile__item-image--preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 1px solid #D9D9D9;
+    overflow: hidden;
+    background-color: #D9D9D9;
+}
+
+.profile-edit__btn {
+    margin: 0 auto;
+}
+
+.profile-edit__btn-submit {
+    padding: 10px 35px;
+    color: #FF5555;
+    border: 2px solid #FF5555;
+    font-size: 26px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+

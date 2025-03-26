@@ -33,5 +33,12 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/mypage/profile', [ProfileController::class, 'update']);
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mypage', [ProfileController::class, 'show']);
+});
+
+
+
+
 Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
 
