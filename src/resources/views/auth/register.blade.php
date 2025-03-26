@@ -64,7 +64,7 @@
                 </p>
             </div>
 
-            <div class="confirm-form__btn-inner">
+            <div class="register__btn-inner">
                 {{--  登録ボタン  --}}
                 <input class="register-form__btn" type="submit" value="登録する">
 

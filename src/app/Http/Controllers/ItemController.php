@@ -67,7 +67,6 @@ class ItemController extends Controller
 
     public function comment(CommentRequest $request, $item_id)
     {
-
         // ログインユーザーのみコメント可能
         if (!auth()->check()) {
             return redirect()->route('login');
@@ -82,10 +81,9 @@ class ItemController extends Controller
         $comment->content = $request->content;
         $comment->save();
 
-        return redirect()->route('item.show', $item_id);
+        return redirect("/item/{$item_id}");
     }
 
-    
 
     // public function purchase($item_id)
     // {

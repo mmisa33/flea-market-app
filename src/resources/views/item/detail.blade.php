@@ -54,7 +54,7 @@
 
     <!-- いいね数（アイコン） -->
         <p>
-            <i class="far fa-thumbs-up"></i> {{ $likeCount }}
+            <i class="far fa-star"></i> {{ $likeCount }}
         </p>
 
         <!-- コメント数（アイコン） -->
@@ -131,7 +131,7 @@
             @endif
 
             {{-- コメント投稿フォーム --}}
-            <form class="comment-form" action="{{ route('item.comment.store', $item->id) }}" method="POST">
+            <form class="comment-form"  action="/item/{{ $item->id }}/comment" method="POST">
                 @csrf
                 <div class="comment-form__textarea">商品へのコメント</div>
                 <textarea class="comment-form__textarea-input" name="content" rows="10" required></textarea><br>
