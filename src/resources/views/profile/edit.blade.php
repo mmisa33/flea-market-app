@@ -31,10 +31,34 @@
     {{-- ページタイトル --}}
     <h2 class="profile-form__heading content__heading">プロフィール設定</h2>
 
+
     {{-- ユーザー登録フォーム --}}
     <div class="profile-form__inner">
-        <form class="profile-form__form" action="/mypage/profile" method="post">
+        <form class="profile-form__form" action="/mypage/profile" method="post" enctype="multipart/form-data">
             @csrf
+            @method('PATCH')
+
+            {{-- プロフィール画像設定 --}}
+            <div class="profile-form__group">
+                <div class="profile__image">
+                    <div class="profile__image-preview">
+                        <img id="profile-image-preview" src="{{ auth()->user()->profile && auth()->user()->profile->profile_image ? asset('storage/' . auth()->user()->profile->profile_image) : '' }}">
+                    </div>
+
+                    <div class="profile__image-btn">
+                        <label for="profile_image" class="profile__image--label">画像を選択する</label>
+                        <input type="file" name="profile_image" id="profile_image" class="profile__image--input" style="display: none;" onchange="previewImage(event)">
+                        {{-- エラーメッセージ --}}
+                        <p class="profile-form__error-message">
+                            @error('profile_image')
+                            {{ $message }}
+                            @enderror
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- 名前入力 --}}
             <div class="profile-form__group">
                 <label class="profile-form__label" for="name">ユーザー名</label>
                 <input class="profile-form__input" type="text" name="name" id="name" value="{{ old('name', auth()->user()->name) }}">
@@ -49,7 +73,7 @@
             {{-- 郵便番号入力 --}}
             <div class="profile-form__group">
                 <label class="profile-form__label" for="postal_code">郵便番号</label>
-                <input class="profile-form__input" type="text" name="postal_code" id="postal_code">
+                <input class="profile-form__input" type="text" name="postal_code" id="postal_code" value="{{ old('postal_code', auth()->user()->profile->postal_code ?? '') }}">
                 {{-- エラーメッセージ --}}
                 <p class="profile-form__error-message">
                 @error('postal_code')
@@ -61,7 +85,7 @@
             {{-- 住所入力 --}}
             <div class="profile-form__group">
                 <label class="profile-form__label" for="address">住所</label>
-                <input class="profile-form__input" type="text" name="address" id="address">
+                <input class="profile-form__input" type="text" name="address" id="address" value="{{ old('address', auth()->user()->profile->address ?? '') }}">
                 {{-- エラーメッセージ --}}
                 <p class="profile-form__error-message">
                 @error('address')
@@ -78,7 +102,7 @@
             {{-- 建物名入力 --}}
             <div class="profile-form__group">
                 <label class="profile-form__label" for="building">建物名</label>
-                <input class="profile-form__input" type="text" name="building" id="building">
+                <input class="profile-form__input" type="text" name="building" id="building" value="{{ old('building', auth()->user()->profile->building ?? '') }}">
             </div>
 
             {{-- 登録ボタン --}}
@@ -89,4 +113,25 @@
     </div>
 </div>
 
+<script>
+function previewImage(event) {
+    const input = event.target;
+    const file = input.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        const imagePreview = document.getElementById('profile-image-preview');
+        const imgElement = imagePreview;
+        imgElement.src = e.target.result;
+
+        // 画像を選択したら、円を非表示にして画像を表示
+        imagePreview.style.backgroundColor = 'transparent';  // 背景色を透明に
+        imgElement.style.display = 'block';  // 画像を表示
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 @endsection

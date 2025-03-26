@@ -31,6 +31,7 @@
 }
 
 .login-form__error-message {
+    margin-top: 5px;
     color: #FF5555;
 }
 

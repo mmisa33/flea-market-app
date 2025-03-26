@@ -27,9 +27,11 @@ Route::post('/item/{item_id}/comment', [ItemController::class, 'comment']);
 // ログアウト処理
 Route::post('/logout', [AuthController::class, 'logout']);
 
+// プロフィール編集ページ
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mypage/profile', [ProfileController::class, 'edit']);
+    Route::patch('/mypage/profile', [ProfileController::class, 'update']);
+});
+
 Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/mypage/profile', [ProfileController::class, 'update']);
-});
