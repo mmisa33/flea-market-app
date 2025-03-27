@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Comment;
+use App\Models\User;
 use App\Models\Like;
 use App\Http\Requests\CommentRequest;
 
@@ -59,10 +60,19 @@ class ItemController extends Controller
 
         $isAuth = auth()->check();
 
+        $liked = false;
+        if ($isAuth) {
+            $user = auth()->user();
+
+            if ($user->likedItems->contains($item->id)) {
+                $liked = true;
+            }
+        }
+
         $likeCount = $item->likes->count();
         $commentCount = $item->comments->count();
 
-        return view('item.detail', compact('item', 'isAuth', 'likeCount', 'commentCount'));
+        return view('item.detail', compact('item', 'isAuth', 'liked', 'likeCount', 'commentCount'));
     }
 
     public function comment(CommentRequest $request, $item_id)
@@ -82,6 +92,20 @@ class ItemController extends Controller
         $comment->save();
 
         return redirect("/item/{$item_id}");
+    }
+
+    // いいね機能
+    public function like(Item $item)
+    {
+        $user = auth()->user();
+
+        if ($user->likedItems->contains($item->id)) {
+            $user->likedItems()->detach($item->id);
+        } else {
+            $user->likedItems()->attach($item->id);
+        }
+
+        return redirect()->back();
     }
 
 

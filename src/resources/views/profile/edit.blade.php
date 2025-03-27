@@ -41,8 +41,9 @@
                     <div class="profile__image-preview">
                         <img id="profile-image-preview"
         src="{{ auth()->user()->profile && auth()->user()->profile->profile_image ? asset('storage/' . auth()->user()->profile->profile_image) : '' }}"
-        alt="プロフィール画像">
+        >
                     </div>
+
 
                     <div class="profile__image-btn">
                         <label for="profile_image" class="profile__image--label">画像を選択する</label>

@@ -24,7 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'profile_image' => ['required', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'profile_image' => ['required', 'mimes:jpg,jpeg,png', 'max:1024'],
         ];
     }
 
@@ -33,7 +33,7 @@ class ProfileRequest extends FormRequest
         return [
             'profile_image.required' => 'プロフィール画像を設定してください',
             'profile_image.mimes' => '画像はJPEGまたはPNG形式でアップロードしてください',
-            'profile_image.max' => '2MB以下の画像を設定してください',
+            'profile_image.max' => '1MB以下の画像を設定してください',
         ];
     }
 }
