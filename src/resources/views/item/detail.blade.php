@@ -122,8 +122,12 @@
                 @foreach($item->comments as $comment)
                 <div class="comment">
                     <div class="comment__user">
-                        <p class="comment__user-photo">写真</p>
-                        <p class="comment__user-name">{{ $comment->user->name }}</p>
+                        <div class="comment__user-photo">
+                            <img src="{{ asset('storage/' . ($comment->user->profile->profile_image ?? 'default-avatar.png')) }}"
+                                alt="{{ $comment->user->name }}のプロフィール画像"
+                                class="comment__user-image">
+                        </div>
+                        <span class="comment__user-name">{{ $comment->user->name }}</span>
                     </div>
                     <div class="comment__content">{{ $comment->content }}</div>
                 </div>

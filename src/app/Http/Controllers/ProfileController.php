@@ -59,12 +59,15 @@ class ProfileController extends Controller
 
         // プロフィール画像の更新（ProfileRequest を使用）
         if ($profileRequest->hasFile('profile_image')) {
+            // ファイルを保存する場所を指定（'public'ディスクに保存）
             $imagePath = $profileRequest->file('profile_image')->store('profile_images', 'public');
 
+            // 既存のプロフィール画像があれば削除
             if ($profile->profile_image) {
                 Storage::disk('public')->delete($profile->profile_image);
             }
 
+            // 新しい画像パスを保存
             $profile->profile_image = $imagePath;
         }
 

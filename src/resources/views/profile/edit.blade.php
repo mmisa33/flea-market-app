@@ -39,7 +39,9 @@
             <div class="profile-form__group">
                 <div class="profile__image">
                     <div class="profile__image-preview">
-                        <img id="profile-image-preview" src="{{ auth()->user()->profile && auth()->user()->profile->profile_image ? asset('storage/' . auth()->user()->profile->profile_image) : '' }}">
+                        <img id="profile-image-preview"
+        src="{{ auth()->user()->profile && auth()->user()->profile->profile_image ? asset('storage/' . auth()->user()->profile->profile_image) : '' }}"
+        alt="プロフィール画像">
                     </div>
 
                     <div class="profile__image-btn">
@@ -119,11 +121,10 @@ function previewImage(event) {
     reader.onload = function (e) {
         const imagePreview = document.getElementById('profile-image-preview');
         const imgElement = imagePreview;
-        imgElement.src = e.target.result;
+        imagePreview.src = e.target.result;
 
-        // 画像を選択したら、円を非表示にして画像を表示
-        imagePreview.style.backgroundColor = 'transparent';  // 背景色を透明に
-        imgElement.style.display = 'block';  // 画像を表示
+        imagePreview.style.backgroundColor = 'transparent';
+        imgElement.style.display = 'block';
     };
 
     if (file) {
