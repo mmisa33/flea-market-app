@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,13 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
+// Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
+// Route::get('/item/purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
+// Route::post('/item/purchase/{item}', [PurchaseController::class, 'purchase']);
+// Route::middleware('auth')->get('item/purchase/{item}', [ItemController::class, 'purchase'])->name('item.purchase');
 
+// 商品購入ページを表示
+Route::get('purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
+
+// 購入処理を行う
+Route::post('item/purchase/{item}', [ItemController::class, 'purchase'])->name('item.purchase.submit');

@@ -76,6 +76,7 @@ class ItemController extends Controller
         return view('item.detail', compact('item', 'isAuth', 'liked', 'likeCount', 'commentCount'));
     }
 
+    // コメント機能
     public function comment(CommentRequest $request, $item_id)
     {
         // ログインユーザーのみコメント可能
@@ -109,41 +110,13 @@ class ItemController extends Controller
         return redirect()->back();
     }
 
+    // 購入ページへ移動
+    public function purchase(Item $item)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
 
-    // public function purchase($item_id)
-    // {
-    //     $item = Item::findOrFail($item_id);
-
-    //     if ($item->sold_status) {
-    //         return redirect()->route('item.detail', ['item_id' => $item_id])->with('error', 'この商品はすでに売り切れです。');
-    //     }
-
-    //     $item->sold_status = true;
-    //     $item->save();
-
-    //     return redirect()->route('item.detail', ['item_id' => $item_id])->with('success', '購入が完了しました！');
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     // 画像アップロード
-    //     if ($request->hasFile('image')) {
-    //         $imagePath = $request->file('image')->store('items', 'public');
-    //     }
-
-    //     // アイテムの保存
-    //     Item::create([
-    //         'user_id' => auth()->id(),
-    //         'name' => $request->name,
-    //         'price' => $request->price,
-    //         'description' => $request->description,
-    //         'condition' => $request->condition,
-    //         'image_path' => $imagePath,
-    //         'sold_status' => false,
-    //     ]);
-
-    //      $item->categories()->attach($request->categories); 
-
-    // //     return redirect('/');
-    // }
+        return redirect()->route('item.purchase', ['item' => $item->id]);
+    }
 }

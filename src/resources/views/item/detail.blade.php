@@ -77,7 +77,7 @@
     </div>
 
     {{-- 購入ボタン --}}
-    <form action="{{ route('item.purchase', ['item_id' => $item->id]) }}" method="POST">
+    <form action="{{ route('item.purchase.submit', ['item' => $item->id]) }}" method="POST">
         @csrf
         <input class="purchase-form__btn btn" type="submit" value="購入手続きへ">
     </form>
