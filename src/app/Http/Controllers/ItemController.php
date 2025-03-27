@@ -14,41 +14,42 @@ class ItemController extends Controller
     // トップページ表示
     public function index(Request $request)
     {
-        // 'tab'パラメータが'mylist'の場合、マイリストタブを表示
         $isMyList = $request->query('tab') === 'mylist';
+        $isAuth = auth()->check();
 
-        // ログインしていない場合、マイリストを表示するにはログインが必要
-        if ($isMyList && !auth()->check()) {
-            return redirect()->route('login');
+        // 未ログインの状態で「マイリスト」タブを開いた場合、空のリストを表示
+        if ($isMyList && !$isAuth) {
+            return view('index', ['items' => collect(), 'isMyList' => true, 'isAuth' => false]);
         }
 
-        // 商品データを取得
-        $itemsQuery = Item::where('sold_status', 0);
-
-        // マイリストの場合、ユーザーIDでフィルタリング
+        // いいねした商品を表示
         if ($isMyList) {
-            $itemsQuery->where('user_id', auth()->id());
+            $items = auth()->user()->likedItems()->where('sold_status', 0)->get();
         } else {
-            $itemsQuery->where('user_id', '!=', auth()->id());
+            // 他ユーザーの出品商品を取得
+            $items = Item::where('sold_status', 0)
+                ->where('user_id', '!=', auth()->id())
+                ->when($request->filled('keyword'), function ($query) use ($request) {
+                    return $query->where('name', 'like', '%' . $request->keyword . '%');
+                })
+                ->get();
         }
 
-        // 検索処理
-        if ($request->has('keyword')) {
-            $itemsQuery->where('name', 'like', '%' . $request->keyword . '%');
-        }
-
-        $items = $itemsQuery->get();
-
-        return view('index', compact('items', 'isMyList'))->with('isAuth', auth()->check());
+        return view('index', compact('items', 'isMyList', 'isAuth'));
     }
 
-    // マイリスト表示
+    // マイリスト表示（いいねした商品）
     public function mylist(Request $request)
     {
-        // ログインしているユーザーのマイリストの商品を表示
-        $items = Item::where('sold_status', 0)
-            ->where('user_id', auth()->id())
-            ->get();
+        $isAuth = auth()->check();
+
+        // 未ログインの場合は空のリストを返す
+        if (!$isAuth) {
+            return view('mylist', ['items' => collect()]);
+        }
+
+        // いいねした商品のリストを取得
+        $items = auth()->user()->likedItems()->where('sold_status', 0)->get();
 
         return view('mylist', compact('items'));
     }
