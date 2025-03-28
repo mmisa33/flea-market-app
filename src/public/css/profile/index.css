@@ -25,6 +25,7 @@
     border: 1px solid #D9D9D9;
     overflow: hidden;
     background-color: #D9D9D9;
+    object-fit: cover;
 }
 
 .profile-edit__btn {

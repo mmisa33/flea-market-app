@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\AddressRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +23,7 @@ class ProfileController extends Controller
 
         // 購入した商品一覧
         $purchasedItems = Purchase::where('user_id', $user->id)->get()->map(function ($order) {
-            return $order->item;  // 購入した商品の情報を取得
+            return $order->item;
         });
 
         return view('profile.index', compact('profileImage', 'userName', 'items', 'purchasedItems'));
@@ -37,7 +34,7 @@ class ProfileController extends Controller
         return view('profile.edit');
     }
 
-    public function update(AddressRequest $addressRequest, ProfileRequest $profileRequest)
+    public function update(ProfileRequest $profileRequest)
     {
         $user = auth()->user();
 
@@ -46,16 +43,12 @@ class ProfileController extends Controller
         $user->save();
 
         // プロフィールが存在する場合は更新、ない場合は新規作成
-        $profile = $user->profile;
-        if (!$profile) {
-            $profile = new Profile();
-            $profile->user_id = $user->id;
-        }
+        $profile = $user->profile ?? new Profile(['user_id' => $user->id]);
 
-        // 住所情報の更新（AddressRequest を使用）
-        $profile->postal_code = $addressRequest->postal_code;
-        $profile->address = $addressRequest->address;
-        $profile->building = $addressRequest->building;
+        // 住所情報の更新（ProfileRequest を使用）
+        $profile->postal_code = $profileRequest->postal_code;
+        $profile->address = $profileRequest->address;
+        $profile->building = $profileRequest->building;
 
         // プロフィール画像の更新（ProfileRequest を使用）
         if ($profileRequest->hasFile('profile_image')) {
@@ -73,6 +66,6 @@ class ProfileController extends Controller
 
         $profile->save();
 
-        return redirect('/?tab=mylist');
+        return redirect('/mypage');
     }
 }
