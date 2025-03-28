@@ -3,6 +3,10 @@ body {
     height: 100%;
 }
 
+a {
+    text-decoration: none;
+}
+
 .app {
     display: flex;
     flex-direction: column;
@@ -59,7 +63,6 @@ body {
 .link__mypage {
     color: white;
     font-size: 24px;
-    text-decoration: none;
 }
 
 .link__sell {
@@ -72,7 +75,6 @@ body {
     border-radius: 4px;
     color: black;
     font-size: 24px;
-    text-decoration: none;
 }
 
 /* ナビ */
@@ -97,7 +99,6 @@ body {
     color: #5F5F5F;
     font-size: 24px;
     font-weight: 700;
-    text-decoration: none;
 }
 
 .nav__inner-top {

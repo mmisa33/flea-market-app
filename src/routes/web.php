@@ -37,10 +37,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-// Route::post('/item/{item_id}/purchase', [ItemController::class, 'purchase'])->name('item.purchase');
-// Route::get('/item/purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
-// Route::post('/item/purchase/{item}', [PurchaseController::class, 'purchase']);
-// Route::middleware('auth')->get('item/purchase/{item}', [ItemController::class, 'purchase'])->name('item.purchase');
+Route::get('/purchase/address/{item}', [PurchaseController::class, 'showAddressEdit']);
+Route::post('/purchase/address/{item}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
 
 // 商品購入ページを表示
 Route::get('purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
