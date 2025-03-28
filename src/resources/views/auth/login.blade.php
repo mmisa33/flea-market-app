@@ -19,9 +19,11 @@
                 <input class="login-form__input" type="mail" name="email" id="email" value="{{ old('email') }}">
                 {{-- エラーメッセージ --}}
                 <p class="login-form__error-message">
-                @error('email')
-                {{ $message }}
-                @enderror
+                    @error('email')
+                        @if ($message !== __('auth.failed'))
+                        {{ $message }}
+                        @endif
+                    @enderror
                 </p>
             </div>
 
@@ -43,6 +45,15 @@
 
                 {{--  会員登録ページへ移行  --}}
                 <a class="login-form__link" href="/register">会員登録はこちら</a>
+
+                {{-- エラーメッセージ --}}
+                <p class="login-form__error-message">
+                @if (session('errors'))
+                    @foreach (session('errors')->get('email') as $error)
+                    {{ $error }}
+                    @endforeach
+                @endif
+                </p>
             </div>
         </form>
     </div>
