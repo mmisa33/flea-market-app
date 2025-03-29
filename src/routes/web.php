@@ -17,6 +17,9 @@ use App\Http\Controllers\PurchaseController;
 |
 */
 
+// ログアウト処理
+Route::post('/logout', [AuthController::class, 'logout']);
+
 // トップページ
 Route::get('/', [ItemController::class, 'index']);
 Route::get('/?tab=mylist', [ItemController::class, 'index'])->middleware('auth');
@@ -26,8 +29,12 @@ Route::get('/item/{item_id}', [ItemController::class, 'show']);
 Route::post('/item/{item_id}/comment', [ItemController::class, 'comment']);
 Route::post('/item/{item}/like', [ItemController::class, 'like'])->name('item.like');
 
-// ログアウト処理
-Route::post('/logout', [AuthController::class, 'logout']);
+// 商品購入ページ
+Route::middleware(['auth'])->group(function () {
+    Route::get('/item/purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
+    Route::get('/purchase/address/{item}', [PurchaseController::class, 'showAddressEdit'])->name('purchase.address.edit');
+    Route::patch('/purchase/address/{item}', [PurchaseController::class, 'updateAddress']);
+});
 
 // プロフィールページ
 Route::middleware(['auth'])->group(function () {
@@ -35,13 +42,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mypage/profile', [ProfileController::class, 'edit']);
     Route::patch('/mypage/profile', [ProfileController::class, 'update']);
 });
-
-
-Route::get('/purchase/address/{item}', [PurchaseController::class, 'showAddressEdit']);
-Route::post('/purchase/address/{item}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
-
-// 商品購入ページを表示
-Route::get('purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
 
 // 購入処理を行う
 Route::post('item/purchase/{item}', [ItemController::class, 'purchase'])->name('item.purchase.submit');

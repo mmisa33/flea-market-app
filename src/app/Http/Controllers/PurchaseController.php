@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\AddressRequest;
 use App\Models\Item;
 
 class PurchaseController extends Controller
 {
+    // 商品購入ページを表示
     public function show(Item $item)
     {
         $isAuth = auth()->check();
@@ -14,10 +15,16 @@ class PurchaseController extends Controller
             return redirect()->route('login');
         }
 
-        return view('item.purchase', compact('item'));
+        $shippingAddress = $item->shipping_address ? json_decode($item->shipping_address, true) : [
+            'postal_code' => auth()->user()->profile->postal_code ?? '',
+            'address' => auth()->user()->profile->address ?? '',
+            'building' => auth()->user()->profile->building ?? '',
+        ];
+
+        return view('item.purchase', compact('item', 'shippingAddress'));
     }
 
-    // 住所変更画面表示
+    // 住所変更画面を表示
     public function showAddressEdit(Item $item)
     {
         $isAuth = auth()->check();
@@ -25,24 +32,27 @@ class PurchaseController extends Controller
             return redirect()->route('login');
         }
 
-        // ユーザーの住所を取得
-        $userAddress = auth()->user()->profile->address ?? '';
-        return view('purchase.address', compact('item', 'userAddress'));
+        $shippingAddress = session('shippingAddress', $item->shipping_address ? json_decode($item->shipping_address, true) : [
+            'postal_code' => auth()->user()->profile->postal_code ?? '',
+            'address' => auth()->user()->profile->address ?? '',
+            'building' => auth()->user()->profile->building ?? '',
+        ]);
+
+        return view('purchase.address', compact('item', 'shippingAddress'));
     }
 
     // 住所更新処理
-    public function updateAddress(Request $request, Item $item)
+    public function updateAddress(AddressRequest $request, Item $item)
     {
-        // ユーザーの住所を更新
-        $user = auth()->user();
-        $user->profile->update([
-            'postal_code' => $request->postal_code,
-            'address' => $request->address,
-            'building' => $request->building,
+        $validated = $request->validated();
+
+        $item->update([
+            'shipping_address' => json_encode($validated),
         ]);
 
-        // 住所変更後に購入ページにリダイレクト
-        return redirect()->route('purchase.page', ['item' => $item->id]);
+        session()->flash('shippingAddress', $validated);
+
+        return redirect()->route('item.purchase', ['item' => $item->id]);
     }
 
     // public function purchase(Request $request, Item $item)

@@ -1,0 +1,71 @@
+.address-form__inner {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+}
+
+.address-form__form {
+    padding: 15px 30px;
+    width: 40vw;
+}
+
+.address-form__group {
+    margin-bottom: 30px;
+}
+
+.address-form__label {
+    display: block;
+    margin-bottom: 5px;
+    height: 35px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.address-form__input {
+    display: block;
+    padding: 8px 12px;
+    width: 100%;
+    height: 58px;
+    border: 1px solid #5F5F5F;
+    border-radius: 4px;
+}
+
+.address-form__error-message {
+    margin-top: 5px;
+    color: #FF5555;
+}
+
+.address-form__btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto 0;
+}
+
+.address-form__btn-submit {
+    width: 100%;
+    height: 65px;
+    padding: 8px 32px;
+    background-color: #FF5555;
+    border-radius: 5px;
+    font-size: 26px;
+    color: white;
+    font-weight: bold;
+}
+
+/* 1400px ～ 1540pxのPC */
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .address-form__form {
+        width: 40vw;
+        /* PCのフォーム幅 */
+    }
+}
+
+/* 768px ～ 850pxのタブレット */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+    .address-form__form {
+        width: 65vw;
+        /* タブレットのフォーム幅 */
+    }
+}

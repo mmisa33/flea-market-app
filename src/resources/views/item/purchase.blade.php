@@ -58,19 +58,20 @@
             </div>
         </div>
 
-        <!-- 住所 -->
+        {{-- 配送先住所 --}}
         <div class="delivery-address">
             <div class="delivery-address__header">
                 <h3>配送先住所</h3>
                 <a href="/purchase/address/{{ $item->id }}">住所変更</a>
             </div>
             <div class="delivery-address__detail">
-                <p>{{ auth()->user()->profile->postal_code }}</p>
-                <p>{{ auth()->user()->profile->address }}{{ auth()->user()->profile->building }}</p>
+                <p> {{ $shippingAddress['postal_code'] ?? '' }}</p>
+                <p>{{ $shippingAddress['address'] ?? '' }}{{ $shippingAddress['building'] ?? '' }}</p>
             </div>
         </div>
     </div>
 
+    {{-- 代金と支払い方法確認 --}}
     <div class="purchase-confirm__group">
         <table class="confirm-table">
             <tr class="confirm-table__row">
@@ -87,13 +88,15 @@
             </tr>
         </table>
 
-        <!-- 購入ボタン -->
-        <form  class="purchase-btn" action="{{ route('item.purchase.submit', ['item' => $item->id]) }}" method="POST">
+        {{-- 購入ボタン --}}
+        <form  class="purchase-btn" action="" method="POST">
             @csrf
             <input class="purchase-btn__submit btn" type="submit" value="購入する">
         </form>
     </div>
 </div>
+
+{{-- 支払い方法選択後に確認欄に即時反映 --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const paymentSelect = document.getElementById("payment_method");
