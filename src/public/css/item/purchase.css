@@ -49,33 +49,77 @@
     font-weight: bold;
 }
 
-.payment-method__select {
+/* 支払い方法選択 */
+.payment-method__dropdown {
+    position: relative;
+    display: inline-block;
     width: 265px;
+    margin: 40px 65px;
+}
+
+.payment-method__trigger {
+    width: 265px;
+    height: 31px;
     padding: 3px 5px;
     font-size: 16px;
     font-weight: bold;
     color: #5F5F5F;
     border-radius: 4px;
     border: 1px solid #5F5F5F;
-    margin: 40px 65px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
 }
 
-.payment-method__select-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 265px;
+/* 矢印アイコン */
+.payment-method__arrow {
+    font-size: 16px;
+    color: #5F5F5F;
 }
 
-/* 後ほどレスポンシブ対策 */
-.payment-method__select-wrapper::after {
-    content: "";
+.payment-method__list {
+    display: none;
     position: absolute;
-    top: 50%;
-    right: -55px;
-    border-top: 12px solid #5F5F5F;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    transform: translateY(-50%);
+    width: 265px;
+    top: 0;
+    left: 0;
+    background-color: #636769;
+    border: 2px solid #B1B1B1;
+    border-radius: 5px;
+    padding: 5px;
+    list-style: none;
+}
+
+.payment-method__item {
+    padding: 3px;
+    font-size: 12px;
+    color: #EAEAEA;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.payment-method__item:hover {
+    background-color: #5599EB;
+    border-radius: 5px;
+}
+
+.payment-method__trigger.open+.payment-method__list {
+    display: block;
+}
+
+.payment-method__checkmark {
+    display: inline;
+    margin-right: 8px;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+/* 選択肢が選ばれた場合、チェックマークを非表示 */
+.payment-method__item.selected .payment-method__checkmark {
+    display: none;
 }
 
 .delivery-address {

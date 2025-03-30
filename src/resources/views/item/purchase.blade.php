@@ -49,12 +49,20 @@
             <div class="payment-method__header">
                 <h3>支払い方法</h3>
             </div>
-            <div class="payment-method__select-wrapper">
-                <select class="payment-method__select" name="payment_method" id="payment_method">
-                    <option value="">選択してください</option>
-                    <option value="コンビニ払い">コンビニ支払い</option>
-                    <option value="カード支払い">カード支払い</option>
-                </select>
+            <div class="payment-method__dropdown">
+                <div class="payment-method__trigger" id="custom-dropdown">
+                    <span id="selected-option">選択してください</span>
+                    <span class="payment-method__arrow">▼</span>
+                </div>
+                <ul class="payment-method__list">
+                    <li class="payment-method__item" data-value="コンビニ払い">
+                        <span class="payment-method__checkmark">✔</span>コンビニ払い
+                    </li>
+                    <li class="payment-method__item" data-value="カード支払い">
+                        <span class="payment-method__checkmark">✔</span>カード支払い
+                    </li>
+                </ul>
+                <input type="hidden" name="payment_method" id="payment-method__input">
             </div>
         </div>
 
@@ -96,17 +104,38 @@
     </div>
 </div>
 
-{{-- 支払い方法選択後に確認欄に即時反映 --}}
+{{-- 支払い方法選択後に確認欄に即時反映させる処理 --}}
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const paymentSelect = document.getElementById("payment_method");
+document.addEventListener('DOMContentLoaded', function () {
+    const dropdown = document.getElementById('custom-dropdown');
+    const optionsList = document.querySelector('.payment-method__list');
+    const selectedOption = document.getElementById('selected-option');
+    const hiddenInput = document.getElementById('payment-method__input');
+    const options = document.querySelectorAll('.payment-method__item');
     const paymentDisplay = document.getElementById("selected-payment-method");
 
-    paymentSelect.addEventListener("change", function () {
-        if (paymentSelect.value) {
-            paymentDisplay.textContent = paymentSelect.value;
-        } else {
-            paymentDisplay.textContent = "";
+    // デフォルトの支払い方法を設定（hiddenInputと確認欄のみ設定）
+    const defaultPayment = "コンビニ払い";
+    hiddenInput.value = defaultPayment;
+    paymentDisplay.textContent = defaultPayment;
+
+    dropdown.addEventListener('click', function () {
+        dropdown.classList.toggle('open');
+    });
+
+    // 選択肢をクリックしたときの処理
+    options.forEach(option => {
+        option.addEventListener('click', function () {
+            selectedOption.innerHTML = this.innerHTML.replace('✔', '');
+            hiddenInput.value = this.dataset.value;
+            dropdown.classList.remove('open');
+            paymentDisplay.textContent = hiddenInput.value;
+        });
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!dropdown.contains(event.target) && !optionsList.contains(event.target)) {
+            dropdown.classList.remove('open');
         }
     });
 });
