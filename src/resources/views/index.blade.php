@@ -34,8 +34,8 @@
 @section('nav')
 <div class="nav">
     <div class="nav__inner">
-        <a class="nav__inner-top {{ Request::is('/') && !request()->query('tab') ? 'active' : '' }}" href="/">おすすめ</a>
-        <a class="nav__inner-mylist {{ request()->query('tab') === 'mylist' ? 'active' : '' }}" href="/?tab=mylist">マイリスト</a>
+        <a class="nav__tab {{ Request::is('/') && !request()->query('tab') ? 'active' : '' }}" href="/">おすすめ</a>
+        <a class="nav__tab {{ request()->query('tab') === 'mylist' ? 'active' : '' }}" href="/?tab=mylist">マイリスト</a>
     </div>
 </div>
 @endsection
@@ -50,10 +50,12 @@
                     <img class="card-img" src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
                 </a>
                 <div class="card-body">
-                    <p class="card-title">{{ $item->name }}</p>
-                    @if ($item->sold_status)
-                        <span class="sold-label">Sold</span>
-                    @endif
+                    <p class="card-title">
+                        @if ($item->sold_status)
+                            <span class="sold-label">Sold</span>
+                        @endif
+                        {{ $item->name }}
+                    </p>
                 </div>
             </div>
         @endforeach

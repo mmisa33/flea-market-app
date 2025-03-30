@@ -35,9 +35,9 @@
     font-weight: 400;
 }
 
-.sold {
+.sold-label {
     color: red;
     font-weight: bold;
-    font-size: 14px;
-    margin-left: 10px;
+    font-size: 18px;
+    margin-right: 3px;
 }

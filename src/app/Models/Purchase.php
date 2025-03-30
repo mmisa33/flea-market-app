@@ -16,6 +16,7 @@ class Purchase extends Model
         'postal_code',
         'address',
         'building',
+        'payment_method',
     ];
 
     public function user()
@@ -48,14 +49,6 @@ class Purchase extends Model
         $this->save();
     }
 
-    // 商品の購入処理
-    public function completePurchase()
-    {
-        $this->item->sold_status = true;
-        $this->item->save();
-        $this->save();
-    }
-
     // 配送先住所を手動で更新する場合
     public function updateShippingAddress($postalCode, $address, $building = null)
     {
@@ -63,5 +56,14 @@ class Purchase extends Model
         $this->address = $address;
         $this->building = $building;
         $this->save();
+    }
+
+
+    // 商品の購入処理
+    public function completePurchase()
+    {
+        // アイテムのステータスを「売却済み」に更新
+        $this->item->sold_status = true;
+        $this->item->save();
     }
 }

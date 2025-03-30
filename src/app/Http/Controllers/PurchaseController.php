@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\AddressRequest;
 use App\Models\Item;
+use App\Models\PurchaseHistory;
+use App\Models\Payment;
+use App\Models\Purchase;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -55,11 +60,46 @@ class PurchaseController extends Controller
         return redirect()->route('item.purchase', ['item' => $item->id]);
     }
 
-    // public function purchase(Request $request, Item $item)
-    // {
-    //     // 購入処理（例: 購入記録の保存）
-    //     // ここにロジックを追加（例: 購入履歴テーブルに保存）
+    // 購入処理
+    public function submit(Request $request, Item $item)
+    {
+        \Log::debug("購入処理開始");
+        \Log::debug("送信されたデータ: " . json_encode($request->all()));
 
-    //     return redirect()->route('index')->with('success', '購入が完了しました！');
-    // }
+        // 支払い方法の取得とバリデーション
+        $validated = $request->validate([
+            'payment_method' => 'required|integer|in:1,2', // 数値でバリデーション
+        ]);
+        \Log::debug("支払い方法: " . $validated['payment_method']);
+
+        try {
+            DB::beginTransaction(); // トランザクション開始
+
+            // 購入情報を保存
+            $purchase = Purchase::create([
+                'user_id' => auth()->id(),
+                'item_id' => $item->id,
+                'payment_method' => $validated['payment_method'],
+                'postal_code' => auth()->user()->profile->postal_code ?? '',
+                'address' => auth()->user()->profile->address ?? '',
+                'building' => auth()->user()->profile->building ?? '',
+            ]);
+            \Log::debug("購入情報保存完了");
+
+            // 商品の売上ステータスを更新
+            $item->update(['sold_status' => true]);
+            \Log::debug("商品ステータス更新完了");
+
+            DB::commit(); // コミット（確定）
+
+        } catch (\Exception $e) {
+            DB::rollBack(); // ロールバック（失敗時に元に戻す）
+            \Log::error("購入処理エラー: " . $e->getMessage());
+            return back()->withErrors('購入処理に失敗しました。')->withInput();
+        }
+
+        \Log::debug("購入処理完了");
+
+        return redirect('/mypage?tab=buy'); // ホームにリダイレクト
+    }
 }

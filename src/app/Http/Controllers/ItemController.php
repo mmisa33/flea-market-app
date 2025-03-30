@@ -24,11 +24,10 @@ class ItemController extends Controller
 
         // いいねした商品を表示
         if ($isMyList) {
-            $items = auth()->user()->likedItems()->where('sold_status', 0)->get();
+            $items = auth()->user()->likedItems;
         } else {
             // 他ユーザーの出品商品を取得
-            $items = Item::where('sold_status', 0)
-                ->where('user_id', '!=', auth()->id())
+            $items = Item::where('user_id', '!=', auth()->id()) // 自分の出品した商品は除外
                 ->when($request->filled('keyword'), function ($query) use ($request) {
                     return $query->where('name', 'like', '%' . $request->keyword . '%');
                 })
@@ -36,22 +35,6 @@ class ItemController extends Controller
         }
 
         return view('index', compact('items', 'isMyList', 'isAuth'));
-    }
-
-    // マイリスト表示（いいねした商品）
-    public function mylist(Request $request)
-    {
-        $isAuth = auth()->check();
-
-        // 未ログインの場合は空のリストを返す
-        if (!$isAuth) {
-            return view('mylist', ['items' => collect()]);
-        }
-
-        // いいねした商品のリストを取得
-        $items = auth()->user()->likedItems()->where('sold_status', 0)->get();
-
-        return view('mylist', compact('items'));
     }
 
     // 商品詳細ページ表示
@@ -113,10 +96,11 @@ class ItemController extends Controller
     // 購入ページへ移動
     public function purchase(Item $item)
     {
-        if (!auth()->check()) {
+        $isAuth = auth()->check();
+        if (!$isAuth) {
             return redirect()->route('login');
         }
 
-        return redirect()->route('item.purchase', ['item' => $item->id]);
+        return view('item.show', compact('item'));
     }
 }

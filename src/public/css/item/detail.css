@@ -29,6 +29,13 @@
     font-size: 45px;
 }
 
+.sold-label {
+    color: red;
+    font-weight: bold;
+    font-size: 35px;
+    margin-right: 3px;
+}
+
 .info-group__brand {
     font-size: 20px;
 }
@@ -234,4 +241,3 @@ h3 {
         /* 商品情報も2列分使う */
     }
 }
-

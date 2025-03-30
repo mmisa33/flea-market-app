@@ -7,26 +7,30 @@ use App\Models\Profile;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Item;
 use App\Models\Purchase;
+use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
         $user = auth()->user();
+        $tab = $request->query('tab', 'sell');
 
         // ユーザーのプロフィール情報を取得
         $profileImage = $user->profile->profile_image;
         $userName = $user->name;
 
-        // 出品した商品一覧
-        $items = Item::where('user_id', $user->id)->get();
+        // 出品した商品一覧（デフォルト）
+        $items = collect();
+        $purchasedItems = collect();
 
-        // 購入した商品一覧
-        $purchasedItems = Purchase::where('user_id', $user->id)->get()->map(function ($order) {
-            return $order->item;
-        });
+        if ($tab === 'sell') {
+            $items = Item::where('user_id', $user->id)->get();
+        } elseif ($tab === 'buy') {
+            $purchasedItems = Purchase::where('user_id', $user->id)->with('item')->get();
+        }
 
-        return view('profile.index', compact('profileImage', 'userName', 'items', 'purchasedItems'));
+        return view('profile.index', compact('profileImage', 'userName', 'items', 'purchasedItems', 'tab'));
     }
 
     public function edit()

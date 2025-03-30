@@ -16,7 +16,7 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('purchase_id')->constrained()->cascadeOnDelete();
-            $table->tinyInteger('payment_method');
+            $table->tinyInteger('payment_method'); // 支払い方法を数値で保存
             $table->timestamps();
         });
     }

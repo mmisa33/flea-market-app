@@ -101,8 +101,8 @@ a {
     font-weight: 700;
 }
 
-.nav__inner-top {
-    margin-right: 100px;
+.nav__tab:nth-child(2) {
+    margin-left: 100px;
 }
 
 .nav__inner a.active {

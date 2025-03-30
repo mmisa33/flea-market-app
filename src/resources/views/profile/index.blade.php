@@ -30,15 +30,15 @@
 <div class="mypage-container">
     <div class="mypage__profile">
         <div class="mypage__profile-item">
-            <!-- プロフィール画像 -->
+            {{-- プロフィール画像 --}}
             <div class="profile__item-image">
                 <img src="{{ asset('storage/' . auth()->user()->profile->profile_image ?? '') }}" alt="Profile Image" class="profile__item-image--preview">
             </div>
 
-            <!-- ユーザー名 -->
+            {{-- ユーザー名 --}}
             <h2 class="profile__item-name">{{ auth()->user()->name }}</h2>
         </div>
-        <!-- プロフィール編集ボタン -->
+        {{-- プロフィール編集ボタン --}}
         <div class="profile-edit__btn">
             <a href="/mypage/profile" class="profile-edit__btn-submit btn">プロフィールを編集</a>
         </div>
@@ -47,12 +47,56 @@
 
 <div class="nav">
     <div class="nav__inner">
-        <a class="nav__inner" href="">出品した商品</a>
-        <a class="nav__inner" href="">購入した商品</a>
+        <a class="nav__tab {{ $tab === 'sell' ? 'active' : '' }}" href="{{ route('profile.show', ['tab' => 'sell']) }}">出品した商品</a>
+        <a class="nav__tab {{ $tab === 'buy' ? 'active' : '' }}" href="{{ route('profile.show', ['tab' => 'buy']) }}">購入した商品</a>
     </div>
 </div>
 @endsection
 
 @section('content')
+{{-- 出品した商品 --}}
+@if ($tab === 'sell')
+    <div class="item__group">
+        <div class="grid-container">
+            @foreach ($items as $item)
+                <div class="card">
+                    <a href="/item/{{ $item->id }}">
+                        <img class="card-img" src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
+                    </a>
+                    <div class="card-body">
+                        <p class="card-title">
+                            @if ($item->sold_status)
+                                <span class="sold-label">Sold</span>
+                            @endif
+                            {{ $item->name }}
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+@endif
 
+{{-- 購入した商品 --}}
+@if ($tab === 'buy')
+    <div class="item__group">
+        <div class="grid-container">
+            @foreach ($purchasedItems as $purchase)
+                <div class="card">
+                    <a href="/item/{{ $purchase->item->id }}">
+                        <img class="card-img" src="{{ asset('storage/' . $purchase->item->image_path) }}" alt="{{ $purchase->item->name }}">
+                    </a>
+                    <div class="card-body">
+                        <p class="card-title">
+                            @if ($purchase->item->sold_status)
+                                <span class="sold-label">Sold</span>
+                            @endif
+                            {{ $purchase->item->name }}
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+@endif
 @endsection

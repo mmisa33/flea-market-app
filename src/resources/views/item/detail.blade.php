@@ -41,7 +41,12 @@
     <div class="item-detail__info">
         <div class="info-group">
             {{-- 商品名 --}}
-            <h2 class="info-group__name">{{ $item->name }}</h2>
+            <h2 class="info-group__name">
+                @if ($item->sold_status)
+                <span class="sold-label">Sold</span>
+                @endif
+                {{ $item->name }}
+            </h2>
 
             {{-- ブランド名 --}}
             <p class="info-group__brand">{{ $item->brand }}</p>
@@ -77,7 +82,7 @@
     </div>
 
     {{-- 購入ボタン --}}
-    <form action="{{ route('item.purchase.submit', ['item' => $item->id]) }}" method="POST">
+    <form action="{{ route('item.purchase', ['item' => $item->id]) }}" method="GET">
         @csrf
         <input class="purchase-form__btn btn" type="submit" value="購入手続きへ">
     </form>

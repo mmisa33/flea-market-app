@@ -31,17 +31,16 @@ Route::post('/item/{item}/like', [ItemController::class, 'like'])->name('item.li
 
 // 商品購入ページ
 Route::middleware(['auth'])->group(function () {
-    Route::get('/item/purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
+    Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
+    Route::post('/purchase/{item}', [PurchaseController::class, 'submit'])->name('item.purchase.submit');
     Route::get('/purchase/address/{item}', [PurchaseController::class, 'showAddressEdit'])->name('purchase.address.edit');
     Route::patch('/purchase/address/{item}', [PurchaseController::class, 'updateAddress']);
 });
 
 // プロフィールページ
 Route::middleware(['auth'])->group(function () {
-    Route::get('/mypage', [ProfileController::class, 'show']);
+    Route::get('/mypage', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/mypage/profile', [ProfileController::class, 'edit']);
     Route::patch('/mypage/profile', [ProfileController::class, 'update']);
 });
 
-// 購入処理を行う
-Route::post('item/purchase/{item}', [ItemController::class, 'purchase'])->name('item.purchase.submit');
