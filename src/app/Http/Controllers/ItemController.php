@@ -117,13 +117,8 @@ class ItemController extends Controller
     {
         // 商品画像がアップロードされた場合
         if ($request->hasFile('image_path')) {
-            $imagePath = $request->file('image_path')->store('public/items');
-            $imageUrl = Storage::url($imagePath);
-        }
-
-        // カテゴリを保存
-        if ($request->has('categories')) {
-            $item->categories()->attach($request->categories);
+            // 画像をストレージに保存し、保存されたファイルのパスを取得
+            $imagePath = $request->file('image_path')->store('items', 'public');
         }
 
         // アイテムをデータベースに保存
@@ -134,10 +129,15 @@ class ItemController extends Controller
         $item->description = $request->description;
         $item->price = $request->price;
         $item->condition = $request->condition;
-        $item->image_path = $imageUrl;
+        $item->image_path = $imagePath;
+
+        // カテゴリが選択されていれば紐づけ
+        if ($request->has('categories')) {
+            $item->categories()->attach($request->categories);
+        }
+
         $item->save();
 
-        // 保存後、リダイレクトやメッセージなど
         return redirect('/mypage');
     }
 }

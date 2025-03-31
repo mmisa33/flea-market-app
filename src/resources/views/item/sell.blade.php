@@ -38,7 +38,7 @@
             <div class="sell-form__group">
                 <label class="sell-form__label" for="image_path">商品画像</label>
                 <div class="image-preview">
-                    <img id="image-preview" src="" alt="商品画像プレビュー" style="display:none;">
+                    <img id="image-preview" src="{{ isset($item) && $item->image_path ? asset('storage/' . $item->image_path) : '' }}" alt="{{ $item->name ?? '商品画像プレビュー' }}" style="display:none;">
                     <input class="sell-form__input--image" type="file" name="image_path" id="image_path">
                     <label for="image_path" class="sell-image__btn">画像を選択する</label>
                 </div>
