@@ -4,6 +4,26 @@
 <link rel="stylesheet" href="{{ asset('css/item/sell.css')}}">
 @endsection
 
+@section('link')
+{{-- 検索ボックス --}}
+<div class="header__search">
+    <form class="search-form" action="/search" method="get">
+        @csrf
+        <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{request('keyword')}}">
+    </form>
+</div>
+
+{{-- ヘッダーリンク --}}
+<div class="header__link">
+    <form action="/logout" method="post">
+        @csrf
+        <input class="link__logout" type="submit" value="ログアウト">
+    </form>
+    <a class="link__mypage" href="/mypage">マイページ</a>
+    <a class="link__sell" href="/sell">出品</a>
+</div>
+@endsection
+
 @section('content')
 <div class="sell-form">
     {{--  ページタイトル  --}}
@@ -80,7 +100,7 @@
             {{-- 商品名 --}}
             <div class="sell-form__group">
                 <label class="sell-form__label" for="name">商品名</label>
-                <input class="sell-form__input" type="text" name="name" id="name" value="{{ old('name') }}" required>
+                <input class="sell-form__input" type="text" name="name" id="name" value="{{ old('name') }}">
                 @error('name')
                     <p class="sell-form__error-message">{{ $message }}</p>
                 @enderror
@@ -89,7 +109,7 @@
             {{-- ブランド名 --}}
             <div class="sell-form__group">
                 <label class="sell-form__label" for="brand">ブランド名</label>
-                <input class="sell-form__input" type="text" name="brand" id="brand" value="{{ old('brand') }}" required>
+                <input class="sell-form__input" type="text" name="brand" id="brand" value="{{ old('brand') }}">
                 @error('brand')
                     <p class="sell-form__error-message">{{ $message }}</p>
                 @enderror
@@ -98,7 +118,7 @@
             {{-- 商品説明 --}}
             <div class="sell-form__group">
                 <label class="sell-form__label" for="description">商品の説明</label>
-                <textarea class="sell-form__textarea" name="description" id="description" rows="4" required>{{ old('description') }}</textarea>
+                <textarea class="sell-form__textarea" name="description" id="description" rows="4">{{ old('description') }}</textarea>
                 @error('description')
                     <p class="sell-form__error-message">{{ $message }}</p>
                 @enderror

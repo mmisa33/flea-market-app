@@ -111,40 +111,41 @@ class ItemController extends Controller
         return view('item.sell', compact('categories'));
     }
 
-    // 出品処理
-    public function store(Request $request)
-    {
-        // バリデーション
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'category' => 'required|array',
-            'condition' => 'required|in:new,used',
-            'price' => 'required|numeric|min:1',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+//     // 出品処理
+//     public function store(Request $request)
+//     {
+//         // バリデーション
+//         $request->validate([
+//             'name' => 'required|string|max:255',
+//             'description' => 'required|string|max:1000',
+//             'category' => 'required|array',
+//             'condition' => 'required|in:new,used',
+//             'price' => 'required|numeric|min:1',
+//             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+//         ]);
 
-        // 商品画像がアップロードされた場合
-        if ($request->hasFile('image')) {
-            // 画像をストレージに保存
-            $imagePath = $request->file('image')->store('public/items');
+//         // 商品画像がアップロードされた場合
+//         if ($request->hasFile('image')) {
+//             // 画像をストレージに保存
+//             $imagePath = $request->file('image')->store('public/items');
 
-            // 保存された画像のパスを取得
-            $imageUrl = Storage::url($imagePath);
-        } else {
-            // 画像が選択されなかった場合、デフォルト値に設定
-            $imageUrl = null;
-        }
+//             // 保存された画像のパスを取得
+//             $imageUrl = Storage::url($imagePath);
+//         } else {
+//             // 画像が選択されなかった場合、デフォルト値に設定
+//             $imageUrl = null;
+//         }
 
-        // アイテムをデータベースに保存
-        $item = new Item();
-        $item->name = $request->name;
-        $item->description = $request->description;
-        $item->price = $request->price;
-        $item->image = $imageUrl; // 商品画像のパスを保存
-        $item->save();
+//         // アイテムをデータベースに保存
+//         $item = new Item();
+//         $item->name = $request->name;
+//         $item->description = $request->description;
+//         $item->price = $request->price;
+//         $item->image = $imageUrl; // 商品画像のパスを保存
+//         $item->save();
 
-        // 保存後、リダイレクトやメッセージなど
-        return redirect()->route('items.index')->with('success', '商品が出品されました！');
-    }
+//         // 保存後、リダイレクトやメッセージなど
+//         return redirect()->route('items.index')->with('success', '商品が出品されました！');
+//     }
+// 
 }
