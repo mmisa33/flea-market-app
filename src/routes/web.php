@@ -44,3 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/mypage/profile', [ProfileController::class, 'update']);
 });
 
+Route::middleware('auth')->group(function () {
+    // 出品ページの表示
+    Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
+
+    // 出品処理（商品保存）
+    Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
+});
