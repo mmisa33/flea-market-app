@@ -180,9 +180,10 @@
     display: none;
 }
 
-#price {
+input::placeholder {
     font-size: 24px;
     font-weight: bold;
+    color: black;
 }
 
 .sell-form__textarea {

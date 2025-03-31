@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/mypage/profile', [ProfileController::class, 'update']);
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     // 出品ページの表示
     Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
 

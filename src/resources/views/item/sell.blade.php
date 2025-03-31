@@ -36,13 +36,13 @@
 
             {{-- 商品画像--}}
             <div class="sell-form__group">
-                <label class="sell-form__label" for="image">商品画像</label>
+                <label class="sell-form__label" for="image_path">商品画像</label>
                 <div class="image-preview">
                     <img id="image-preview" src="" alt="商品画像プレビュー" style="display:none;">
-                    <input class="sell-form__input--image" type="file" name="image" id="image">
-                    <label for="image" class="sell-image__btn">画像を選択する</label>
+                    <input class="sell-form__input--image" type="file" name="image_path" id="image_path">
+                    <label for="image_path" class="sell-image__btn">画像を選択する</label>
                 </div>
-                @error('image')
+                @error('image_path')
                     <p class="sell-form__error-message">{{ $message }}</p>
                 @enderror
             </div>
@@ -127,7 +127,7 @@
             {{-- 販売価格 ※textでいいか後で確認 --}}
             <div class="sell-form__group">
                 <label class="sell-form__label" for="price">販売価格</label>
-                <input type="text" id="price" class="sell-form__input" value="¥">
+                <input type="number" id="price" name="price" class="sell-form__input" value="{{ old('price') }}" placeholder="&yen;">
                 @error('price')
                     <p class="sell-form__error-message">{{ $message }}</p>
                 @enderror
@@ -142,25 +142,22 @@
 </div>
 
 <script>
-document.getElementById('price').addEventListener('input', function(event) {
-    const input = event.target;
+// document.getElementById('price').addEventListener('input', function(event) {
+//     const input = event.target;
 
-    // 初期値が "¥" であることを保証
-    if (input.value.indexOf('¥') !== 0) {
-        input.value = '¥' + input.value.replace(/[^]/g, ''); // すべての文字を許可
-    } else {
-        // 数字以外の文字を削除せず、そのまま入力できるようにする
-        input.value = '¥' + input.value.slice(1); // 先頭に "¥" を付けて、残りは制限なし
-    }
-});
+//     // 初期値が "¥" であることを保証
+//     if (input.value.indexOf('¥') !== 0) {
+//         input.value = '¥' + input.value.replace(/[^0-9]/g, ''); // 数字以外を除外
+//     }
+// });
 
-document.querySelector('form').addEventListener('submit', function(event) {
-    let priceField = document.getElementById('price');
-    // ¥を取り除いて送信
-    priceField.value = priceField.value.replace('¥', '');
-});
+// document.querySelector('form').addEventListener('submit', function(event) {
+//     let priceField = document.getElementById('price');
+//     // ¥を取り除いて送信
+//     priceField.value = priceField.value.replace('¥', '').replace(/[^0-9]/g, '');  // 数字以外を除去
+// });
 
-document.getElementById('image').addEventListener('change', function(event) {
+document.getElementById('image_path').addEventListener('change', function(event) {
     const file = event.target.files[0];  // 選択されたファイル
     const preview = document.getElementById('image-preview');  // 画像プレビューの要素
 
