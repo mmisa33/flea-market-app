@@ -150,6 +150,10 @@ h3 {
     border-radius: 15px;
 }
 
+.table__content--condition {
+    padding: 0 25px;
+}
+
 .item-condition {
     display: flex;
     align-items: center;

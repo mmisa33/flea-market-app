@@ -140,12 +140,12 @@ class ItemController extends Controller
         $item->condition = $request->condition;
         $item->image_path = $imagePath;
 
-        // カテゴリが選択されていれば紐づけ
-        if ($request->has('categories')) {
-            $item->categories()->attach($request->categories);
-        }
-
         $item->save();
+
+        // カテゴリが選択されていれば紐づけ
+        if ($request->has('category')) {
+            $item->categories()->attach($request->category);
+        }
 
         return redirect('/mypage');
     }
