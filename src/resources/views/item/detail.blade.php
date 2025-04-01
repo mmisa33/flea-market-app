@@ -154,7 +154,7 @@
         <form class="comment-form"  action="/item/{{ $item->id }}/comment" method="POST">
             @csrf
             <div class="comment-form__textarea">商品へのコメント</div>
-            <textarea class="comment-form__textarea-input" name="content" rows="10" required></textarea><br>
+            <textarea class="comment-form__textarea-input" name="content" rows="10"></textarea><br>
 
             {{-- エラーメッセージ表示 --}}
             @error('content')
