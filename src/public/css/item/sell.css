@@ -180,7 +180,7 @@
     display: none;
 }
 
-input::placeholder {
+#price::placeholder {
     font-size: 24px;
     font-weight: bold;
     color: black;

@@ -10,6 +10,7 @@ use App\Http\Requests\CommentRequest;
 use App\Http\Requests\ItemRequest;
 use Illuminate\Support\Facades\Storage;
 
+
 class ItemController extends Controller
 {
     // トップページ表示
@@ -17,25 +18,33 @@ class ItemController extends Controller
     {
         $isMyList = $request->query('tab') === 'mylist';
         $isAuth = auth()->check();
+        $keyword = $request->input('keyword');
+        $tab = $request->query('tab', '');
+
+        // タブの状態をビューに渡す
+        $activeTab = $isMyList ? 'mylist' : 'recommended';
+
+        // 初期の検索結果を取得
+        $itemsQuery = Item::searchByKeyword($keyword);
 
         // 未ログインの状態で「マイリスト」タブを開いた場合、空のリストを表示
         if ($isMyList && !$isAuth) {
-            return view('index', ['items' => collect(), 'isMyList' => true, 'isAuth' => false]);
+            return view('index', ['items' => collect(), 'isMyList' => true, 'isAuth' => false, 'keyword' => $keyword, 'tab' => $tab]);
         }
 
-        // いいねした商品を表示
-        if ($isMyList) {
-            $items = auth()->user()->likedItems;
+        // いいねした商品を取得
+        if ($isMyList && $isAuth) {
+            $likedItems = auth()->user()->likedItems->pluck('id'); // いいねした商品のIDを取得
+            $itemsQuery->whereIn('id', $likedItems); // いいねした商品だけを表示
         } else {
-            // 他ユーザーの出品商品を取得
-            $items = Item::where('user_id', '!=', auth()->id()) // 自分の出品した商品は除外
-                ->when($request->filled('keyword'), function ($query) use ($request) {
-                    return $query->where('name', 'like', '%' . $request->keyword . '%');
-                })
-                ->get();
+            // 他ユーザーの出品商品を取得（検索結果を保持）
+            $itemsQuery->where('user_id', '!=', auth()->id()); // 自分の出品した商品を除外
         }
 
-        return view('index', compact('items', 'isMyList', 'isAuth'));
+        // クエリビルダを実行して、結果をコレクションに変換
+        $items = $itemsQuery->get();
+
+        return view('index', compact('activeTab', 'items', 'isMyList', 'isAuth', 'keyword', 'tab'));
     }
 
     // 商品詳細ページ表示

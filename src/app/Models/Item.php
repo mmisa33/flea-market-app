@@ -11,6 +11,18 @@ class Item extends Model
 
     protected $fillable = ['user_id', 'image_path', 'name', 'brand', 'price', 'description', 'condition', 'sold_status', 'shipping_address'];
 
+    // 検索処理
+    public static function searchByKeyword($keyword)
+    {
+        $query = self::query();
+
+        if (!empty($keyword)) {
+            $query->where('name', 'LIKE', "%{$keyword}%");
+        }
+
+        return $query;
+    }
+
     protected $casts = [
         'shipping_address' => 'array',
     ];

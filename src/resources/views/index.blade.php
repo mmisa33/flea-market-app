@@ -34,8 +34,8 @@
 @section('nav')
 <div class="nav">
     <div class="nav__inner">
-        <a class="nav__tab {{ Request::is('/') && !request()->query('tab') ? 'active' : '' }}" href="/">おすすめ</a>
-        <a class="nav__tab {{ request()->query('tab') === 'mylist' ? 'active' : '' }}" href="/?tab=mylist">マイリスト</a>
+        <a class="nav__tab {{ $activeTab === 'recommended' ? 'active' : '' }}" href="{{ url('/' . (request('keyword') ? '?keyword=' . request('keyword') : '')) }}">おすすめ</a>
+        <a class="nav__tab {{ $activeTab === 'mylist' ? 'active' : '' }}" href="{{ url('/?tab=mylist' . (request('keyword') ? '&keyword=' . request('keyword') : '')) }}">マイリスト</a>
     </div>
 </div>
 @endsection

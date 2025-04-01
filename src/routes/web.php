@@ -23,6 +23,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 // トップページ
 Route::get('/', [ItemController::class, 'index']);
 Route::get('/?tab=mylist', [ItemController::class, 'index'])->middleware('auth');
+Route::get('/search', [ItemController::class, 'index'])->name('items.search');
 
 // 商品詳細ページ
 Route::get('/item/{item_id}', [ItemController::class, 'show']);
