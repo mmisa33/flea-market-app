@@ -25,6 +25,7 @@
 @endsection
 
 @section('content')
+{{-- 送付先変更フォーム --}}
 <div class="address-form">
     {{-- ページタイトル --}}
     <h2 class="address-form__heading content__heading">住所の変更</h2>
@@ -41,9 +42,9 @@
                 <input class="address-form__input" type="text" name="postal_code" id="postal_code" value="{{ old('postal_code', $shippingAddress['postal_code'] ?? auth()->user()->profile->postal_code ?? '') }}">
                 {{-- エラーメッセージ --}}
                 <p class="address-form__error-message">
-                @error('postal_code')
-                {{ $message }}
-                @enderror
+                    @error('postal_code')
+                    {{ $message }}
+                    @enderror
                 </p>
             </div>
 
@@ -53,9 +54,9 @@
                 <input class="address-form__input" type="text" name="address" id="address" value="{{ old('address', $shippingAddress['address'] ?? auth()->user()->profile->address ?? '') }}">
                 {{-- エラーメッセージ --}}
                 <p class="address-form__error-message">
-                @error('address')
-                {{ $message }}
-                @enderror
+                    @error('address')
+                    {{ $message }}
+                    @enderror
                 </p>
             </div>
 

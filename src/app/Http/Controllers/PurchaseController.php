@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddressRequest;
 use App\Models\Item;
-use App\Models\PurchaseHistory;
-use App\Models\Payment;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\DB;
 
@@ -20,11 +18,12 @@ class PurchaseController extends Controller
             return redirect()->route('login');
         }
 
-        $shippingAddress = $item->shipping_address ? json_decode($item->shipping_address, true) : [
+        // セッションに保存された住所があればそれを使う
+        $shippingAddress = session('shippingAddress', [
             'postal_code' => auth()->user()->profile->postal_code ?? '',
             'address' => auth()->user()->profile->address ?? '',
             'building' => auth()->user()->profile->building ?? '',
-        ];
+        ]);
 
         return view('item.purchase', compact('item', 'shippingAddress'));
     }
@@ -37,7 +36,8 @@ class PurchaseController extends Controller
             return redirect()->route('login');
         }
 
-        $shippingAddress = session('shippingAddress', $item->shipping_address ? json_decode($item->shipping_address, true) : [
+        // セッションに保存された住所があればそれを使う
+        $shippingAddress = session('shippingAddress', [
             'postal_code' => auth()->user()->profile->postal_code ?? '',
             'address' => auth()->user()->profile->address ?? '',
             'building' => auth()->user()->profile->building ?? '',
@@ -51,11 +51,15 @@ class PurchaseController extends Controller
     {
         $validated = $request->validated();
 
+        // 住所情報を保存
         $item->update([
-            'shipping_address' => json_encode($validated),
+            'postal_code' => $validated['postal_code'],
+            'address' => $validated['address'],
+            'building' => $validated['building'] ?? null,
         ]);
 
-        session()->flash('shippingAddress', $validated);
+        // セッションに新しい住所情報を保存
+        session(['shippingAddress' => $validated]);
 
         return redirect()->route('item.purchase', ['item' => $item->id]);
     }
@@ -75,14 +79,23 @@ class PurchaseController extends Controller
         try {
             DB::beginTransaction(); // トランザクション開始
 
+            // セッションから送付先住所を取得
+            $shippingAddress = session('shippingAddress', [
+                'postal_code' => auth()->user()->profile->postal_code ?? '',
+                'address' => auth()->user()->profile->address ?? '',
+                'building' => auth()->user()->profile->building ?? '',
+            ]);
+
+            \Log::debug("使用する送付先住所: " . json_encode($shippingAddress));
+
             // 購入情報を保存
             $purchase = Purchase::create([
                 'user_id' => auth()->id(),
                 'item_id' => $item->id,
                 'payment_method' => $validated['payment_method'],
-                'postal_code' => auth()->user()->profile->postal_code ?? '',
-                'address' => auth()->user()->profile->address ?? '',
-                'building' => auth()->user()->profile->building ?? '',
+                'postal_code' => $shippingAddress['postal_code'],
+                'address' => $shippingAddress['address'],
+                'building' => $shippingAddress['building'],
             ]);
             \Log::debug("購入情報保存完了");
 

@@ -23,7 +23,9 @@ class CreateItemsTable extends Migration
             $table->text('description');
             $table->tinyInteger('condition');
             $table->boolean('sold_status')->default(false);
-            $table->text('shipping_address')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('address')->nullable();
+            $table->string('building')->nullable();
             $table->timestamps();
         });
     }

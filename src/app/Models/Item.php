@@ -9,7 +9,7 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'image_path', 'name', 'brand', 'price', 'description', 'condition', 'sold_status', 'shipping_address'];
+    protected $fillable = ['user_id', 'image_path', 'name', 'brand', 'price', 'description', 'condition', 'sold_status', 'postal_code', 'address', 'building'];
 
     // 検索処理
     public static function searchByKeyword($keyword)
@@ -22,10 +22,6 @@ class Item extends Model
 
         return $query;
     }
-
-    protected $casts = [
-        'shipping_address' => 'array',
-    ];
 
     public function user()
     {

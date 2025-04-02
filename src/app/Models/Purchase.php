@@ -16,7 +16,6 @@ class Purchase extends Model
         'postal_code',
         'address',
         'building',
-        'payment_method',
     ];
 
     public function user()
@@ -57,7 +56,6 @@ class Purchase extends Model
         $this->building = $building;
         $this->save();
     }
-
 
     // 商品の購入処理
     public function completePurchase()
