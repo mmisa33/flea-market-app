@@ -16,7 +16,7 @@
             {{-- メールアドレス入力 --}}
             <div class="login-form__group">
                 <label class="login-form__label" for="email">メールアドレス</label>
-                <input class="login-form__input" type="mail" name="email" id="email" value="{{ old('email') }}">
+                <input class="login-form__input" type="email" name="email" id="email" value="{{ old('email') }}" >
                 {{-- エラーメッセージ --}}
                 <p class="login-form__error-message">
                     @error('email')
@@ -39,20 +39,22 @@
                 </p>
             </div>
 
-            <div class="confirm-form__btn-inner">
+            <div class="login-form__actions">
                 {{-- ログインボタン --}}
-                <input class="login-form__btn btn" type="submit" value="ログイン">
+                <input class="login-form__btn" type="submit" value="ログイン">
 
                 {{--  会員登録ページへ移行  --}}
                 <a class="login-form__link" href="/register">会員登録はこちら</a>
 
                 {{-- エラーメッセージ --}}
                 <p class="login-form__error-message">
-                @if (session('errors'))
-                    @foreach (session('errors')->get('email') as $error)
-                    {{ $error }}
-                    @endforeach
-                @endif
+                    @if (session('errors'))
+                        @foreach (session('errors')->get('email') as $error)
+                            @if ($error === trans('auth.failed'))
+                                {{ $error }}
+                            @endif
+                        @endforeach
+                    @endif
                 </p>
             </div>
         </form>
