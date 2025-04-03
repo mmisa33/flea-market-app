@@ -13,6 +13,7 @@
 .item-image img {
     width: 178px;
     height: 178px;
+    object-fit: cover;
 }
 
 .item__details {
@@ -59,8 +60,7 @@
 
 .payment-method__trigger {
     width: 265px;
-    height: 31px;
-    padding: 3px 5px;
+    padding: 4px 5px;
     font-size: 16px;
     font-weight: bold;
     color: #5F5F5F;
@@ -97,29 +97,27 @@
     font-size: 12px;
     color: #EAEAEA;
     cursor: pointer;
-    font-size: 12px;
     font-weight: 600;
-}
-
-.payment-method__item:hover {
-    background-color: #5599EB;
-    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
 }
 
 .payment-method__trigger.open+.payment-method__list {
     display: block;
 }
 
-.payment-method__checkmark {
-    display: inline;
-    margin-right: 8px;
+.payment-method__item i {
+    position: absolute;
+    left: 10px;
     color: #ffffff;
-    font-size: 12px;
+    font-size: 15px;
+    display: none;
 }
 
-/* 選択肢が選ばれた場合、チェックマークを非表示 */
-.payment-method__item.selected .payment-method__checkmark {
-    display: none;
+.payment-method__item:hover {
+    background-color: #5599EB;
+    border-radius: 5px;
 }
 
 .delivery-address {

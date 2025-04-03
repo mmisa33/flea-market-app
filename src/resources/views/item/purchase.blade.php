@@ -56,10 +56,10 @@
                 </div>
                 <ul class="payment-method__list">
                     <li class="payment-method__item"  data-value="1">
-                        <span class="payment-method__checkmark">✔</span>コンビニ払い
+                        <i class="fas fa-check"></i>コンビニ払い
                     </li>
                     <li class="payment-method__item" data-value="2">
-                        <span class="payment-method__checkmark">✔</span>カード支払い
+                        <i class="fas fa-check"></i>カード支払い
                     </li>
                 </ul>
                 <input type="hidden" name="payment_method" id="payment-method__input">
@@ -109,36 +109,54 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const dropdown = document.getElementById('custom-dropdown');
-    const optionsList = document.querySelector('.payment-method__list');
+    const list = document.querySelector('.payment-method__list');
     const selectedOption = document.getElementById('selected-option');
-    const hiddenInput = document.getElementById("payment-method-hidden");
+    const hiddenInput = document.getElementById('payment-method-hidden'); // 修正
     const options = document.querySelectorAll('.payment-method__item');
-    const paymentDisplay = document.getElementById("selected-payment-method");
+    const paymentDisplay = document.getElementById('selected-payment-method');
 
-    // デフォルトの支払い方法を設定（選択してください状態にする）
-    const defaultPayment = "";  // 支払い方法が選択されていない状態
-    hiddenInput.value = defaultPayment;
-    // paymentDisplay.textContent = "選択してください";  // 表示名を「選択してください」に設定
+    // 初期状態でリストを非表示
+    list.style.display = 'none';
 
-    // ドロップダウンがクリックされた時の処理
+    // ドロップダウンをクリックしたときの処理
     dropdown.addEventListener('click', function () {
-        dropdown.classList.toggle('open');
+        list.style.display = (list.style.display === 'block') ? 'none' : 'block';
     });
 
-    // 選択肢をクリックしたときの処理
-    options.forEach(option => {
-        option.addEventListener('click', function () {
-            selectedOption.textContent = this.textContent.replace('✔', '').trim(); // 選択肢を表示
-            hiddenInput.value = this.dataset.value; // hidden input に値をセット
-            paymentDisplay.textContent = this.textContent.replace('✔', '').trim(); // 確認欄に反映
-            dropdown.classList.remove('open'); // ドロップダウンを閉じる
+    // 各選択肢をクリックしたときの処理
+    options.forEach(function (item) {
+        item.addEventListener('click', function () {
+            // 選択された値を hidden input にセット
+            const value = item.getAttribute('data-value');
+            hiddenInput.value = value;
+
+            // 選択したテキストを更新（✔を除去）
+            const clonedItem = item.cloneNode(true);
+            clonedItem.querySelector('i')?.remove();
+            const selectedText = clonedItem.textContent.trim();
+
+            // 選択したテキストを更新
+            selectedOption.textContent = selectedText;
+            paymentDisplay.textContent = selectedText;
+
+            // すべての選択肢のアイコンを非表示
+            options.forEach(opt => opt.querySelector('i').style.display = 'none');
+
+            // クリックされた選択肢のアイコンを表示
+            item.querySelector('i').style.display = 'inline';
+
+            // ドロップダウンを閉じる
+            list.style.display = 'none';
         });
     });
 
+    // 初期状態でアイコンを非表示
+    options.forEach(option => option.querySelector('i').style.display = 'none');
+
     // 外部クリックでドロップダウンを閉じる
     document.addEventListener('click', function (event) {
-        if (!dropdown.contains(event.target) && !optionsList.contains(event.target)) {
-            dropdown.classList.remove('open');
+        if (!dropdown.contains(event.target) && !list.contains(event.target)) {
+            list.style.display = 'none';
         }
     });
 });
