@@ -13,26 +13,26 @@
     <div class="register-form__inner">
         <form class="register-form__form" action="/register" method="post">
             @csrf
+
+            {{--  ユーザー名入力  --}}
             <div class="register-form__group">
                 <label class="register-form__label" for="name">ユーザー名</label>
                 <input class="register-form__input" type="text" name="name" id="name" value="{{ old('name') }}">
-                {{--  エラーメッセージ  --}}
                 <p class="register-form__error-message">
-                @error('name')
-                {{ $message }}
-                @enderror
+                    @error('name')
+                        {{ $message }}
+                    @enderror
                 </p>
             </div>
 
             {{--  メールアドレス入力  --}}
             <div class="register-form__group">
                 <label class="register-form__label" for="email">メールアドレス</label>
-                <input class="register-form__input" type="mail" name="email" id="email" value="{{ old('email') }}">
-                {{--  エラーメッセージ  --}}
+                <input class="register-form__input" type="email" name="email" id="email" value="{{ old('email') }}">
                 <p class="register-form__error-message">
-                @error('email')
-                {{ $message }}
-                @enderror
+                    @error('email')
+                        {{ $message }}
+                    @enderror
                 </p>
             </div>
 
@@ -40,13 +40,12 @@
             <div class="register-form__group">
                 <label class="register-form__label" for="password">パスワード</label>
                 <input class="register-form__input" type="password" name="password" id="password">
-                {{--  エラーメッセージ  --}}
                 <p class="register-form__error-message">
-                @error('password')
-                    @if ($message !== 'パスワードと一致しません')
-                        {{ $message }}
-                    @endif
-                @enderror
+                    @error('password')
+                        @if ($message !== 'パスワードと一致しません')
+                            {{ $message }}
+                        @endif
+                    @enderror
                 </p>
             </div>
 
@@ -54,17 +53,16 @@
             <div class="register-form__group">
                 <label class="register-form__label" for="password_confirmation">確認用パスワード</label>
                 <input class="register-form__input" type="password" name="password_confirmation" id="password_confirmation">
-                {{--  エラーメッセージ  --}}
                 <p class="register-form__error-message">
-                @error('password')
-                    @if ($message === 'パスワードと一致しません')
-                        {{ $message }}
-                    @endif
-                @enderror
+                    @error('password')
+                        @if ($message === 'パスワードと一致しません')
+                            {{ $message }}
+                        @endif
+                    @enderror
                 </p>
             </div>
 
-            <div class="register__btn-inner">
+            <div class="register-form__actions">
                 {{--  登録ボタン  --}}
                 <input class="register-form__btn" type="submit" value="登録する">
 

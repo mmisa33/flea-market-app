@@ -20,7 +20,7 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
-        // ユーザー登録画面にカスタムバリデーションを適用
+        // RegisterRequestのバリデーションを使用
         $request = new RegisterRequest();
         $validator = Validator::make($input, $request->rules(), $request->messages());
 

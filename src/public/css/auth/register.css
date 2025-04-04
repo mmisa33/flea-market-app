@@ -1,3 +1,4 @@
+/* ユーザー登録フォーム */
 .register-form__inner {
     display: flex;
     justify-content: center;
@@ -10,19 +11,17 @@
 }
 
 .register-form__group {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .register-form__label {
     display: block;
     margin-bottom: 5px;
-    height: 35px;
     font-size: 24px;
     font-weight: bold;
 }
 
 .register-form__input {
-    display: block;
     padding: 8px 12px;
     width: 100%;
     height: 58px;
@@ -30,12 +29,14 @@
     border-radius: 4px;
 }
 
+/* エラーメッセージ */
 .register-form__error-message {
     margin-top: 5px;
     color: #FF5555;
 }
 
-.confirm-form__btn-inner {
+/* 下部リンク */
+.register-form__actions {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -44,9 +45,9 @@
 }
 
 .register-form__btn {
+    padding: 8px 0;
     width: 100%;
     height: 65px;
-    padding: 8px 32px;
     background-color: #FF5555;
     border-radius: 5px;
     font-size: 26px;
@@ -56,25 +57,20 @@
 
 .register-form__link {
     margin-top: 30px;
-    color: #0073CC;
-    text-decoration: none;
-    display: block;
     font-size: 20px;
-    text-align: center;
+    color: #0073CC;
 }
 
-/* 1400px ～ 1540pxのPC */
+/* レスポンシブ（1400px ～ 1540pxのPC） */
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
     .register-form__form {
         width: 40vw;
-        /* PCのフォーム幅 */
     }
 }
 
-/* 768px ～ 850pxのタブレット */
+/* レスポンシブ（1400px ～ 1540pxのPC） */
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .register-form__form {
         width: 65vw;
-        /* タブレットのフォーム幅 */
     }
 }

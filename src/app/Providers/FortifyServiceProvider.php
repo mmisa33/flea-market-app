@@ -3,15 +3,18 @@
 namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Http\Requests\LoginRequest;
+
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\ServiceProvider;
-use App\Http\Requests\LoginRequest;
-use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
-use Laravel\Fortify\Fortify;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\ServiceProvider;
+
+use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+use Laravel\Fortify\Fortify;
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -43,7 +46,7 @@ class FortifyServiceProvider extends ServiceProvider
             session(['url.intended' => '/mypage/profile']);
         });
 
-        // デフォルト→LoginRequestを仕様
+        // LoginRequestのバリデーションを使用
         $this->app->bind(FortifyLoginRequest::class, LoginRequest::class);
 
         RateLimiter::for('login', function (Request $request) {

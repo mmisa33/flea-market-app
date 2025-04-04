@@ -8,7 +8,6 @@
 {{--  検索ボックス  --}}
 <div class="header__search">
     <form class="search-form" action="/search" method="get">
-        @csrf
         <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{request('keyword')}}">
     </form>
 </div>

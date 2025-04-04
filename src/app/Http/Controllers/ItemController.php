@@ -29,7 +29,14 @@ class ItemController extends Controller
 
         // 未ログインの状態で「マイリスト」タブを開いた場合、空のリストを表示
         if ($isMyList && !$isAuth) {
-            return view('index', ['items' => collect(), 'isMyList' => true, 'isAuth' => false, 'keyword' => $keyword, 'tab' => $tab]);
+            return view('index', [
+                'items' => collect(),
+                'isMyList' => true,
+                'isAuth' => false,
+                'keyword' => $keyword,
+                'tab' => $tab,
+                'activeTab' => $activeTab // ここでビューに渡す
+            ]);
         }
 
         // いいねした商品を取得
