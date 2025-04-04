@@ -11,7 +11,7 @@
 
     {{-- ログインフォーム --}}
     <div class="login-form__inner">
-        <form class="login-form__form" action="/login" method="post">
+        <form class="login-form__form" action="{{ route('login') }}" method="post">
             @csrf
             {{-- メールアドレス入力 --}}
             <div class="login-form__group">
@@ -42,7 +42,7 @@
                 <input class="login-form__btn" type="submit" value="ログイン">
 
                 {{--  会員登録ページへ移行  --}}
-                <a class="login-form__link" href="/register">会員登録はこちら</a>
+                <a class="login-form__link" href="{{ route('register') }}">会員登録はこちら</a>
 
                 {{-- エラーメッセージ --}}
                 <p class="login-form__error-message">

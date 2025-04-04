@@ -11,7 +11,7 @@
 
     {{--  ユーザー登録フォーム  --}}
     <div class="register-form__inner">
-        <form class="register-form__form" action="/register" method="post">
+        <form class="register-form__form" action="{{ route('register') }}" method="post">
             @csrf
 
             {{--  ユーザー名入力  --}}
@@ -67,7 +67,7 @@
                 <input class="register-form__btn" type="submit" value="登録する">
 
                 {{--  ログインページへ移行  --}}
-                <a class="register-form__link" href="/login">ログインはこちら</a>
+                <a class="register-form__link" href="{{ route('login') }}">ログインはこちら</a>
             </div>
         </form>
     </div>

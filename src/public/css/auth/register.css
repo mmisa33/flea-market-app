@@ -68,7 +68,7 @@
     }
 }
 
-/* レスポンシブ（1400px ～ 1540pxのPC） */
+/* レスポンシブ（768px ～ 850pxのタブレット） */
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .register-form__form {
         width: 65vw;
