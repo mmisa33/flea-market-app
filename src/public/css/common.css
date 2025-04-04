@@ -13,6 +13,11 @@ a {
     height: 100%;
 }
 
+input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* ヘッダー */
 .header {
     display: grid;
@@ -42,7 +47,6 @@ a {
 
 .search-form__input {
     padding: 8px 50px;
-    min-width: 330px;
     font-size: 24px;
 }
 
@@ -50,7 +54,7 @@ a {
     color: black;
 }
 
-.header__link {
+.header__links {
     grid-column: 3;
     display: flex;
     justify-content: flex-end;
@@ -58,14 +62,12 @@ a {
     gap: 40px;
 }
 
-.link__login,
-.link__logout,
-.link__mypage {
+.header__link {
     color: white;
     font-size: 24px;
 }
 
-.link__sell {
+.header__link--sell {
     display: flex;
     justify-content: center;
     align-items: center;

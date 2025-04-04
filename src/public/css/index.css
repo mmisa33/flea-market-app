@@ -1,43 +1,40 @@
-.item__group {
+/* 商品リスト */
+.item__list {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
     width: 100%;
+    margin-top: 20px;
 }
 
-.grid-container {
+.item__grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 80px;
 }
 
-.card {
+.item__card {
     display: flex;
     flex-direction: column;
-    text-align: left;
+    max-width: 290px;
 }
 
-.card-img {
-    width: 290px;
-    height: 290px;
-    object-fit: cover;
-    display: block;
-}
-
-.card-body {
+.item__card-image {
     width: 100%;
+    height: 290px;
+    border-radius: 4px;
+    object-fit: cover;
 }
 
-.card-title {
-    text-align: left;
+.item__card-title {
     margin-top: 5px;
+    text-align: left;
     font-size: 25px;
     font-weight: 400;
 }
 
-.sold-label {
+.item__card-label {
+    margin-right: 3px;
     color: red;
     font-weight: bold;
     font-size: 18px;
-    margin-right: 3px;
 }

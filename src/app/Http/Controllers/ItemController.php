@@ -13,45 +13,53 @@ use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
-    // トップページ表示
+    // 商品一覧ページ表示
     public function index(Request $request)
     {
-        $isMyList = $request->query('tab') === 'mylist';
         $isAuth = auth()->check();
-        $keyword = $request->input('keyword');
-        $tab = $request->query('tab', '');
 
-        // タブの状態をビューに渡す
+        // タブの切り替え
+        $isMyList = $request->query('tab') === 'mylist';
         $activeTab = $isMyList ? 'mylist' : 'recommended';
 
-        // 初期の検索結果を取得
+        // 検索機能
+        $keyword = $request->input('keyword');
         $itemsQuery = Item::searchByKeyword($keyword);
 
-        // 未ログインの状態で「マイリスト」タブを開いた場合、空のリストを表示
+        // ログアウト状態ではマイリスト非表示
         if ($isMyList && !$isAuth) {
             return view('index', [
                 'items' => collect(),
-                'isMyList' => true,
                 'isAuth' => false,
-                'keyword' => $keyword,
-                'tab' => $tab,
-                'activeTab' => $activeTab // ここでビューに渡す
+                'activeTab' => $activeTab
             ]);
         }
 
-        // いいねした商品を取得
+        // ログイン状態ではマイリストにいいね商品を表示
         if ($isMyList && $isAuth) {
-            $likedItems = auth()->user()->likedItems->pluck('id'); // いいねした商品のIDを取得
-            $itemsQuery->whereIn('id', $likedItems); // いいねした商品だけを表示
+            $likedItems = auth()->user()->likedItems->pluck('id');
+            $itemsQuery->whereIn('id', $likedItems);
         } else {
-            // 他ユーザーの出品商品を取得（検索結果を保持）
-            $itemsQuery->where('user_id', '!=', auth()->id()); // 自分の出品した商品を除外
+            // 自分の出品した商品を一覧から除外
+            $itemsQuery->where('user_id', '!=', auth()->id());
         }
 
-        // クエリビルダを実行して、結果をコレクションに変換
         $items = $itemsQuery->get();
 
-        return view('index', compact('activeTab', 'items', 'isMyList', 'isAuth', 'keyword', 'tab'));
+        return view('index', compact('activeTab', 'items', 'isAuth', 'keyword'));
+    }
+
+
+    public function mylist(Request $request)
+    {
+        $isAuth = auth()->check();
+        // マイリストに表示するアイテムを取得するロジックを追加
+        $items = Item::where('user_id', auth()->id())->get();
+        // activeTab を 'mylist' に設定
+        $activeTab = 'mylist';
+
+        // ビューに変数を渡す
+        return view('index', compact('items', 'isAuth', 'activeTab'));
     }
 
     // 商品詳細ページ表示
