@@ -11,12 +11,12 @@
 
     {{-- ログインフォーム --}}
     <div class="login-form__inner">
-        <form class="login-form__form" action="{{ route('login') }}" method="post">
+        <form class="login-form__form" action="{{ route('login') }}" method="post" novalidate>
             @csrf
             {{-- メールアドレス入力 --}}
             <div class="login-form__group">
                 <label class="login-form__label" for="email">メールアドレス</label>
-                <input class="login-form__input" type="email" name="email" id="email" value="{{ old('email') }}" >
+                <input class="login-form__input" type="email" name="email" id="email" value="{{ old('email') }}">
                 <p class="login-form__error-message">
                     @error('email')
                         @if ($message !== 'ログイン情報が登録されていません')
@@ -38,13 +38,6 @@
             </div>
 
             <div class="login-form__actions">
-                {{-- ログインボタン --}}
-                <input class="login-form__btn" type="submit" value="ログイン">
-
-                {{--  会員登録ページへ移行  --}}
-                <a class="login-form__link" href="{{ route('register') }}">会員登録はこちら</a>
-
-                {{-- エラーメッセージ --}}
                 <p class="login-form__error-message">
                     @error('email')
                         @if ($message === 'ログイン情報が登録されていません')
@@ -52,6 +45,12 @@
                         @endif
                     @enderror
                 </p>
+
+                {{-- ログインボタン --}}
+                <input class="login-form__btn" type="submit" value="ログイン">
+
+                {{--  会員登録ページへ移行  --}}
+                <a class="login-form__link" href="{{ route('register') }}">会員登録はこちら</a>
             </div>
         </form>
     </div>

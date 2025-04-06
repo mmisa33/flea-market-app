@@ -11,7 +11,7 @@
 
     {{--  ユーザー登録フォーム  --}}
     <div class="register-form__inner">
-        <form class="register-form__form" action="{{ route('register') }}" method="post">
+        <form class="register-form__form" action="{{ route('register') }}" method="post" novalidate>
             @csrf
 
             {{--  ユーザー名入力  --}}

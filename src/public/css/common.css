@@ -103,7 +103,7 @@ input[type="text"] {
     font-weight: 700;
 }
 
-.nav__tab:nth-child(2) {
+.nav__page:nth-child(2) {
     margin-left: 100px;
 }
 

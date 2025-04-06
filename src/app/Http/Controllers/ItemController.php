@@ -17,8 +17,8 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         // タブの切り替え
-        $isMyList = $request->query('tab') === 'mylist';
-        $activeTab = $isMyList ? 'mylist' : 'recommended';
+        $isMyList = $request->query('page') === 'mylist';
+        $activePage = $isMyList ? 'mylist' : 'recommended';
 
         // 検索機能
         $keyword = $request->input('keyword');
@@ -28,7 +28,7 @@ class ItemController extends Controller
         if ($isMyList && !auth()->check()) {
             return view('index', [
                 'items' => collect(),
-                'activeTab' => $activeTab,
+                'activePage' => $activePage,
                 'isAuth' => false
             ]);
         }
@@ -44,7 +44,7 @@ class ItemController extends Controller
 
         $items = $itemsQuery->get();
 
-        return view('index', compact('activeTab', 'items', 'keyword'));
+        return view('index', compact('activePage', 'items', 'keyword'));
     }
 
     // 商品詳細ページ表示

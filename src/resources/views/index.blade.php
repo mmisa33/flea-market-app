@@ -32,8 +32,8 @@
 @section('nav')
 <nav class="nav">
     <div class="nav__inner">
-        <a class="nav__tab {{ $activeTab === 'recommended' ? 'active' : '' }}" href="{{ url('/' . (request('keyword') ? '?keyword=' . request('keyword') : '')) }}">おすすめ</a>
-        <a class="nav__tab {{ $activeTab === 'mylist' ? 'active' : '' }}" href="{{ url('/?tab=mylist' . (request('keyword') ? '&keyword=' . request('keyword') : '')) }}">マイリスト</a>
+        <a class="nav__page {{ $activePage === 'recommended' ? 'active' : '' }}" href="{{ url('/' . (request('keyword') ? '?keyword=' . request('keyword') : '')) }}">おすすめ</a>
+        <a class="nav__page {{ $activePage === 'mylist' ? 'active' : '' }}" href="{{ url('/?page=mylist' . (request('keyword') ? '&keyword=' . request('keyword') : '')) }}">マイリスト</a>
     </div>
 </nav>
 @endsection
