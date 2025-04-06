@@ -49,19 +49,6 @@ class ItemController extends Controller
         return view('index', compact('activeTab', 'items', 'isAuth', 'keyword'));
     }
 
-
-    public function mylist(Request $request)
-    {
-        $isAuth = auth()->check();
-        // マイリストに表示するアイテムを取得するロジックを追加
-        $items = Item::where('user_id', auth()->id())->get();
-        // activeTab を 'mylist' に設定
-        $activeTab = 'mylist';
-
-        // ビューに変数を渡す
-        return view('index', compact('items', 'isAuth', 'activeTab'));
-    }
-
     // 商品詳細ページ表示
     public function show($item_id)
     {

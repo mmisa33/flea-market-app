@@ -5,28 +5,27 @@
 @endsection
 
 @section('link')
-{{-- 検索ボックス --}}
+{{--  検索ボックス  --}}
 <div class="header__search">
-    <form class="search-form" action="/search" method="get">
-        @csrf
-        <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{request('keyword')}}">
+    <form class="search-form" action="{{ route('items.search') }}" method="get">
+        <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
     </form>
 </div>
 
-{{-- ヘッダーリンク --}}
-<div class="header__link">
-    {{-- ログインしている場合 --}}
+{{--  ヘッダーリンク  --}}
+<div class="header__links">
+    {{--  ログインしている場合  --}}
     @if ($isAuth)
-        <form action="/logout" method="post">
+        <form action="{{ route('logout') }}" method="post">
             @csrf
-            <input class="link__logout" type="submit" value="ログアウト">
+            <input class="header__link header__link--logout" type="submit" value="ログアウト">
         </form>
-    {{-- ログインしていない場合 --}}
+    {{--  ログインしていない場合  --}}
     @else
-        <a class="link__login" href="/login">ログイン</a>
+        <a class="header__link header__link--login" href="{{ route('login') }}">ログイン</a>
     @endif
-    <a class="link__mypage" href="/mypage">マイページ</a>
-    <a class="link__sell" href="/sell">出品</a>
+    <a class="header__link header__link--mypage" href="{{ route('profile.show') }}">マイページ</a>
+    <a class="header__link--sell" href="{{ route('item.create') }}">出品</a>
 </div>
 @endsection
 
@@ -83,8 +82,7 @@
 
     {{-- 購入ボタン --}}
     <form action="{{ route('item.purchase', ['item' => $item->id]) }}" method="GET">
-        @csrf
-        <input class="purchase-form__btn btn" type="submit" value="購入手続きへ">
+        <input class="purchase-form__btn btn" type="submit" value="購入手続きへ" {{ $item->sold_status ? 'disabled' : '' }}>
     </form>
 
     {{-- 商品説明 --}}
@@ -151,7 +149,7 @@
         @endif
 
         {{-- コメント投稿フォーム --}}
-        <form class="comment-form"  action="/item/{{ $item->id }}/comment" method="POST">
+        <form class="comment-form" action="{{ route('item.comment', $item->id) }}" method="POST">
             @csrf
             <div class="comment-form__textarea">商品へのコメント</div>
             <textarea class="comment-form__textarea-input" name="content" rows="10">{{ old('content') }}</textarea><br>

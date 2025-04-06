@@ -26,15 +26,23 @@
 }
 
 .item__card-title {
+    display: flex;
+    align-items: center;
     margin-top: 5px;
     text-align: left;
     font-size: 25px;
     font-weight: 400;
+
 }
 
 .item__card-label {
-    margin-right: 3px;
-    color: red;
+    background-color: #e3342f;
+    color: white;
+    font-size: 15px;
     font-weight: bold;
-    font-size: 18px;
+    padding: 2px 13px;
+    border-radius: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
