@@ -43,17 +43,17 @@
 <div class="item__list">
     <div class="item__grid-container">
         @foreach ($items as $item)
-            <div class="item__card">
-                <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
+            <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item__card-link">
+                <div class="item__card">
                     <img class="item__card-image" src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
-                </a>
-                <p class="item__card-title">
-                    @if ($item->sold_status)
-                        <span class="item__card-label">Sold</span>
-                    @endif
-                    {{ $item->name }}
-                </p>
-            </div>
+                    <p class="item__card-title">
+                        @if ($item->sold_status)
+                            <span class="item__card-label">Sold</span>
+                        @endif
+                        {{ $item->name }}
+                    </p>
+                </div>
+            </a>
         @endforeach
     </div>
 </div>
