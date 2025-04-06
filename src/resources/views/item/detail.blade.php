@@ -37,7 +37,7 @@
 
     {{-- 商品情報 --}}
     <div class="item-detail__info">
-        <div class="info-group">
+        <div class="item-detail__info-group">
             {{-- 商品名 --}}
             <h2 class="info-group__name">
                 @if ($item->sold_status)
@@ -65,13 +65,13 @@
                 @auth
                     <form action="{{ route('item.like', $item) }}" method="POST" style="display: inline;">
                         @csrf
-                        <button type="submit" class="like-button">
-                            <img src="{{ asset($liked ? 'images/icons/yellow_star_icon.png' : 'images/icons/star_icon.png') }}" alt="Like Icon" class="like-icon">
+                        <button type="submit" class="icon__like-button">
+                            <img src="{{ asset($liked ? 'images/icons/yellow_star_icon.png' : 'images/icons/star_icon.png') }}" alt="Like Icon" class="icon__like-image">
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="like-icon">
-                        <img src="{{ asset('images/icons/star_icon.png') }}" alt="Like Icon" class="like-icon">
+                    <a href="{{ route('login') }}" class="icon__like-button">
+                        <img src="{{ asset('images/icons/star_icon.png') }}" alt="Like Icon" class="icon__like-image">
                     </a>
                 @endauth
                 {{ $likeCount }}
@@ -95,23 +95,23 @@
         </div>
 
         {{-- 商品情報 --}}
-        <div class="item-detail__additional-info">
-            <h3 class="additional-info__title">商品の情報</h3>
+        <div class="item-detail__properties">
+            <h3 class="properties__title">商品の情報</h3>
 
-            <table class="additional-info__table">
+            <table class="properties-table">
                 {{-- カテゴリ --}}
-                <tr class="table__row">
-                    <th class="table__header">カテゴリー</th>
-                    <td class="table__content table__content--category">
+                <tr class="properties-table__row">
+                    <th class="properties-table__header">カテゴリー</th>
+                    <td class="properties-table__content properties-table__content--category">
                         @foreach($item->categories as $category)
                             <span>{{ $category->name }}</span>
                         @endforeach
                     </td>
                 </tr>
                 {{-- 商品の状態 --}}
-                <tr class="table__row">
-                    <th class="table__header">商品の状態</th>
-                    <td class="table__content table__content--condition">
+                <tr class="properties-table__row">
+                    <th class="properties-table__header">商品の状態</th>
+                    <td class="properties-table__content properties-table__content--condition">
                         @switch($item->condition)
                             @case(1)
                                 良好
@@ -139,10 +139,8 @@
                 @foreach($item->comments as $comment)
                 <div class="comment">
                     <div class="comment__user">
-                        <div class="comment__user-photo">
-                            <img src="{{ asset('storage/' . ($comment->user->profile->profile_image ?? 'default-avatar.png')) }}"
-                                alt="{{ $comment->user->name }}のプロフィール画像"
-                                class="comment__user-image">
+                        <div class="comment__user-image">
+                            <img src="{{ asset('storage/' . $comment->user->profile->profile_image) }}" alt="プロフィール画像">
                         </div>
                         <span class="comment__user-name">{{ $comment->user->name }}</span>
                     </div>
@@ -152,17 +150,14 @@
             @endif
 
             {{-- コメント投稿フォーム --}}
-            <form class="comment-form" action="{{ route('item.comment', $item->id) }}" method="POST">
+            <form class="comment-form" action="{{ route('item.comment', $item->id) }}" method="POST" {{ $item->sold_status ? 'disabled' : '' }}>
                 @csrf
-                <div class="comment-form__textarea">商品へのコメント</div>
+                <div class="comment-form__title">商品へのコメント</div>
                 <textarea class="comment-form__textarea-input" name="content" rows="10">{{ old('content') }}</textarea><br>
-
-                {{-- エラーメッセージ表示 --}}
                 @error('content')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
-
-                <input class="comment-form__btn btn" type="submit" value="コメントする">
+                <input class="comment-form__btn btn {{ $item->sold_status ? 'btn--disabled' : '' }}" type="submit" value="コメントする" {{ $item->sold_status ? 'disabled' : '' }}>
             </form>
         </div>
     </div>

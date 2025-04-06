@@ -52,21 +52,18 @@ class ItemController extends Controller
     {
         $item = Item::with(['categories', 'comments.user'])->findOrFail($item_id);
 
-        $isAuth = auth()->check();
-
+        // いいね機能の設定
         $liked = false;
-        if ($isAuth) {
+        if (auth()->check()) {
             $user = auth()->user();
-
-            if ($user->likedItems->contains($item->id)) {
-                $liked = true;
-            }
+            $liked = $user->likedItems->contains($item->id);
         }
 
+        // コメント数
         $likeCount = $item->likes->count();
         $commentCount = $item->comments->count();
 
-        return view('item.detail', compact('item', 'isAuth', 'liked', 'likeCount', 'commentCount'));
+        return view('item.detail', compact('item', 'liked', 'likeCount', 'commentCount'));
     }
 
     // コメント機能
@@ -79,14 +76,13 @@ class ItemController extends Controller
 
         $item = Item::findOrFail($item_id);
 
-        // コメントの作成
         $comment = new Comment();
         $comment->user_id = auth()->id();
         $comment->item_id = $item->id;
         $comment->content = $request->content;
         $comment->save();
 
-        return redirect("/item/{$item_id}");
+        return redirect()->route('item.show', ['item_id' => $item_id]);
     }
 
     // いいね機能
@@ -100,18 +96,7 @@ class ItemController extends Controller
             $user->likedItems()->attach($item->id);
         }
 
-        return redirect()->back();
-    }
-
-    // 購入ページへ移動
-    public function purchase(Item $item)
-    {
-        $isAuth = auth()->check();
-        if (!$isAuth) {
-            return redirect()->route('login');
-        }
-
-        return view('item.show', compact('item'));
+        return redirect()->route('item.show', ['item_id' => $item->id]);
     }
 
     // 出品ページの表示
