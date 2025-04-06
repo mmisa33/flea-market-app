@@ -14,16 +14,15 @@
 
 {{--  ヘッダーリンク  --}}
 <div class="header__links">
-    {{--  ログインしている場合  --}}
-    @if ($isAuth)
-        <form action="{{ route('logout') }}" method="post">
+    @auth
+        <form action="{{ route('logout') }}" method="POST">
             @csrf
             <input class="header__link header__link--logout" type="submit" value="ログアウト">
         </form>
-    {{--  ログインしていない場合  --}}
     @else
         <a class="header__link header__link--login" href="{{ route('login') }}">ログイン</a>
-    @endif
+    @endauth
+
     <a class="header__link header__link--mypage" href="{{ route('profile.show') }}">マイページ</a>
     <a class="header__link--sell" href="{{ route('item.create') }}">出品</a>
 </div>

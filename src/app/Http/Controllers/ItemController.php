@@ -16,8 +16,6 @@ class ItemController extends Controller
     // 商品一覧ページ表示
     public function index(Request $request)
     {
-        $isAuth = auth()->check();
-
         // タブの切り替え
         $isMyList = $request->query('tab') === 'mylist';
         $activeTab = $isMyList ? 'mylist' : 'recommended';
@@ -27,16 +25,16 @@ class ItemController extends Controller
         $itemsQuery = Item::searchByKeyword($keyword);
 
         // ログアウト状態ではマイリスト非表示
-        if ($isMyList && !$isAuth) {
+        if ($isMyList && !auth()->check()) {
             return view('index', [
                 'items' => collect(),
-                'isAuth' => false,
-                'activeTab' => $activeTab
+                'activeTab' => $activeTab,
+                'isAuth' => false
             ]);
         }
 
         // ログイン状態ではマイリストにいいね商品を表示
-        if ($isMyList && $isAuth) {
+        if ($isMyList && auth()->check()) {
             $likedItems = auth()->user()->likedItems->pluck('id');
             $itemsQuery->whereIn('id', $likedItems);
         } else {
@@ -46,7 +44,7 @@ class ItemController extends Controller
 
         $items = $itemsQuery->get();
 
-        return view('index', compact('activeTab', 'items', 'isAuth', 'keyword'));
+        return view('index', compact('activeTab', 'items', 'keyword'));
     }
 
     // 商品詳細ページ表示

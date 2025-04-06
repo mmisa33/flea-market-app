@@ -235,6 +235,12 @@ h3 {
     border-radius: 5px;
 }
 
+.btn--disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 
 @media (max-width: 768px) {
     .item-detail {
