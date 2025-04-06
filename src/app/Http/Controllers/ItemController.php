@@ -63,7 +63,9 @@ class ItemController extends Controller
         $likeCount = $item->likes->count();
         $commentCount = $item->comments->count();
 
-        return view('item.detail', compact('item', 'liked', 'likeCount', 'commentCount'));
+        $isOwnItem = auth()->check() && auth()->id() === $item->user_id;
+
+        return view('item.detail', compact('item', 'liked', 'likeCount', 'commentCount', 'isOwnItem'));
     }
 
     // コメント機能
