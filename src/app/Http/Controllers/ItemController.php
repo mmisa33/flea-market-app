@@ -8,8 +8,6 @@ use App\Models\Comment;
 use App\Models\Category;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\ItemRequest;
-use Illuminate\Support\Facades\Storage;
-
 
 class ItemController extends Controller
 {

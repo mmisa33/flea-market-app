@@ -60,7 +60,6 @@ class Purchase extends Model
     // 商品の購入処理
     public function completePurchase()
     {
-        // アイテムのステータスを「売却済み」に更新
         $this->item->sold_status = true;
         $this->item->save();
     }

@@ -83,10 +83,10 @@
             </div>
         </div>
 
-        {{-- 購入ボタン --}}
+        {{-- 購入手続きボタン --}}
         <form action="{{ route('item.purchase', ['item' => $item->id]) }}" method="GET">
             <input
-                class="purchase-form__btn btn {{ $item->sold_status || $isOwnItem ? 'btn--disabled' : '' }}" type="submit" value="{{ $item->sold_status ? '売り切れました' : ($isOwnItem ? 'あなたの出品です' : '購入手続きへ') }}">
+                class="to-purchase-form__btn btn {{ $item->sold_status || $isOwnItem ? 'btn--disabled' : '' }}" type="submit" value="{{ $item->sold_status ? '売り切れました' : ($isOwnItem ? 'あなたの出品です' : '購入手続きへ') }}">
         </form>
 
         {{-- 商品説明 --}}
