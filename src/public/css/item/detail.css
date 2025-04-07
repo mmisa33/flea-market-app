@@ -81,12 +81,14 @@ h3 {
     font-size: 30px;
     color: white;
     font-weight: bold;
+    text-align: center;
 }
 
 .btn--disabled {
     background-color: #ccc;
     cursor: not-allowed;
     pointer-events: none;
+    text-align: center;
 }
 
 /* アイコン */
