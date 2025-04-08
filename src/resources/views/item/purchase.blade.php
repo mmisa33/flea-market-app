@@ -77,7 +77,12 @@
             </div>
             <div class="delivery-address__detail">
                 <p>{{ $shippingAddress['postal_code'] ?? auth()->user()->profile->postal_code }}</p>
-                <p>{{ $shippingAddress['address'] ?? auth()->user()->profile->address }}{{ $shippingAddress['building'] ?? auth()->user()->profile->building }}</p>
+                <p>
+                    {{ $shippingAddress['address'] ?? auth()->user()->profile->address }}
+                    @if(!empty($shippingAddress['building']))
+                        {{ $shippingAddress['building'] }}
+                    @endif
+                </p>
             </div>
         </div>
     </div>

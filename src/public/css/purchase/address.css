@@ -1,7 +1,8 @@
+/* 住所変更フォーム */
 .address-form__inner {
     display: flex;
     justify-content: center;
-    margin-top: 48px;
+    margin-top: 70px;
 }
 
 .address-form__form {
@@ -10,13 +11,11 @@
 }
 
 .address-form__group {
-    margin-bottom: 30px;
+    margin-bottom: 70px;
 }
 
 .address-form__label {
     display: block;
-    margin-bottom: 5px;
-    height: 35px;
     font-size: 24px;
     font-weight: bold;
 }
@@ -25,16 +24,18 @@
     display: block;
     padding: 8px 12px;
     width: 100%;
-    height: 58px;
+    height: 45px;
     border: 1px solid #5F5F5F;
     border-radius: 4px;
 }
 
-.address-form__error-message {
+/* エラーメッセージ */
+.error-message {
     margin-top: 5px;
     color: #FF5555;
 }
 
+/* 更新ボタン */
 .address-form__btn {
     display: flex;
     flex-direction: column;
@@ -54,7 +55,7 @@
     font-weight: bold;
 }
 
-/* 1400px ～ 1540pxのPC */
+/* レスポンシブ（1400px ～ 1540pxのPC） */
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
     .address-form__form {
         width: 40vw;
@@ -62,10 +63,9 @@
     }
 }
 
-/* 768px ～ 850pxのタブレット */
+/* レスポンシブ（768px ～ 850pxのタブレット） */
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .address-form__form {
         width: 65vw;
-        /* タブレットのフォーム幅 */
     }
 }

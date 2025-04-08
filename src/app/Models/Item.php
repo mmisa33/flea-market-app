@@ -9,7 +9,16 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'image_path', 'name', 'brand', 'price', 'description', 'condition', 'sold_status', 'postal_code', 'address', 'building'];
+    protected $fillable = [
+        'user_id',
+        'image_path',
+        'name',
+        'brand',
+        'price',
+        'description',
+        'condition',
+        'sold_status',
+    ];
 
     // 検索処理
     public static function searchByKeyword($keyword)
@@ -45,6 +54,6 @@ class Item extends Model
 
     public function purchase()
     {
-        return $this->hasMany(Purchase::class);
+        return $this->hasOne(Purchase::class);
     }
 }

@@ -83,6 +83,7 @@ h3 {
 .payment-method__list {
     display: none;
     position: absolute;
+    top: 0;
     width: 265px;
     background-color: #636769;
     border: 2px solid #B1B1B1;

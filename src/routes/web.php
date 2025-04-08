@@ -22,9 +22,16 @@ Route::post('/item/{item}/like', [ItemController::class, 'like'])->name('item.li
 Route::middleware(['auth'])->group(function () {
     Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');
     Route::post('/purchase/{item}', [PurchaseController::class, 'submit'])->name('item.purchase.submit');
+});
+
+// 住所変更ページ
+Route::middleware(['auth'])->group(function () {
     Route::get('/purchase/address/{item}', [PurchaseController::class, 'showAddressEdit'])->name('purchase.address.edit');
     Route::patch('/purchase/address/{item}', [PurchaseController::class, 'updateAddress'])->name('purchase.address.update');
 });
+
+
+
 
 // プロフィールページ
 Route::middleware(['auth'])->group(function () {
