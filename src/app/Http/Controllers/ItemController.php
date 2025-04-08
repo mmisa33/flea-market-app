@@ -99,7 +99,7 @@ class ItemController extends Controller
         return redirect()->route('item.show', ['item_id' => $item->id]);
     }
 
-    // 出品ページの表示
+    // 出品ページ表示
     public function create()
     {
         $categories = Category::all();
@@ -109,10 +109,9 @@ class ItemController extends Controller
     // 出品処理
     public function store(ItemRequest $request)
     {
-        // 商品画像がアップロードされた場合
+        // 商品画像のアップデート処理
         if ($request->hasFile('image_path')) {
-            // 画像をストレージに保存し、保存されたファイルのパスを取得
-            $imagePath = $request->file('image_path')->store('items', 'public');
+            $imagePath = $request->file('image_path')->store('images/items', 'public');
         }
 
         // アイテムをデータベースに保存
@@ -132,6 +131,6 @@ class ItemController extends Controller
             $item->categories()->attach($request->category);
         }
 
-        return redirect('/mypage');
+        return redirect()->route('profile.show');
     }
 }

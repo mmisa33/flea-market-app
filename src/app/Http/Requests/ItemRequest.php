@@ -28,9 +28,10 @@ class ItemRequest extends FormRequest
             'name' => ['required'],
             'brand' => ['required'],
             'price' => ['required', 'integer', 'min:1'],
-            'category' => ['required'],
             'description' => ['required', 'max:250'],
             'condition' => ['required'],
+            'category' => ['required'],
+            'category.*' => ['exists:categories,id'],
         ];
     }
 
@@ -55,6 +56,7 @@ class ItemRequest extends FormRequest
             'description.max' => '商品の説明は250文字以内で入力してください',
             'condition.required' => '商品の状態を選択してください',
             'category.required' => 'カテゴリを選択してください',
+            'category.*.exists' => '選択されたカテゴリが存在しません',
         ];
     }
 }

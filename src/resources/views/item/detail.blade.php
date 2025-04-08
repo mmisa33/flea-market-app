@@ -150,7 +150,7 @@
             @endif
 
             {{-- コメント投稿フォーム --}}
-            <form class="comment-form" action="{{ route('item.comment', $item->id) }}" method="POST" {{ $item->sold_status ? 'disabled' : '' }}>
+            <form class="comment-form" action="{{ route('item.comment', $item->id) }}" method="POST" {{ $item->sold_status ? 'disabled' : '' }} novalidate>
                 @csrf
                 <div class="comment-form__title">商品へのコメント</div>
                 <textarea class="comment-form__textarea-input" name="content" rows="10">{{ old('content') }}</textarea><br>

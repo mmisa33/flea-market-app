@@ -35,7 +35,7 @@
 
     {{-- 送付先変更フォーム --}}
     <div class="address-form__inner">
-        <form class="address-form__form" action="{{ route('purchase.address.update', $item->id) }}" method="post">
+        <form class="address-form__form" action="{{ route('purchase.address.update', $item->id) }}" method="post" novalidate>
             @csrf
             @method('PATCH')
 
