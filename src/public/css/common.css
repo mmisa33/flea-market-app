@@ -23,7 +23,7 @@ input[type="text"] {
 .header {
     display: grid;
     align-items: center;
-    padding: 0px 30px;
+    padding: 0px 40px;
     min-height: 80px;
     background-color: black;
     border: 1px solid black;
@@ -36,6 +36,11 @@ input[type="text"] {
     grid-column: 1;
     display: flex;
     justify-content: flex-start;
+}
+
+.header__logo img {
+    width: auto;
+    height: 100%;
 }
 
 .header__search {

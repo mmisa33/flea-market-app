@@ -16,7 +16,7 @@
         <header class="header">
             {{--  サイトタイトル  --}}
             <div class="header__logo">
-                <a href="/">
+                <a href="{{ route('home') }}">
                     <img src="{{ asset('images/logo.svg') }}" alt="coachtechフリマ">
                 </a>
             </div>
