@@ -65,12 +65,6 @@
     border-radius: 4px;
 }
 
-/* エラーメッセージ */
-.error-message {
-    margin-top: 5px;
-    color: #FF5555;
-}
-
 /* 更新ボタン */
 .profile-form__btn {
     display: flex;

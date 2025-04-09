@@ -29,12 +29,6 @@
     border-radius: 4px;
 }
 
-/* エラーメッセージ */
-.login-form__error-message {
-    margin-bottom: 5px;
-    color: #FF5555;
-}
-
 /* 下部リンク */
 .login-form__actions {
     display: flex;

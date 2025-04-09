@@ -239,11 +239,6 @@ h3 {
     border-radius: 5px;
 }
 
-/* エラーメッセージ */
-.error-message {
-    color: #FF5555;
-}
-
 @media (max-width: 768px) {
     .item-detail {
         grid-template-columns: 1fr;

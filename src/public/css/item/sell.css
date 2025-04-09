@@ -215,12 +215,6 @@ input[type="number"] {
     appearance: textfield;
 }
 
-/* エラーメッセージ */
-.error-message {
-    margin-top: 5px;
-    color: #FF5555;
-}
-
 /* 出品ボタン */
 .sell-form__btn {
     display: flex;

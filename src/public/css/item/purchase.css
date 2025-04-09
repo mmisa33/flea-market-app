@@ -119,12 +119,6 @@ h3 {
     border-radius: 5px;
 }
 
-/* エラーメッセージ */
-.error-message {
-    margin-top: 5px;
-    color: #FF5555;
-}
-
 /* 配送先住所 */
 .delivery-address {
     border-bottom: 1px solid black;

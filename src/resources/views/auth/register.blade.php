@@ -18,7 +18,7 @@
             <div class="register-form__group">
                 <label class="register-form__label" for="name">ユーザー名</label>
                 <input class="register-form__input" type="text" name="name" id="name" value="{{ old('name') }}">
-                <p class="register-form__error-message">
+                <p class="error-message">
                     @error('name')
                         {{ $message }}
                     @enderror
@@ -29,7 +29,7 @@
             <div class="register-form__group">
                 <label class="register-form__label" for="email">メールアドレス</label>
                 <input class="register-form__input" type="email" name="email" id="email" value="{{ old('email') }}">
-                <p class="register-form__error-message">
+                <p class="error-message">
                     @error('email')
                         {{ $message }}
                     @enderror
@@ -40,7 +40,7 @@
             <div class="register-form__group">
                 <label class="register-form__label" for="password">パスワード</label>
                 <input class="register-form__input" type="password" name="password" id="password">
-                <p class="register-form__error-message">
+                <p class="error-message">
                     @error('password')
                         @if ($message !== 'パスワードと一致しません')
                             {{ $message }}
@@ -53,7 +53,7 @@
             <div class="register-form__group">
                 <label class="register-form__label" for="password_confirmation">確認用パスワード</label>
                 <input class="register-form__input" type="password" name="password_confirmation" id="password_confirmation">
-                <p class="register-form__error-message">
+                <p class="error-message">
                     @error('password')
                         @if ($message === 'パスワードと一致しません')
                             {{ $message }}

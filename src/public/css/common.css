@@ -125,3 +125,8 @@ input[type="text"] {
     font-weight: 700;
     font-size: 36px;
 }
+
+.error-message {
+    margin-top: 5px;
+    color: #FF5555;
+}
