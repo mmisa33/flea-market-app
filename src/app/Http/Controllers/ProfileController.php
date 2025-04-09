@@ -2,37 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
-use App\Models\Profile;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Profile;
 use App\Models\Item;
 use App\Models\Purchase;
-use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    // マイページ表示
     public function show(Request $request)
     {
         $user = auth()->user();
-        $tab = $request->query('tab', 'sell');
+        $page = $request->query('page', 'sell');
 
-        // ユーザーのプロフィール情報を取得
         $profileImage = $user->profile->profile_image;
         $userName = $user->name;
 
-        // 出品した商品一覧（デフォルト）
         $items = collect();
         $purchasedItems = collect();
 
-        if ($tab === 'sell') {
+        // 出品・購入商品ページへ切り替え
+        if ($page === 'sell') {
             $items = Item::where('user_id', $user->id)->get();
-        } elseif ($tab === 'buy') {
+        } elseif ($page === 'buy') {
             $purchasedItems = Purchase::where('user_id', $user->id)->with('item')->get();
         }
 
-        return view('profile.index', compact('profileImage', 'userName', 'items', 'purchasedItems', 'tab'));
+        return view('profile.index', compact('profileImage', 'userName', 'items', 'purchasedItems', 'page'));
     }
 
+    // プロフィール編集ページ表示
     public function edit()
     {
         return view('profile.edit');

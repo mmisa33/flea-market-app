@@ -5,14 +5,14 @@
 @endsection
 
 @section('link')
-{{--  検索ボックス  --}}
+{{-- 検索ボックス --}}
 <div class="header__search">
     <form class="search-form" action="{{ route('items.search') }}" method="get">
         <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
     </form>
 </div>
 
-{{--  ヘッダーリンク  --}}
+{{-- ヘッダーリンク --}}
 <div class="header__links">
     @auth
         <form action="{{ route('logout') }}" method="POST">
@@ -28,7 +28,7 @@
 </div>
 @endsection
 
-{{--  ナビ  --}}
+{{-- ナビ --}}
 @section('nav')
 <nav class="nav">
     <div class="nav__inner">
@@ -39,7 +39,7 @@
 @endsection
 
 @section('content')
-{{--  商品リスト  --}}
+{{-- 商品リスト --}}
 <div class="item__list">
     <div class="item__grid-container">
         @foreach ($items as $item)

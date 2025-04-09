@@ -36,14 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
 });
 
-
-
-
-
-// プロフィールページ
-Route::middleware(['auth'])->group(function () {
-    Route::get('/mypage', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
+// プロフィール関連
+Route::middleware(['auth'])->prefix('mypage')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'show'])->name('show');
+    Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+    Route::patch('/edit', [ProfileController::class, 'update'])->name('update');
 });
-
