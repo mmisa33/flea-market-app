@@ -70,7 +70,7 @@ class PurchaseController extends Controller
         return redirect()->route('home');
     }
 
-    // セッションまたはプロフィールから送付先を取得
+    // セッションプロフィールから送付先を取得
     private function getShippingAddress(Item $item)
     {
         return session("shippingAddress_{$item->id}", [

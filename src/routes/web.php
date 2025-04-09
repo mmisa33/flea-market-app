@@ -39,6 +39,6 @@ Route::middleware(['auth'])->group(function () {
 // プロフィール関連
 Route::middleware(['auth'])->prefix('mypage')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'show'])->name('show');
-    Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
-    Route::patch('/edit', [ProfileController::class, 'update'])->name('update');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('update');
 });

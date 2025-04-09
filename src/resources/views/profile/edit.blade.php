@@ -7,20 +7,19 @@
 @section('link')
 {{-- 検索ボックス --}}
 <div class="header__search">
-    <form class="search-form" action="/search" method="get">
-        @csrf
-        <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{request('keyword')}}">
+    <form class="search-form" action="{{ route('items.search') }}" method="get">
+        <input class="search-form__input" type="text" name="keyword" placeholder="なにをお探しですか？" value="{{ request('keyword') }}">
     </form>
 </div>
 
 {{-- ヘッダーリンク --}}
-<div class="header__link">
-    <form action="/logout" method="post">
+<div class="header__links">
+    <form action="{{ route('logout') }}" method="POST">
         @csrf
-        <input class="link__logout" type="submit" value="ログアウト">
+        <input class="header__link header__link--logout" type="submit" value="ログアウト">
     </form>
-    <a class="link__mypage" href="/mypage">マイページ</a>
-    <a class="link__sell" href="/sell">出品</a>
+    <a class="header__link header__link--mypage" href="{{ route('profile.show') }}">マイページ</a>
+    <a class="header__link--sell" href="{{ route('item.create') }}">出品</a>
 </div>
 @endsection
 
@@ -31,7 +30,7 @@
 
     {{-- ユーザー登録フォーム --}}
     <div class="profile-form__inner">
-        <form class="profile-form__form" action="/mypage/profile" method="post" enctype="multipart/form-data">
+        <form class="profile-form__form" action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data" novalidate>
             @csrf
             @method('PATCH')
 
@@ -40,17 +39,19 @@
                 <div class="profile__image">
                     <div class="profile__image-preview">
                         <img id="profile-image-preview"
-        src="{{ auth()->user()->profile && auth()->user()->profile->profile_image ? asset('storage/' . auth()->user()->profile->profile_image) : '' }}"
-        >
+                            src="{{
+                                auth()->user()->profile && auth()->user()->profile->profile_image
+                                ? asset('storage/' . auth()->user()->profile->profile_image)
+                                : asset('images/default-profile.jpg')
+                            }}">
                     </div>
 
                     <div class="profile__image-btn">
                         <label for="profile_image" class="profile__image--label">画像を選択する</label>
                         <input type="file" name="profile_image" id="profile_image" class="profile__image--input" style="display: none;" onchange="previewImage(event)">
-                        {{-- エラーメッセージ --}}
-                        <p class="profile-form__error-message">
+                        <p class="error-message">
                             @error('profile_image')
-                            {{ $message }}
+                                {{ $message }}
                             @enderror
                         </p>
                     </div>
@@ -61,11 +62,10 @@
             <div class="profile-form__group">
                 <label class="profile-form__label" for="name">ユーザー名</label>
                 <input class="profile-form__input" type="text" name="name" id="name" value="{{ old('name', auth()->user()->name) }}">
-                {{-- エラーメッセージ --}}
-                <p class="profile-form__error-message">
-                @error('name')
-                {{ $message }}
-                @enderror
+                <p class="error-message">
+                    @error('name')
+                        {{ $message }}
+                    @enderror
                 </p>
             </div>
 
@@ -73,11 +73,10 @@
             <div class="profile-form__group">
                 <label class="profile-form__label" for="postal_code">郵便番号</label>
                 <input class="profile-form__input" type="text" name="postal_code" id="postal_code" value="{{ old('postal_code', auth()->user()->profile->postal_code ?? '') }}">
-                {{-- エラーメッセージ --}}
-                <p class="profile-form__error-message">
-                @error('postal_code')
-                {{ $message }}
-                @enderror
+                <p class="error-message">
+                    @error('postal_code')
+                        {{ $message }}
+                    @enderror
                 </p>
             </div>
 
@@ -85,17 +84,11 @@
             <div class="profile-form__group">
                 <label class="profile-form__label" for="address">住所</label>
                 <input class="profile-form__input" type="text" name="address" id="address" value="{{ old('address', auth()->user()->profile->address ?? '') }}">
-                {{-- エラーメッセージ --}}
-                <p class="profile-form__error-message">
-                @error('address')
-                {{ $message }}
-                @enderror
+                <p class="error-message">
+                    @error('address')
+                        {{ $message }}
+                    @enderror
                 </p>
-            </div>
-
-            {{-- メールアドレスを hidden で送信（表示はしない --}}
-            <div class="profile-form__group">
-                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
             </div>
 
             {{-- 建物名入力 --}}
@@ -105,8 +98,8 @@
             </div>
 
             {{-- 登録ボタン --}}
-            <div class="confirm-form__btn-inner">
-                <input class="profile-form__btn" type="submit" value="更新する">
+            <div class="profile-form__btn">
+                <input class="profile-form__btn-submit" type="submit" value="更新する">
             </div>
         </form>
     </div>
