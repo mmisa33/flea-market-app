@@ -19,7 +19,7 @@ Route::post('/item/{item_id}/comment', [ItemController::class, 'comment'])->name
 Route::post('/item/{item}/like', [ItemController::class, 'like'])->name('item.like');
 
 // ログインユーザー専用ページ
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // 商品購入
     Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');

@@ -11,7 +11,7 @@
 
     {{-- ログインフォーム --}}
     <div class="login-form__inner">
-        <form class="login-form__form" action="{{ route('login') }}" method="post" novalidate>
+        <form class="login-form__form" action="{{ route('login') }}" method="POST" novalidate>
             @csrf
             {{-- メールアドレス入力 --}}
             <div class="login-form__group">

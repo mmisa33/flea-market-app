@@ -35,7 +35,7 @@ class ItemsTableSeeder extends Seeder
         // アイテムを作成し、複数カテゴリを関連付け
         $item1 = Item::create([
             'user_id' => 1,
-            'image_path' => 'items/Armani_Mens_Clock.jpg',
+            'image_path' => 'images/items/Armani_Mens_Clock.jpg',
             'name' => '腕時計',
             'brand' => 'ブランド1',
             'price' => 15000,
@@ -47,7 +47,7 @@ class ItemsTableSeeder extends Seeder
 
         $item2 = Item::create([
             'user_id' => 2,
-            'image_path' => 'items/HDD_Hard_Disk.jpg',
+            'image_path' => 'images/items/HDD_Hard_Disk.jpg',
             'name' => 'HDD',
             'brand' => 'ブランド2',
             'price' => 5000,
@@ -59,7 +59,7 @@ class ItemsTableSeeder extends Seeder
 
         $item3 = Item::create([
             'user_id' => 1,
-            'image_path' => 'items/iLoveIMG_d.jpg',
+            'image_path' => 'images/items/iLoveIMG_d.jpg',
             'name' => '玉ねぎ3束',
             'brand' => 'ブランド3',
             'price' => 300,
@@ -71,7 +71,7 @@ class ItemsTableSeeder extends Seeder
 
         $item4 = Item::create([
             'user_id' => 2,
-            'image_path' => 'items/Leather_Shoes_Product_Photo.jpg',
+            'image_path' => 'images/items/Leather_Shoes_Product_Photo.jpg',
             'name' => '革靴',
             'brand' => 'ブランド4',
             'price' => 4000,
@@ -83,7 +83,7 @@ class ItemsTableSeeder extends Seeder
 
         $item5 = Item::create([
             'user_id' => 1,
-            'image_path' => 'items/Living_Room_Laptop.jpg',
+            'image_path' => 'images/items/Living_Room_Laptop.jpg',
             'name' => 'ノートPC',
             'brand' => 'ブランド5',
             'price' => 45000,
@@ -95,7 +95,7 @@ class ItemsTableSeeder extends Seeder
 
         $item6 = Item::create([
             'user_id' => 2,
-            'image_path' => 'items/Music_Mic_4632231.jpg',
+            'image_path' => 'images/items/Music_Mic_4632231.jpg',
             'name' => 'マイク',
             'brand' => 'ブランド6',
             'price' => 8000,
@@ -107,7 +107,7 @@ class ItemsTableSeeder extends Seeder
 
         $item7 = Item::create([
             'user_id' => 1,
-            'image_path' => 'items/Purse_fashion_pocket.jpg',
+            'image_path' => 'images/items/Purse_fashion_pocket.jpg',
             'name' => 'ショルダーバッグ',
             'brand' => 'ブランド7',
             'price' => 3500,
@@ -119,7 +119,7 @@ class ItemsTableSeeder extends Seeder
 
         $item8 = Item::create([
             'user_id' => 2,
-            'image_path' => 'items/Tumbler_souvenir.jpg',
+            'image_path' => 'images/items/Tumbler_souvenir.jpg',
             'name' => 'タンブラー',
             'brand' => 'ブランド8',
             'price' => 500,
@@ -131,7 +131,7 @@ class ItemsTableSeeder extends Seeder
 
         $item9 = Item::create([
             'user_id' => 1,
-            'image_path' => 'items/Waitress_with_Coffee_Grinder.jpg',
+            'image_path' => 'images/items/Waitress_with_Coffee_Grinder.jpg',
             'name' => 'コーヒーミル',
             'brand' => 'ブランド9',
             'price' => 4000,
@@ -143,7 +143,7 @@ class ItemsTableSeeder extends Seeder
 
         $item10 = Item::create([
             'user_id' => 2,
-            'image_path' => 'items/Makeup_Set.jpg',
+            'image_path' => 'images/items/Makeup_Set.jpg',
             'name' => 'メイクセット',
             'brand' => 'ブランド10',
             'price' => 2500,
