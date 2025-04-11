@@ -7,6 +7,7 @@ use App\Http\Requests\AddressRequest;
 use App\Models\Item;
 use App\Models\Purchase;
 use App\Models\Address;
+use Stripe\Checkout\Session;
 
 class PurchaseController extends Controller
 {
@@ -67,7 +68,57 @@ class PurchaseController extends Controller
 
         $item->update(['sold_status' => true]);
 
-        return redirect()->route('home');
+        // 支払い方法によってStripeセッションを作成
+        $paymentMethod = $validated['payment_method'];
+
+        if ($paymentMethod == 1) { // コンビニ支払い
+            // コンビニ支払い用のセッション作成
+            $session = Session::create([
+                'payment_method_types' => ['konbini'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'unit_amount' => $item->price,
+                        'product_data' => [
+                            'name' => $item->name,
+                        ],
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => route('home'), // 支払い成功後にホーム画面へリダイレクト
+                'cancel_url' => route('home'), // 支払いキャンセル時にホーム画面に戻す
+            ]);
+        } else if ($paymentMethod == 2) { // カード支払い
+            // カード支払い用のセッション作成
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'jpy',
+                        'unit_amount' => $item->price,
+                        'product_data' => [
+                            'name' => $item->name,
+                        ],
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => route('home'), // 支払い成功後にホーム画面へリダイレクト
+                'cancel_url' => route('home'), // 支払いキャンセル時にホーム画面に戻す
+            ]);
+        }
+
+        // 一時的に購入情報保存（購入確定は成功後）
+        session(["purchase_info_{$item->id}" => [
+            'user_id' => auth()->id(),
+            'item_id' => $item->id,
+            'address_id' => $address->id,
+            'payment_method' => $validated['payment_method']
+        ]]);
+
+        // Stripeの決済画面にリダイレクト
+        return redirect($session->url);
     }
 
     // セッションプロフィールから送付先を取得
