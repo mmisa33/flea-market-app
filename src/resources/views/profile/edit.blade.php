@@ -25,6 +25,13 @@
 
 @section('content')
 <div class="profile-form">
+
+    <div class="profile-form__message">
+        @if(session('message'))
+            <p class="profile-form__message-text">{{ session('message') }}</p>
+        @endif
+    </div>
+
     {{-- ページタイトル --}}
     <h2 class="profile-form__heading content__heading">プロフィール設定</h2>
 

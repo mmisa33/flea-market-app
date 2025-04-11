@@ -13,13 +13,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [ItemController::class, 'index'])->name('home');
 Route::get('/search', [ItemController::class, 'index'])->name('items.search');
 
-// 商品詳細・コメント・いいね機能
+// 商品詳細ページ表示
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
-Route::post('/item/{item_id}/comment', [ItemController::class, 'comment'])->name('item.comment');
-Route::post('/item/{item}/like', [ItemController::class, 'like'])->name('item.like');
 
 // ログインユーザー専用ページ
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'profile.set'])->group(function () {
+    // コメント・いいね機能
+    Route::post('/item/{item_id}/comment', [ItemController::class, 'comment'])->name('item.comment');
+    Route::post('/item/{item}/like', [ItemController::class, 'like'])->name('item.like');
 
     // 商品購入
     Route::get('/purchase/{item}', [PurchaseController::class, 'show'])->name('item.purchase');

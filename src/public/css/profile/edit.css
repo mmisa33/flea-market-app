@@ -1,3 +1,14 @@
+/* フラッシュメッセージ */
+.profile-form__message {
+    text-align: center;
+    margin: 0 auto 20px;
+}
+
+.profile-form__message-text {
+    color: red;
+    font-size: 20px;
+}
+
 /* プロフィール画像 */
 .profile__image {
     display: flex;
