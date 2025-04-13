@@ -12,7 +12,7 @@ class ItemListTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    // 全商品が表示されるか
+    // 全商品が表示される
     public function all_items_are_displayed()
     {
         $item1 = Item::factory()->create(['sold_status' => false]); // 未購入商品

@@ -52,6 +52,18 @@ class Item extends Model
         return $this->hasMany(Comment::class);
     }
 
+    // いいね数の取得
+    public function getLikesCountAttribute()
+    {
+        return $this->likes()->count();
+    }
+
+    // コメント数の取得
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments()->count();
+    }
+
     public function purchase()
     {
         return $this->hasOne(Purchase::class);

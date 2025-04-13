@@ -57,9 +57,9 @@ class ItemController extends Controller
             $liked = $user->likedItems->contains($item->id);
         }
 
-        // コメント数
-        $likeCount = $item->likes->count();
-        $commentCount = $item->comments->count();
+        // いいね数とコメント数を取得
+        $likeCount = $item->like_count;
+        $commentCount = $item->comment_count;
 
         $isOwnItem = auth()->check() && auth()->id() === $item->user_id;
 

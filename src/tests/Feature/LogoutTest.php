@@ -17,9 +17,13 @@ class LogoutTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $response = $this->post('/logout'); // ログアウト処理
+        // ログアウト処理
+        $response = $this->post('/logout');
 
-        $this->assertGuest(); // ログアウト後はゲスト状態
-        $response->assertRedirect('/'); // ログアウト後、トップページにリダイレクト
+        // ログアウト後はゲスト状態
+        $this->assertGuest();
+
+        // ログアウト後、トップページにリダイレクト
+        $response->assertRedirect('/');
     }
 }

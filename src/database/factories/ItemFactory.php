@@ -13,14 +13,14 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),  // Userモデルのファクトリを使ってユーザーIDを設定
-            'image_path' => $this->faker->imageUrl(),  // ダミーの画像URLを生成
-            'name' => $this->faker->word,  // 商品名
-            'brand' => $this->faker->company,  // ブランド名
-            'price' => $this->faker->numberBetween(1000, 10000),  // 価格
-            'description' => $this->faker->sentence,  // 商品説明
-            'condition' => $this->faker->numberBetween(1, 5),  // 商品の状態
-            'sold_status' => $this->faker->boolean,  // 売却済みかどうか
+            'user_id' => User::factory(),
+            'image_path' => $this->faker->imageUrl(),
+            'name' => $this->faker->word,
+            'brand' => $this->faker->company,
+            'price' => $this->faker->numberBetween(1, 10000),
+            'description' => $this->faker->sentence,
+            'condition' => $this->faker->numberBetween(1, 4),
+            'sold_status' => $this->faker->boolean,
         ];
     }
 }
