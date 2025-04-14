@@ -105,11 +105,15 @@
         </table>
 
         {{-- 購入ボタン --}}
-        <form action="{{ route('item.purchase.submit', ['item' => $item->id]) }}" method="POST">
-            @csrf
-            <input type="hidden" name="payment_method" id="payment-method-hidden">
-            <input class="purchase-form__btn btn" type="submit" value="購入する">
-        </form>
+        @if ($item->sold_status)
+            <button class="purchase-form__btn btn btn--disabled" disabled>購入済み</button>
+        @else
+            <form action="{{ route('item.purchase.submit', ['item' => $item->id]) }}" method="POST">
+                @csrf
+                <input type="hidden" name="payment_method" id="payment-method-hidden">
+                <input class="purchase-form__btn btn" type="submit" value="購入する">
+            </form>
+        @endif
     </div>
 </div>
 

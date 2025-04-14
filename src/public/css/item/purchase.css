@@ -183,3 +183,10 @@ h3 {
     color: white;
     font-weight: bold;
 }
+
+.btn--disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+    text-align: center;
+}
