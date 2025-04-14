@@ -39,6 +39,15 @@ class ItemDetailTest extends TestCase
         $categories = Category::factory()->count(1)->create();
         $item->categories()->attach($categories->pluck('id'));
 
+        // 商品状態のラベルを取得
+        $conditions = [
+            'good' => '良好',
+            'no_damage' => '目立った傷や汚れなし',
+            'some_damage' => 'やや傷や汚れあり',
+            'bad' => '状態が悪い'
+        ];
+        $conditionLabel = $conditions[$item->condition];
+
         // 商品詳細ページにアクセス
         $response = $this->get("/item/{$item->id}");
 
@@ -52,7 +61,7 @@ class ItemDetailTest extends TestCase
         $response->assertSee($item->comment_count); // コメント数
         $response->assertSee($item->description); // 商品説明
         $response->assertSee($categories[0]->name); // カテゴリ
-        $response->assertSee($item->condition); // 商品状態
+        $response->assertSee($conditionLabel); // 商品状態
         $response->assertSee($user->name); // コメントしたユーザー名
         $response->assertSee($user->profile->profile_image);  // コメントしたユーザーのプロフィール画像
         $response->assertSee('テストコメント'); // コメント内容
