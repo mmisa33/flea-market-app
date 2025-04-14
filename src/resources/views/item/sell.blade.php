@@ -73,8 +73,8 @@
                         <span class="condition-arrow">▼</span>
                     </div>
                     <ul class="condition-list" id="condition-list">
-                        @foreach (['良好', '目立った傷や汚れなし', 'やや傷や汚れあり', '状態が悪い'] as $index => $condition)
-                            <li class="condition-item" data-value="{{ $index + 1 }}">
+                        @foreach ($conditions as $value => $condition)
+                            <li class="condition-item" data-value="{{ $value }}">
                                 <i class="fas fa-check"></i>{{ $condition }}
                             </li>
                         @endforeach

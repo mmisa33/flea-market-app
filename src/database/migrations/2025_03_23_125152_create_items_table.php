@@ -21,7 +21,7 @@ class CreateItemsTable extends Migration
             $table->string('brand');
             $table->integer('price');
             $table->text('description');
-            $table->tinyInteger('condition');
+            $table->string('condition');
             $table->boolean('sold_status')->default(false);
             $table->timestamps();
         });

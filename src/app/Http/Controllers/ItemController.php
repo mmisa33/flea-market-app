@@ -52,6 +52,14 @@ class ItemController extends Controller
             ->withCount(['likes', 'comments'])
             ->findOrFail($item_id);
 
+        // 商品状態のリストを定義
+        $conditions = [
+            'good' => '良好',
+            'no_damage' => '目立った傷や汚れなし',
+            'some_damage' => 'やや傷や汚れあり',
+            'bad' => '状態が悪い'
+        ];
+
         // いいね機能の設定
         $liked = false;
         if (auth()->check()) {
@@ -63,19 +71,16 @@ class ItemController extends Controller
         $likeCount = $item->likes_count;
         $commentCount = $item->comments_count;
 
+        $conditionLabel = $conditions[$item->condition];
+
         $isOwnItem = auth()->check() && auth()->id() === $item->user_id;
 
-        return view('item.detail', compact('item', 'liked', 'likeCount', 'commentCount', 'isOwnItem'));
+        return view('item.detail', compact('item', 'liked', 'likeCount', 'commentCount', 'isOwnItem', 'conditionLabel'));
     }
 
     // コメント機能
     public function comment(CommentRequest $request, $item_id)
     {
-        // ログインユーザーのみコメント可能
-        if (!auth()->check()) {
-            return redirect()->route('login');
-        }
-
         $item = Item::findOrFail($item_id);
 
         $comment = new Comment();
@@ -105,7 +110,16 @@ class ItemController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('item.sell', compact('categories'));
+
+        // 商品状態のリストを定義
+        $conditions = [
+            'good' => '良好',
+            'no_damage' => '目立った傷や汚れなし',
+            'some_damage' => 'やや傷や汚れあり',
+            'bad' => '状態が悪い'
+        ];
+
+        return view('item.sell', compact('categories', 'conditions'));
     }
 
     // 出品処理

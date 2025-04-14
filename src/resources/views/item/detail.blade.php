@@ -112,20 +112,7 @@
                 <tr class="properties-table__row">
                     <th class="properties-table__header">商品の状態</th>
                     <td class="properties-table__content properties-table__content--condition">
-                        @switch($item->condition)
-                            @case(1)
-                                良好
-                                @break
-                            @case(2)
-                                目立った傷や汚れなし
-                                @break
-                            @case(3)
-                                やや傷や汚れあり
-                                @break
-                            @case(4)
-                                状態が悪い
-                                @break
-                        @endswitch
+                        {{ $conditionLabel }}
                     </td>
                 </tr>
             </table>

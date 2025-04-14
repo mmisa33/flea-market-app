@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\Item;
 use App\Models\Category;
 
-
 class ItemsTableSeeder extends Seeder
 {
     /**
@@ -40,10 +39,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド1',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'condition' => 1,
+            'condition' => 'good',
             'sold_status' => false,
         ]);
-        $item1->categories()->attach([$fashionCategory->id, $mensCategory->id]); // ファッション、メンズ
+        $item1->categories()->attach([$fashionCategory->id, $mensCategory->id]);
 
         $item2 = Item::create([
             'user_id' => 2,
@@ -52,10 +51,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド2',
             'price' => 5000,
             'description' => '高速で信頼性の高いハードディスク',
-            'condition' => 2,
+            'condition' => 'no_damage',
             'sold_status' => false,
         ]);
-        $item2->categories()->attach([$electronicsCategory->id]); // 家電
+        $item2->categories()->attach([$electronicsCategory->id]);
 
         $item3 = Item::create([
             'user_id' => 1,
@@ -64,10 +63,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド3',
             'price' => 300,
             'description' => '新鮮な玉ねぎ3束のセット',
-            'condition' => 3,
+            'condition' => 'some_damage',
             'sold_status' => false,
         ]);
-        $item3->categories()->attach([$kitchenCategory->id]); // キッチン
+        $item3->categories()->attach([$kitchenCategory->id]);
 
         $item4 = Item::create([
             'user_id' => 2,
@@ -76,10 +75,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド4',
             'price' => 4000,
             'description' => 'クラシックなデザインの革靴',
-            'condition' => 4,
+            'condition' => 'bad',
             'sold_status' => false,
         ]);
-        $item4->categories()->attach([$fashionCategory->id, $mensCategory->id]); // ファッション、メンズ
+        $item4->categories()->attach([$fashionCategory->id, $mensCategory->id]);
 
         $item5 = Item::create([
             'user_id' => 1,
@@ -88,10 +87,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド5',
             'price' => 45000,
             'description' => '高性能なノートパソコン',
-            'condition' => 1,
+            'condition' => 'good',
             'sold_status' => false,
         ]);
-        $item5->categories()->attach([$electronicsCategory->id]); // 家電
+        $item5->categories()->attach([$electronicsCategory->id]);
 
         $item6 = Item::create([
             'user_id' => 2,
@@ -100,10 +99,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド6',
             'price' => 8000,
             'description' => '高音質のレコーディング用マイク',
-            'condition' => 2,
+            'condition' => 'no_damage',
             'sold_status' => false,
         ]);
-        $item6->categories()->attach([$electronicsCategory->id]); // 家電
+        $item6->categories()->attach([$electronicsCategory->id]);
 
         $item7 = Item::create([
             'user_id' => 1,
@@ -112,10 +111,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド7',
             'price' => 3500,
             'description' => 'おしゃれなショルダーバッグ',
-            'condition' => 3,
+            'condition' => 'some_damage',
             'sold_status' => false,
         ]);
-        $item7->categories()->attach([$fashionCategory->id, $accessoryCategory->id]); // ファッション、アクセサリー
+        $item7->categories()->attach([$fashionCategory->id, $accessoryCategory->id]);
 
         $item8 = Item::create([
             'user_id' => 2,
@@ -124,10 +123,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド8',
             'price' => 500,
             'description' => '使いやすいタンブラー',
-            'condition' => 4,
+            'condition' => 'bad',
             'sold_status' => false,
         ]);
-        $item8->categories()->attach([$kitchenCategory->id]); // キッチン
+        $item8->categories()->attach([$kitchenCategory->id]);
 
         $item9 = Item::create([
             'user_id' => 1,
@@ -136,10 +135,10 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド9',
             'price' => 4000,
             'description' => '手動のコーヒーミル',
-            'condition' => 1,
+            'condition' => 'good',
             'sold_status' => false,
         ]);
-        $item9->categories()->attach([$kitchenCategory->id]); // キッチン
+        $item9->categories()->attach([$kitchenCategory->id]);
 
         $item10 = Item::create([
             'user_id' => 2,
@@ -148,9 +147,9 @@ class ItemsTableSeeder extends Seeder
             'brand' => 'ブランド10',
             'price' => 2500,
             'description' => '便利なメイクアップセット',
-            'condition' => 2,
+            'condition' => 'no_damage',
             'sold_status' => false,
         ]);
-        $item10->categories()->attach([$cosmeticsCategory->id]); // コスメ
+        $item10->categories()->attach([$cosmeticsCategory->id]);
     }
 }
