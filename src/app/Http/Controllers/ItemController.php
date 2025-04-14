@@ -97,7 +97,7 @@ class ItemController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->likedItems->contains($item->id)) {
+        if ($user->likedItems()->where('item_id', $item->id)->exists()) {
             $user->likedItems()->detach($item->id);
         } else {
             $user->likedItems()->attach($item->id);
