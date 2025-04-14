@@ -48,7 +48,9 @@ class ItemController extends Controller
     // 商品詳細ページ表示
     public function show($item_id)
     {
-        $item = Item::with(['categories', 'comments.user'])->findOrFail($item_id);
+        $item = Item::with(['categories', 'comments.user'])
+            ->withCount(['likes', 'comments'])
+            ->findOrFail($item_id);
 
         // いいね機能の設定
         $liked = false;
@@ -58,8 +60,8 @@ class ItemController extends Controller
         }
 
         // いいね数とコメント数を取得
-        $likeCount = $item->like_count;
-        $commentCount = $item->comment_count;
+        $likeCount = $item->likes_count;
+        $commentCount = $item->comments_count;
 
         $isOwnItem = auth()->check() && auth()->id() === $item->user_id;
 
