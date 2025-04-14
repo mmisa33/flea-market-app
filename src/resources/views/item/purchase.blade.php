@@ -54,10 +54,10 @@
                     <span class="payment-method__arrow">▼</span>
                 </div>
                 <ul class="payment-method__list">
-                    <li class="payment-method__item"  data-value="1">
+                    <li class="payment-method__item"  data-value="konbini">
                         <i class="fas fa-check"></i>コンビニ払い
                     </li>
-                    <li class="payment-method__item" data-value="2">
+                    <li class="payment-method__item" data-value="card">
                         <i class="fas fa-check"></i>カード支払い
                     </li>
                 </ul>

@@ -71,7 +71,7 @@ class PurchaseController extends Controller
         // 支払い方法によってStripeセッションを作成
         $paymentMethod = $validated['payment_method'];
 
-        if ($paymentMethod == 1) { // コンビニ支払い
+        if ($paymentMethod == 'konbini') { // コンビニ支払い
             // コンビニ支払い用のセッション作成
             $session = Session::create([
                 'payment_method_types' => ['konbini'],
@@ -86,10 +86,8 @@ class PurchaseController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'success_url' => route('home'), // 支払い成功後にホーム画面へリダイレクト
-                'cancel_url' => route('home'), // 支払いキャンセル時にホーム画面に戻す
             ]);
-        } else if ($paymentMethod == 2) { // カード支払い
+        } else if ($paymentMethod == 'card') { // カード支払い
             // カード支払い用のセッション作成
             $session = Session::create([
                 'payment_method_types' => ['card'],
@@ -104,8 +102,6 @@ class PurchaseController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'success_url' => route('home'), // 支払い成功後にホーム画面へリダイレクト
-                'cancel_url' => route('home'), // 支払いキャンセル時にホーム画面に戻す
             ]);
         }
 
