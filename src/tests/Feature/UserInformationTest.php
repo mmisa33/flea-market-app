@@ -13,7 +13,7 @@ class UserInformationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    // ユーザー情報がプロフィールページに表示されているか確認
+    // ユーザー情報がプロフィールページに表示されている
     public function user_information_is_displayed_on_profile_page()
     {
         // ユーザーを作成
