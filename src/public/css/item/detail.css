@@ -239,23 +239,22 @@ h3 {
     border-radius: 5px;
 }
 
-@media (max-width: 768px) {
+/* レスポンシブデザイン (タブレット768px - 850px) */
+@media (max-width: 850px) and (min-width: 768px) {
     .item-detail {
-        grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
     }
 
     .item-detail__image {
-        grid-column: span 2;
-        width: 100%;
-        max-width: 100%;
+        grid-column: span 1;
+        margin: 0 auto;
     }
 
     .item-detail__info {
-        grid-column: span 2;
+        grid-column: span 1;
     }
 
-    .btn {
-        font-size: 24px;
-        height: 50px;
+    .item-detail__info-group {
+        margin-bottom: 20px;
     }
 }

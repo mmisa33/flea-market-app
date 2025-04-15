@@ -199,30 +199,21 @@ h3 {
     }
 
     .item-purchase__info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .item-purchase__info-image {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 20px;
+        /* 画像と詳細を縦に並べる */
+        gap: 30px;
+        /* 画像と詳細の間にスペースを追加 */
     }
 
     .item-purchase__info-image img {
-        width: 300px;
+        width: 100%;
+        /* 画像のサイズを親要素に合わせる */
         height: auto;
     }
 
     .item-purchase__info-details {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0 auto;
+    justify-content: center;
+        margin-left: 10px;
+    width: 100%;
     }
 
     .item-purchase__content,
