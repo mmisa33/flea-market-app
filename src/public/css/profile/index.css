@@ -89,3 +89,31 @@
     vertical-align: middle;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+/* レスポンシブデザイン (タブレット768px - 850px) */
+@media (max-width: 850px) and (min-width: 768px) {
+    .mypage__profile {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .mypage__profile-user {
+        flex-direction: column;
+        justify-content: center;
+        padding-right: 0;
+        gap: 20px;
+    }
+
+    .profile-edit__btn {
+        margin-top: 40px;
+    }
+
+    .profile-edit__btn-submit {
+        font-size: 22px;
+        padding: 8px 24px;
+    }
+
+    .item__grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
