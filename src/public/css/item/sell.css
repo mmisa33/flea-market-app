@@ -193,15 +193,10 @@
 }
 
 /* 販売価格 */
-input::placeholder {
+.sell-form__input::placeholder {
     font-size: 24px;
     font-weight: bold;
     color: black;
-}
-
-input::-webkit-input-placeholder {
-    position: relative;
-    top: 3px;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -235,18 +230,9 @@ input[type="number"] {
     font-weight: bold;
 }
 
-/* 1400px ～ 1540pxのPC */
-@media screen and (min-width: 1400px) and (max-width: 1540px) {
-    .sell-form__form {
-        width: 40vw;
-        /* PCのフォーム幅 */
-    }
-}
-
-/* 768px ～ 850pxのタブレット */
+/* レスポンシブデザイン (タブレット768px - 850px) */
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .sell-form__form {
         width: 65vw;
-        /* タブレットのフォーム幅 */
     }
 }
