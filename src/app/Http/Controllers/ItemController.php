@@ -89,7 +89,7 @@ class ItemController extends Controller
         $comment->content = $request->content;
         $comment->save();
 
-        return redirect()->route('item.show', ['item_id' => $item_id]);
+        return redirect()->route('item.show', $item->id);
     }
 
     // いいね機能
