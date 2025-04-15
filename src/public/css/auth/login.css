@@ -55,14 +55,7 @@
     color: #0073CC;
 }
 
-/* レスポンシブ（1400px ～ 1540pxのPC） */
-@media screen and (min-width: 1400px) and (max-width: 1540px) {
-    .login-form__form {
-        width: 40vw;
-    }
-}
-
-/* レスポンシブ（768px ～ 850pxのタブレット） */
+/* レスポンシブデザイン (タブレット768px - 850px) */
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .login-form__form {
         width: 65vw;

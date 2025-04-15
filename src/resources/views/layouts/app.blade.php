@@ -13,7 +13,7 @@
 
 <body>
     <div class="app">
-        <header class="header">
+        <header class="header {{ View::hasSection('link') ? '' : 'header--logo-only' }}">
             {{--  サイトタイトル  --}}
             <div class="header__logo">
                 <a href="{{ route('home') }}">
