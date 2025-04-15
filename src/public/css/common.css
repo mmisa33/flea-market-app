@@ -140,9 +140,10 @@ input[type="text"] {
     color: #FF5555;
 }
 
-/* タブレットのレスポンシブデザイン (768px - 850px) */
+/* レスポンシブデザインタブレット (768px - 850px) */
 @media (max-width: 850px) and (min-width: 768px) {
     .header {
+        min-height: 160px;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr;
         padding: 20px 40px;
@@ -156,6 +157,7 @@ input[type="text"] {
     .header__search {
         grid-column: 2;
         max-width: 90%;
+        margin: 0 auto;
     }
 
     .search-form__input {
