@@ -56,4 +56,10 @@ class Item extends Model
     {
         return $this->hasOne(Purchase::class);
     }
+
+    public function completePurchase()
+    {
+        $this->sold_status = true;
+        $this->save();
+    }
 }

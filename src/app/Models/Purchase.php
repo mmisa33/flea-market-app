@@ -32,14 +32,8 @@ class Purchase extends Model
         return $this->belongsTo(Address::class);
     }
 
-    public function payment()
-    {
-        return $this->hasOne(Payment::class);
-    }
-
     public function completePurchase()
     {
-        $this->item->sold_status = true;
-        $this->item->save();
+        $this->item->completePurchase();
     }
 }
