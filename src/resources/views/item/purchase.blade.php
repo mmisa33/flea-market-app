@@ -106,7 +106,7 @@
 
         {{-- 購入ボタン --}}
         @if ($item->sold_status)
-            <button class="purchase-form__btn btn btn--disabled" disabled>購入済み</button>
+            <button class="purchase-form__btn btn--disabled" disabled>購入済み</button>
         @else
             <form action="{{ route('item.purchase.submit', ['item' => $item->id]) }}" method="POST">
                 @csrf

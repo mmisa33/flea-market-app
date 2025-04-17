@@ -19,9 +19,7 @@
                 <input class="login-form__input" type="email" name="email" id="email" value="{{ old('email') }}">
                 <p class="error-message">
                     @error('email')
-                        @if ($message !== 'ログイン情報が登録されていません')
-                            {{ $message }}
-                        @endif
+                        {{ $message }}
                     @enderror
                 </p>
             </div>
@@ -38,14 +36,6 @@
             </div>
 
             <div class="login-form__actions">
-                <p class="error-message">
-                    @error('email')
-                        @if ($message === 'ログイン情報が登録されていません')
-                            {{ $message }}
-                        @endif
-                    @enderror
-                </p>
-
                 {{-- ログインボタン --}}
                 <input class="login-form__btn" type="submit" value="ログイン">
 

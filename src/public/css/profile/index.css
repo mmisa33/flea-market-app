@@ -39,7 +39,6 @@
     font-size: 26px;
     color: #FF5555;
     font-weight: bold;
-    cursor: pointer;
 }
 
 /* 商品リスト */
@@ -91,7 +90,7 @@
 }
 
 /* レスポンシブデザイン (タブレット768px - 850px) */
-@media (max-width: 850px) and (min-width: 768px) {
+@media screen and (min-width: 768px) and (max-width: 850px) {
     .mypage__profile {
         grid-template-columns: 1fr;
         text-align: center;

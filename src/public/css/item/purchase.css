@@ -192,28 +192,25 @@ h3 {
 }
 
 /* レスポンシブデザイン (タブレット768px - 850px) */
-@media (min-width: 768px) and (max-width: 850px) {
+@media screen and (min-width: 768px) and (max-width: 850px) {
     .item-purchase {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
     .item-purchase__info {
-        /* 画像と詳細を縦に並べる */
         gap: 30px;
-        /* 画像と詳細の間にスペースを追加 */
     }
 
     .item-purchase__info-image img {
         width: 100%;
-        /* 画像のサイズを親要素に合わせる */
         height: auto;
     }
 
     .item-purchase__info-details {
-    justify-content: center;
+        justify-content: center;
         margin-left: 10px;
-    width: 100%;
+        width: 100%;
     }
 
     .item-purchase__content,

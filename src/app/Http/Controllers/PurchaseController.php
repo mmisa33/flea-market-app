@@ -86,6 +86,8 @@ class PurchaseController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
+                'success_url' => route('home'),
+                'cancel_url' => route('home'),
             ]);
         } else if ($paymentMethod == 'card') { // カード支払い
             // カード支払い用のセッション作成
@@ -102,10 +104,12 @@ class PurchaseController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
+                'success_url' => route('home'),
+                'cancel_url' => route('home'),
             ]);
         }
 
-        // 一時的に購入情報保存（購入確定は成功後）
+        // 一時的に購入情報保存
         session(["purchase_info_{$item->id}" => [
             'user_id' => auth()->id(),
             'item_id' => $item->id,

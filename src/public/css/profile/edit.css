@@ -13,7 +13,6 @@
 .profile__image {
     display: flex;
     align-items: center;
-    position: relative;
     margin-bottom: 60px;
     gap: 50px;
 }
@@ -79,7 +78,6 @@
 /* 更新ボタン */
 .profile-form__btn {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: 80px auto 0;

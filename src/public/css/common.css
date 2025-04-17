@@ -6,6 +6,7 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+    cursor: pointer;
 }
 
 .app {
@@ -69,7 +70,7 @@ input[type="text"] {
     justify-content: flex-end;
     align-items: center;
     margin-left: 30px;
-    gap: 40px;
+    gap: 30px;
 }
 
 .header__link {
@@ -126,7 +127,7 @@ input[type="text"] {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 60px;
+    padding: 55px;
 }
 
 .content__heading {

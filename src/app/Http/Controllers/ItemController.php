@@ -60,22 +60,21 @@ class ItemController extends Controller
             'bad' => '状態が悪い'
         ];
 
-        // いいね機能の設定
+        // ユーザー情報の取得
+        $user = auth()->user();
         $liked = false;
-        if (auth()->check()) {
-            $user = auth()->user();
-            $liked = $user->likedItems->contains($item->id);
-        }
+        $isOwnItem = false;
+        $likeCount = $item->likes_count;   // いいね数
+        $commentCount = $item->comments_count;  // コメント数
 
-        // いいね数とコメント数を取得
-        $likeCount = $item->likes_count;
-        $commentCount = $item->comments_count;
+        if ($user) {
+            $liked = $user->likedItems->contains($item->id);
+            $isOwnItem = $user->id === $item->user_id;
+        }
 
         $conditionLabel = $conditions[$item->condition];
 
-        $isOwnItem = auth()->check() && auth()->id() === $item->user_id;
-
-        return view('item.detail', compact('item', 'liked', 'likeCount', 'commentCount', 'isOwnItem', 'conditionLabel'));
+        return view('item.detail', compact('item', 'liked', 'isOwnItem', 'conditionLabel', 'likeCount', 'commentCount'));
     }
 
     // コメント機能
