@@ -29,7 +29,7 @@
         <div class="mypage__profile-user">
             {{-- プロフィール画像 --}}
             <div class="mypage__profile-image">
-                <img src="{{ asset('storage/' . auth()->user()->profile->profile_image ?? '') }}" alt="Profile Image">
+                <img src="{{ asset('storage/' . auth()->user()->profile->profile_image ?? '') }}" alt="プロフィール画像">
             </div>
 
             {{-- ユーザー名 --}}

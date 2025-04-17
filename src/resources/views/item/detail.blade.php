@@ -66,12 +66,12 @@
                     <form action="{{ route('item.like', $item) }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit" class="icon__like-button">
-                            <img src="{{ asset($liked ? 'images/icons/yellow_star_icon.png' : 'images/icons/star_icon.png') }}" alt="Like Icon" class="icon__like-image">
+                            <img src="{{ asset($liked ? 'images/icons/yellow_star_icon.png' : 'images/icons/star_icon.png') }}" alt="いいねアイコン" class="icon__like-image">
                         </button>
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="icon__like-button">
-                        <img src="{{ asset('images/icons/star_icon.png') }}" alt="Like Icon" class="icon__like-image">
+                        <img src="{{ asset('images/icons/star_icon.png') }}" alt="いいねアイコン" class="icon__like-image">
                     </a>
                 @endauth
                 {{ $likeCount }}
@@ -79,7 +79,7 @@
 
             {{-- コメント数（アイコン） --}}
             <div class="icon__comment">
-                <img src="{{ asset('images/icons/comment_icon.png') }}" alt="Comment Icon"> {{ $commentCount }}
+                <img src="{{ asset('images/icons/comment_icon.png') }}" alt="コメントアイコン"> {{ $commentCount }}
             </div>
         </div>
 
