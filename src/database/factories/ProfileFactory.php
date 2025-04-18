@@ -13,7 +13,7 @@ class ProfileFactory extends Factory
     {
         return [
             'user_id' => null,
-            'profile_image' => 'default.png',
+            'profile_image' => 'default-profile.jpg',
             'address' => $this->faker->address(),
             'postal_code' => $this->faker->postcode(),
         ];

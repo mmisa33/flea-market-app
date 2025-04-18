@@ -12,11 +12,6 @@ class PurchaseFactory extends Factory
 {
     protected $model = Purchase::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition()
     {
         return [

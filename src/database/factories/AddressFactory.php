@@ -13,7 +13,7 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),  // ユーザーを紐づける
+            'user_id' => User::factory(),
             'postal_code' => $this->faker->postcode,
             'address' => $this->faker->address,
             'building' => $this->faker->buildingNumber,
