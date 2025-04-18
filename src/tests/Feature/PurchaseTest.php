@@ -15,6 +15,7 @@ class PurchaseTest extends TestCase
     // 「購入する」ボタンを押下すると購入が完了する
     public function user_can_purchase_item()
     {
+        // ユーザー作成
         $user = User::factory()->create();
         $item = Item::factory()->create([
             'user_id' => $user->id,
@@ -23,11 +24,11 @@ class PurchaseTest extends TestCase
 
         // 住所を作成
         $address = Address::factory()->create([
-            'user_id' => $user->id, // ユーザーの住所
+            'user_id' => $user->id,
         ]);
 
         // 購入処理
-        $purchase = Purchase::create([
+        Purchase::create([
             'user_id' => $user->id,
             'item_id' => $item->id,
             'address_id' => $address->id,
@@ -38,13 +39,15 @@ class PurchaseTest extends TestCase
         $this->assertDatabaseHas('purchases', [
             'user_id' => $user->id,
             'item_id' => $item->id,
+            'payment_method' => 'card',
         ]);
     }
 
     /** @test */
     // 購入した商品は商品一覧画面にて「sold」と表示される
-    public function test_purchased_item_shows_sold_in_list()
+    public function purchased_item_shows_sold_status_in_item_list()
     {
+        // ユーザー作成
         $user = User::factory()->create();
         $user->profile()->create([
             'profile_image' => 'test.jpg',
@@ -58,6 +61,7 @@ class PurchaseTest extends TestCase
         $this->actingAs($user);
         $this->post(route('item.purchase.submit', $item->id));
 
+        // 商品一覧画面に「Sold」が表示されることを確認
         $response = $this->get('/');
         $response->assertSee('Sold');
     }
@@ -66,6 +70,7 @@ class PurchaseTest extends TestCase
     // 購入した商品が「プロフィール/購入した商品一覧」に追加されている
     public function purchased_item_appears_in_profile_purchase_list()
     {
+        // ユーザー作成
         $user = User::factory()->create();
         $item = Item::factory()->create([
             'user_id' => $user->id,
@@ -83,6 +88,7 @@ class PurchaseTest extends TestCase
         ]);
 
         // ユーザーの購入履歴に購入アイテムが表示されることを確認
-        $this->assertTrue($user->purchase->contains($purchase));
+        $user->load('purchases');
+        $this->assertTrue($user->purchases->contains($purchase));
     }
 }

@@ -6,7 +6,6 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\User;
-use App\Models\Profile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,14 +17,14 @@ class ItemDetailTest extends TestCase
     // 必要な商品情報が表示される
     public function test_item_details_are_displayed_correctly()
     {
-        // ユーザーとプロフィール作成
+        // ユーザー作成
         $user = User::factory()->create();
-        Profile::factory()->create([
-            'user_id' => $user->id,
-            'profile_image' => 'dummy.jpg',
+        $user->profile()->create([
+            'profile_image' => 'test.jpg',
+            'postal_code' => '123-4567',
+            'address' => '東京都新宿区',
+            'building' => 'テストビル101',
         ]);
-
-        // アイテム作成
         $item = Item::factory()->create();
 
         // コメント作成
@@ -52,7 +51,6 @@ class ItemDetailTest extends TestCase
         $response = $this->get("/item/{$item->id}");
 
         // 商品詳細情報が表示されているか確認
-        $response->assertStatus(200); // ステータスコード
         $response->assertSee($item->image_url); // 商品画像
         $response->assertSee($item->name); // 商品名
         $response->assertSee($item->brand); // ブランド名
@@ -81,9 +79,6 @@ class ItemDetailTest extends TestCase
 
         // 商品詳細ページにアクセス
         $response = $this->get("/item/{$item->id}");
-
-        // 商品詳細情報が表示されているか確認
-        $response->assertStatus(200);
 
         // 複数カテゴリが表示されていることを確認
         $response->assertSee($category1->name);

@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class RegisterValidationTest extends TestCase
+class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,7 +20,7 @@ class RegisterValidationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertSessionHasErrors(['name']);
+        $response->assertSessionHasErrors(['name' => 'お名前を入力してください']);
     }
 
     /** @test */
@@ -34,7 +34,7 @@ class RegisterValidationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertSessionHasErrors(['email']);
+        $response->assertSessionHasErrors(['email' => 'メールアドレスを入力してください']);
     }
 
     /** @test */
@@ -48,11 +48,11 @@ class RegisterValidationTest extends TestCase
             'password_confirmation' => '',
         ]);
 
-        $response->assertSessionHasErrors(['password']);
+        $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
     }
 
     /** @test */
-    // パスワードが８文字以下の場合、バリデーションメッセージが表示される
+    // パスワードが8文字以下の場合、バリデーションメッセージが表示される
     public function password_must_be_at_least_8_characters()
     {
         $response = $this->post('/register', [
@@ -62,7 +62,7 @@ class RegisterValidationTest extends TestCase
             'password_confirmation' => 'short7',
         ]);
 
-        $response->assertSessionHasErrors(['password']);
+        $response->assertSessionHasErrors(['password' => 'パスワードは8文字以上で入力してください']);
     }
 
     /** @test */
@@ -76,7 +76,7 @@ class RegisterValidationTest extends TestCase
             'password_confirmation' => 'password456',
         ]);
 
-        $response->assertSessionHasErrors(['password']);
+        $response->assertSessionHasErrors(['password' => 'パスワードと一致しません']);
     }
 
     /** @test */

@@ -14,7 +14,7 @@ class AddressChangeTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    // 購入ページに登録した住所が反映されているか確認
+    // 購入ページに登録した住所が反映されている
     public function test_registered_address_is_reflected_on_purchase_page()
     {
         // ユーザー作成・ログイン
@@ -41,9 +41,9 @@ class AddressChangeTest extends TestCase
 
         // 住所変更データを定義
         $updatedAddress = [
-            'postal_code' => '987-6543',
-            'address' => '東京都渋谷区新ビル202',
-            'building' => '新ビル202',
+            'postal_code' => '111-1111',
+            'address' => '大阪府大阪市',
+            'building' => '新テストビル101',
         ];
 
         // PATCHリクエストで住所変更
@@ -57,24 +57,25 @@ class AddressChangeTest extends TestCase
         $response->assertSee($updatedAddress['building']);
     }
 
-    // 購入時に選択した住所がアイテムに紐づいているか確認
+    // 購入時に選択した住所がアイテムに紐づいている
     public function test_purchased_item_is_linked_to_selected_address()
     {
-        // ユーザーを作成してログイン
+        // ユーザー作成・ログイン
         $user = User::factory()->create();
         $this->actingAs($user);
 
         $item = Item::factory()->create();
 
+        // ユーザーの住所を登録
         $address = Address::factory()->create([
             'user_id' => $user->id,
             'postal_code' => '123-4567',
-            'address' => '東京都新宿区テストビル101',
+            'address' => '東京都新宿区',
             'building' => 'テストビル101',
         ]);
 
         // 購入処理
-        $purchase = Purchase::create([
+        Purchase::create([
             'user_id' => $user->id,
             'item_id' => $item->id,
             'address_id' => $address->id,

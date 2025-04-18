@@ -15,18 +15,18 @@ class ItemCommentTest extends TestCase
     // ログイン済みのユーザーはコメントを送信できる
     public function test_logged_in_user_can_submit_comment()
     {
-        // ユーザーとアイテムを作成
+        // ユーザー作成・ログイン
         $user = User::factory()->create();
+        $this->actingAs($user);
+
         $user->profile()->create([
-            'profile_image' => 'dummy.png',
+            'profile_image' => 'test.jpg',
             'postal_code' => '123-4567',
             'address' => '東京都新宿区',
-            'building' => 'サンプルビル101'
+            'building' => 'テストビル101',
         ]);
-        $item = Item::factory()->create();
 
-        // ユーザーをログイン状態にする
-        $this->actingAs($user);
+        $item = Item::factory()->create();
 
         // コメントを投稿
         $response = $this->post(route('item.comment', $item->id), [
@@ -50,11 +50,15 @@ class ItemCommentTest extends TestCase
     {
         $item = Item::factory()->create();
 
+        // 未ログイン状態でコメントを投稿
         $response = $this->post(route('item.comment', ['item_id' => $item->id]), [
             'content' => 'Great product!'
         ]);
 
+        // ログイン画面にリダイレクトされることを確認
         $response->assertRedirect(route('login'));
+
+        // コメントがデータベースに保存されていないことを確認
         $this->assertDatabaseMissing('comments', [
             'item_id' => $item->id,
             'content' => 'Great product!',
@@ -65,22 +69,27 @@ class ItemCommentTest extends TestCase
     // コメントが入力されていない場合、バリデーションメッセージが表示される
     public function validation_error_when_comment_is_empty()
     {
+        // ユーザー作成・ログイン
         $user = User::factory()->create();
         $user->profile()->create([
-            'profile_image' => 'dummy.png',
+            'profile_image' => 'test.jpg',
             'postal_code' => '123-4567',
-            'address' => 'Shinjuku, Tokyo',
-            'building' => 'Sample Building 101'
+            'address' => '東京都新宿区',
+            'building' => 'テストビル101',
         ]);
 
         $item = Item::factory()->create();
 
+        // 空のコメントを送信
         $response = $this->actingAs($user)
             ->post(route('item.comment', ['item_id' => $item->id]), [
                 'content' => ''
             ]);
 
+        // 'content' に対してエラーが発生することを確認
         $response->assertSessionHasErrors('content');
+
+        // コメントがデータベースに保存されていないことを確認
         $this->assertDatabaseMissing('comments', [
             'item_id' => $item->id,
             'content' => ''
@@ -91,16 +100,18 @@ class ItemCommentTest extends TestCase
     // コメントが255字以上の場合、バリデーションメッセージが表示される
     public function validation_error_when_comment_is_too_long()
     {
+        // ユーザー作成・ログイン
         $user = User::factory()->create();
         $user->profile()->create([
-            'profile_image' => 'dummy.png',
+            'profile_image' => 'test.jpg',
             'postal_code' => '123-4567',
-            'address' => 'Shinjuku, Tokyo',
-            'building' => 'Sample Building 101'
+            'address' => '東京都新宿区',
+            'building' => 'テストビル101',
         ]);
 
         $item = Item::factory()->create();
 
+        // 256文字のコメントを作成
         $longComment = str_repeat('A', 256); // 256文字
 
         $response = $this->actingAs($user)
@@ -108,7 +119,10 @@ class ItemCommentTest extends TestCase
                 'content' => $longComment
             ]);
 
+        // 'content' に対してエラーが発生することを確認
         $response->assertSessionHasErrors('content');
+
+        // コメントがデータベースに保存されていないことを確認
         $this->assertDatabaseMissing('comments', [
             'item_id' => $item->id,
             'content' => $longComment

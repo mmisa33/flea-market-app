@@ -18,7 +18,7 @@ class MyListTest extends TestCase
     // マイリストにはいいねした商品だけが表示される
     public function my_list_displays_liked_items_only()
     {
-        // ユーザーを作成してログイン
+        // ユーザー作成・ログイン
         $user = User::factory()->create();
         $this->actingAs($user);
 
@@ -37,7 +37,7 @@ class MyListTest extends TestCase
     // マイリストの購入済み商品は「Sold」と表示される
     public function my_list_displays_sold_items_with_sold_label()
     {
-        // ログインユーザーの作成
+        // ユーザー作成・ログイン
         $user = User::factory()->create();
 
         // 他人が出品した商品（購入済み）を作成
@@ -75,7 +75,7 @@ class MyListTest extends TestCase
     // マイリストには自分が出品した商品は表示されない
     public function my_list_does_not_display_own_items()
     {
-        // ユーザーを作成してログイン
+        // ユーザー作成・ログイン
         $user = User::factory()->create();
         $this->actingAs($user);
 

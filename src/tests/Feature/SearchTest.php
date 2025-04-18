@@ -18,8 +18,8 @@ class SearchTest extends TestCase
         $item1 = Item::factory()->create(['name' => '腕時計']);
         $item2 = Item::factory()->create(['name' => 'バッグ']);
 
-        // 検索キーワード「腕」
-        $response = $this->get('/?keyword=腕'); // 検索欄に「腕」を入力して検索
+        // 検索キーワード「腕」で検索
+        $response = $this->get('/?keyword=腕');
 
         // 部分一致する商品が表示される
         $response->assertSee($item1->name);
@@ -34,15 +34,15 @@ class SearchTest extends TestCase
         $item1 = Item::factory()->create(['name' => '腕時計']);
         $item2 = Item::factory()->create(['name' => 'バッグ']);
 
-        // 検索キーワード「腕」
-        $response = $this->get('/?keyword=腕'); // ホームページで検索
+        // 検索キーワード「腕」で検索
+        $response = $this->get('/?keyword=腕');
 
         // 検索結果が表示される
         $response->assertSee($item1->name);
         $response->assertDontSee($item2->name);
 
         // マイリストページに遷移
-        $response = $this->get('/?page=mylist&keyword=腕'); // マイリストページに遷移
+        $response = $this->get('/?page=mylist&keyword=腕');
 
         // 検索キーワードが保持されている
         $response->assertSee('腕');

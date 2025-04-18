@@ -15,7 +15,7 @@ class PaymentMethodSelectionTest extends TestCase
     // 支払い方法が選択されると購入確認欄に即時反映される
     public function selected_payment_method_is_reflected_immediately()
     {
-        // ユーザーと商品作成
+        // ユーザー作成
         $user = User::factory()->create();
         $user->profile()->create([
             'profile_image' => 'test.jpg',

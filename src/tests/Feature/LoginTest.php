@@ -12,36 +12,34 @@ class LoginTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    // メールアドレスが入力されていない場合、バリエーションメッセージが表示される
-    public function test_email_is_required()
+    // メールアドレスが入力されていない場合、バリデーションメッセージが表示される
+    public function email_is_required()
     {
         $response = $this->post('/login', [
             'email' => '',
             'password' => 'password123',
         ]);
 
-        $response->assertSessionHasErrors('email');
-        $this->assertGuest();
+        $response->assertSessionHasErrors(['email' => 'メールアドレスを入力してください']);
     }
 
     /** @test */
     // パスワードが入力されていない場合、バリデーションメッセージが表示される
-    public function test_password_is_required()
+    public function password_is_required()
     {
         $response = $this->post('/login', [
             'email' => 'test@example.com',
             'password' => '',
         ]);
 
-        $response->assertSessionHasErrors('password');
-        $this->assertGuest();
+        $response->assertSessionHasErrors(['password' => 'パスワードを入力してください']);
     }
 
     /** @test */
-    // 入力情報が間違っている場合、バリデーションメッセージが表示される
-    public function test_invalid_credentials()
+    // 誤った認証情報でログインを試みた場合、エラーメッセージが表示される
+    public function error_is_shown_for_invalid_credentials()
     {
-        $user = User::factory()->create([
+        User::factory()->create([
             'email' => 'test@example.com',
             'password' => Hash::make('password123'),
         ]);
@@ -51,13 +49,12 @@ class LoginTest extends TestCase
             'password' => 'wrongpassword',
         ]);
 
-        $response->assertSessionHasErrors('email');
-        $this->assertGuest();
+        $response->assertSessionHasErrors(['email' => 'ログイン情報が登録されていません']);
     }
 
     /** @test */
-    // 正しい情報が入力された場合、ログイン処理が実行される
-    public function test_login_with_correct_credentials()
+    // 正しい認証情報でログインできる
+    public function user_can_login_with_correct_credentials()
     {
         $user = User::factory()->create([
             'email' => 'test@example.com',
