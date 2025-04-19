@@ -58,8 +58,17 @@ class PurchaseTest extends TestCase
 
         $item = Item::factory()->create();
 
-        $this->actingAs($user);
-        $this->post(route('item.purchase.submit', $item->id));
+        // 住所セッションを設定
+        session(["shippingAddress_{$item->id}" => [
+            'postal_code' => '123-4567',
+            'address' => '東京都新宿区',
+            'building' => 'テストビル101',
+        ]]);
+
+        // 購入処理
+        $this->post(route('item.purchase.submit', $item->id), [
+            'payment_method' => 'card',
+        ]);
 
         // 商品一覧画面に「Sold」が表示されることを確認
         $response = $this->get('/');
