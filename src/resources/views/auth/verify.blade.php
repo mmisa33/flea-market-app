@@ -9,7 +9,7 @@
     <h2 class="verification-message">登録していただいたメールアドレスに認証メールを送付しました。<br>
     メール認証を完了してください。</h2>
 
-    <a href="http://localhost:8025/" target="_blank" class="verification-link">認証はこちらから</a>
+    <a href="http://localhost:8025/" target="_blank" class="verification-link" rel="noopener noreferrer">認証はこちらから</a>
 
     <form class="resend-form" action="{{ route('verification.send') }}" method="POST">
         @csrf
