@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'taro@example.com',
                 'password' => Hash::make('password123'),
                 'profile' => [
-                    'profile_image' => 'images/profiles/user01.jpeg',
+                    'profile_image' => 'images/profiles/user01.jpg',
                     'postal_code' => '100-0001',
                     'address' => '東京都千代田区千代田1-1',
                     'building' => '千代田ビル',
@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'jiro@example.com',
                 'password' => Hash::make('password123'),
                 'profile' => [
-                    'profile_image' => 'images/profiles/user02.jpeg',
+                    'profile_image' => 'images/profiles/user02.jpg',
                     'postal_code' => '150-0001',
                     'address' => '東京都渋谷区渋谷1-2-3',
                     'building' => '渋谷ビル',
@@ -45,7 +45,7 @@ class UsersTableSeeder extends Seeder
                 'email' => 'hanako@example.com',
                 'password' => Hash::make('password123'),
                 'profile' => [
-                    'profile_image' => 'images/profiles/user03.jpeg',
+                    'profile_image' => 'images/profiles/user03.jpg',
                     'postal_code' => '160-0004',
                     'address' => '東京都新宿区新宿1-1-1',
                     'building' => '新宿ビル',
