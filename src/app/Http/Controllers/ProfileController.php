@@ -65,6 +65,11 @@ class ProfileController extends Controller
 
         $profile->save();
 
-        return redirect()->route('profile.show');
+        // 初回設定の場合はトップページへリダイレクト
+        if ($profile->wasRecentlyCreated) {
+            return redirect()->route('home'); // 初回設定のためトップページにリダイレクト
+        }
+
+        return redirect()->route('profile.show'); // 2回目以降はプロフィールページにリダイレクト
     }
 }

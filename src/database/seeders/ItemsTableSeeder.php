@@ -170,8 +170,8 @@ class ItemsTableSeeder extends Seeder
                     ]
                 );
 
-                // 50%の確率で購入を実施
-                if (rand(0, 1) === 1) {
+                // 3割の商品を購入
+                if (rand(0, 9) < 3) {
                     Purchase::create([
                         'user_id' => $user->id,
                         'item_id' => $item->id,
