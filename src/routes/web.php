@@ -13,6 +13,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [ItemController::class, 'index'])->name('home');
 Route::get('/search', [ItemController::class, 'index'])->name('items.search');
 
+// メール認証チェック
+Route::get('/verify/check', [AuthController::class, 'verifyCheck'])->name('verify.check');
+
 // 商品詳細ページ表示
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
