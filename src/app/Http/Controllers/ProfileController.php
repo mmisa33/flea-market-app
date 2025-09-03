@@ -17,20 +17,45 @@ class ProfileController extends Controller
         $user = auth()->user();
         $page = $request->query('page', 'sell');
 
-        $profileImage = $user->profile->profile_image;
+        $profileImage = $user->profile->profile_image ?? null;
         $userName = $user->name;
 
-        $items = collect();
-        $purchasedItems = collect();
+        // 出品商品
+        $items = Item::where('user_id', $user->id)->get();
 
-        // 出品・購入商品ページへ切り替え
-        if ($page === 'sell') {
-            $items = Item::where('user_id', $user->id)->get();
-        } elseif ($page === 'buy') {
-            $purchasedItems = Purchase::where('user_id', $user->id)->with('item')->get();
-        }
+        // 購入商品
+        $purchasedItems = Purchase::where('user_id', $user->id)
+            ->with('item')
+            ->get();
 
-        return view('profile.index', compact('profileImage', 'userName', 'items', 'purchasedItems', 'page'));
+        // 取引中の商品（購入者または出品者として関わるもの）
+        $tradingPurchases = Purchase::where('status', 'trading')
+            ->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id) // 自分が購入者
+                ->orWhereHas('item', fn($q2) => $q2->where('user_id', $user->id)); // 自分が出品者
+            })
+            ->with('item.messages') // 商品とメッセージ情報も一緒に取得
+            ->get()
+            ->map(function ($purchase) {
+                // 未読メッセージ数を追加
+                $purchase->unread_count = $purchase->messages
+                    ->where('user_id', '!=', auth()->id())
+                    ->where('is_read', false)
+                    ->count();
+                return $purchase;
+            });
+
+        if ($page !== 'sell') $items = collect();
+        if ($page !== 'buy') $purchasedItems = collect();
+
+        return view('profile.index', compact(
+            'profileImage',
+            'userName',
+            'items',
+            'purchasedItems',
+            'tradingPurchases',
+            'page'
+        ));
     }
 
     // プロフィール編集ページ表示

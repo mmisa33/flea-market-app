@@ -62,4 +62,16 @@ class Item extends Model
         $this->sold_status = true;
         $this->save();
     }
+
+    public function messages()
+    {
+        return $this->hasManyThrough(
+            Message::class,
+            Purchase::class,
+            'item_id',    // purchases.item_id
+            'purchase_id',// messages.purchase_id
+            'id',         // items.id
+            'id'          // purchases.id
+        );
+    }
 }

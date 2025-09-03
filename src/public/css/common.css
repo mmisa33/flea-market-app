@@ -93,33 +93,42 @@ input[type="text"] {
 /* ナビ */
 .nav {
     display: grid;
-    padding: 5px 30px;
+    padding: 10px 200px;
     min-height: 80px;
     border-bottom: 2px solid #5F5F5F;
-
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr;
 }
 
 .nav__inner {
-    grid-column: 1;
     display: flex;
     align-items: flex-end;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    gap: 100px;
 }
 
 .nav__inner a {
     color: #5F5F5F;
     font-size: 24px;
     font-weight: 700;
-}
-
-.nav__page:nth-child(2) {
-    margin-left: 100px;
+    text-decoration: none;
 }
 
 .nav__inner a.active {
     color: red;
+}
+
+.nav__badge {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-color: red;
+    color: white;
+    line-height: 25px;
+    border-radius: 35%;
+    text-align: center;
+    font-size: 23px;
+    font-weight: bold;
+    margin-left: 4px;
+    pointer-events: none;
 }
 
 /* コンテンツ */

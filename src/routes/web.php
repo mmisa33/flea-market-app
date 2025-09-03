@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 // ログアウト処理
@@ -42,5 +43,9 @@ Route::middleware(['auth', 'verified', 'profile.set'])->group(function () {
         Route::get('/', [ProfileController::class, 'show'])->name('show');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('update');
+
+    // 取引チャット画面
+    Route::get('/messages/{purchase}', [MessageController::class, 'show'])
+        ->name('messages.show');
     });
 });

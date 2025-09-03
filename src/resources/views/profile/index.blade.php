@@ -24,32 +24,38 @@
 @endsection
 
 @section('nav')
-<div class="mypage">
-    <div class="mypage__profile">
-        <div class="mypage__profile-user">
-            {{-- プロフィール画像 --}}
-            <div class="mypage__profile-image">
-                <img src="{{ asset('storage/' . auth()->user()->profile->profile_image ?? '') }}" alt="プロフィール画像">
+        <div class="mypage">
+            <div class="mypage__profile">
+                <div class="mypage__profile-user">
+                    {{-- プロフィール画像 --}}
+                    <div class="mypage__profile-image">
+                        <img src="{{ asset('storage/' . auth()->user()->profile->profile_image ?? '') }}" alt="プロフィール画像">
+                    </div>
+
+                    {{-- ユーザー名 --}}
+                    <h2 class="mypage__profile-name">{{ auth()->user()->name }}</h2>
+                </div>
+
+                {{-- プロフィール編集ボタン --}}
+                <div class="profile-edit__btn">
+                    <a href="{{ route('profile.edit') }}" class="profile-edit__btn-submit">プロフィールを編集</a>
+                </div>
             </div>
-
-            {{-- ユーザー名 --}}
-            <h2 class="mypage__profile-name">{{ auth()->user()->name }}</h2>
         </div>
 
-        {{-- プロフィール編集ボタン --}}
-        <div class="profile-edit__btn">
-            <a href="{{ route('profile.edit') }}" class="profile-edit__btn-submit">プロフィールを編集</a>
+        {{-- ナビ --}}
+        <div class="nav">
+            <div class="nav__inner">
+                <a class="nav__page {{ $page === 'sell' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'sell']) }}">出品した商品</a>
+                <a class="nav__page {{ $page === 'buy' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'buy']) }}">購入した商品</a>
+                <a class="nav__page {{ $page === 'trading' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'trading']) }}">
+                    取引中の商品
+                    @if(isset($tradingPurchases) && $tradingPurchases->count() > 0)
+                        <span class="nav__badge">{{ $tradingPurchases->count() }}</span>
+                    @endif
+                </a>
+            </div>
         </div>
-    </div>
-</div>
-
-{{-- ナビ --}}
-<div class="nav">
-    <div class="nav__inner">
-        <a class="nav__page {{ $page === 'sell' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'sell']) }}">出品した商品</a>
-        <a class="nav__page {{ $page === 'buy' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'buy']) }}">購入した商品</a>
-    </div>
-</div>
 @endsection
 
 @section('content')
@@ -82,6 +88,33 @@
                 <a href="{{ route('item.show', $purchase->item->id) }}" class="item__card-link">
                     <div class="item__card">
                         <img class="item__card-image" src="{{ asset('storage/' . $purchase->item->image_path) }}" alt="{{ $purchase->item->name }}">
+                        <p class="item__card-title">
+                            @if ($purchase->item->sold_status)
+                                <span class="item__card-label">Sold</span>
+                            @endif
+                            {{ $purchase->item->name }}
+                        </p>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </div>
+@endif
+
+{{-- 取引中の商品 --}}
+@if ($page === 'trading')
+    <div class="item__list">
+        <div class="item__grid-container">
+            @foreach ($tradingPurchases as $purchase)
+                <a href="{{ route('profile.messages.show', $purchase) }}" class="item__card-link">
+                    <div class="item__card">
+                        {{-- 未読メッセージ数バッジ --}}
+                        @if($purchase->unread_count > 0)
+                            <span class="notification-badge">{{ $purchase->unread_count }}</span>
+                        @endif
+
+                        <img class="item__card-image" src="{{ asset('storage/' . $purchase->item->image_path) }}"
+                            alt="{{ $purchase->item->name }}">
                         <p class="item__card-title">
                             @if ($purchase->item->sold_status)
                                 <span class="item__card-label">Sold</span>
