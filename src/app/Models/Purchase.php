@@ -9,7 +9,6 @@ class Purchase extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'user_id',
         'item_id',
@@ -35,5 +34,13 @@ class Purchase extends Model
     public function completePurchase()
     {
         $this->item->completePurchase();
+    }
+
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
+
+    public function ratings() {
+        return $this->hasMany(Rating::class);
     }
 }
