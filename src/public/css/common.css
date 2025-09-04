@@ -113,19 +113,19 @@ input[type="text"] {
 }
 
 .nav__inner a.active {
-    color: red;
+    color: #FF0000;
 }
 
 .nav__badge {
     display: inline-block;
-    width: 25px;
-    height: 25px;
-    background-color: red;
+    width: 27px;
+    height: 27px;
+    background-color: #FF0000;
     color: white;
-    line-height: 25px;
-    border-radius: 35%;
+    line-height: 27px;
+    border-radius: 10px;
     text-align: center;
-    font-size: 23px;
+    font-size: 24px;
     font-weight: bold;
     margin-left: 4px;
     pointer-events: none;

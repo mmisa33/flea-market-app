@@ -33,7 +33,7 @@
 }
 
 .star {
-    font-size: 36px;
+    font-size: 40px;
     color: #D9D9D9;
 }
 
@@ -110,9 +110,9 @@
     left: 8px;
     width: 20px;
     height: 20px;
-    background-color: red;
+    background-color: #FF0000;
     color: white;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
     border-radius: 50%;
     display: flex;
