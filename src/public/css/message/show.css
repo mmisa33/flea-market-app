@@ -160,6 +160,18 @@
     text-align: left;
 }
 
+.chat-message__image-wrapper {
+    margin-top: 10px;
+}
+
+.chat-message__image {
+    width: 300px;
+    height: 300px;
+    border-radius: 6px;
+    border: 3px solid #D9D9D9;
+    object-fit: cover;
+}
+
 .chat-message__actions {
     margin-top: 5px;
     display: flex;
@@ -201,7 +213,7 @@
 /* メッセージ投稿フォーム */
 .trade-form {
     display: flex;
-    padding: 20px 30px;
+    padding: 5px 30px 20px 30px;
     gap: 20px;
 }
 
@@ -227,6 +239,20 @@
 .send-icon {
     width: 50px;
     height: 40px;
+}
+
+/* エラーメッセージ */
+.error-message__chat ul {
+    list-style: none;
+}
+
+.error-message__chat li {
+    margin-bottom: 5px;
+}
+
+.error-message__chat {
+    padding: 5px 40px;
+    font-weight: bold;
 }
 
 /* レスポンシブデザイン (タブレット768px - 850px) */

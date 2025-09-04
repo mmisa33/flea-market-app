@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\MessageRequest;
 use App\Models\Purchase;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
@@ -22,37 +23,39 @@ class MessageController extends Controller
         // メッセージ取得（作成日時順）
         $messages = $purchase->messages()->with('user')->orderBy('created_at')->get();
 
+        // 取引相手を判定
+        $partner = ($user->id === $purchase->user_id)
+            ? $purchase->item->user // 自分が購入者なら出品者を相手に
+            : $purchase->user;      // 自分が出品者なら購入者を相手に
+
         // 未読メッセージを自分用に既読に更新
         $purchase->messages()
             ->where('user_id', '!=', $user->id)   // 自分以外の投稿
             ->where('is_read', false)
             ->update(['is_read' => true]);
 
-        return view('message.show', compact('purchase', 'messages', 'user'));
+        return view('message.show', compact('purchase', 'messages', 'user', 'partner'));
     }
 
-    // チャット投稿処理
-    public function store(Request $request, Purchase $purchase)
+    // メッセージ投稿処理
+    public function store(MessageRequest $request, Purchase $purchase)
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
-        // 自分が購入者か出品者か確認
-        if ($user->id !== $purchase->user_id && $user->id !== $purchase->item->user_id) {
-            abort(403, 'この取引に投稿できません。');
+        $message = new Message();
+        $message->purchase_id = $purchase->id;
+        $message->user_id = $user->id;
+        $message->content = $request->input('content');
+
+        // 画像があれば保存
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images/messages', 'public');
+            $message->image_path = $path;
         }
 
-        $request->validate([
-            'content' => 'required|string|max:1000',
-        ]);
+        $message->save();
 
-        Message::create([
-            'purchase_id' => $purchase->id,
-            'user_id' => $user->id,
-            'content' => $request->content,
-        ]);
-
-        return redirect()->route('message.show', $purchase->id)
-            ->with('success', 'メッセージを送信しました。');
+        return redirect()->back();
     }
 
         // 編集
