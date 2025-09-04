@@ -64,8 +64,8 @@
         <a class="nav__page {{ $page === 'buy' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'buy']) }}">購入した商品</a>
         <a class="nav__page {{ $page === 'trading' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'trading']) }}">
             取引中の商品
-            @if(isset($tradingPurchases) && $tradingPurchases->count() > 0)
-                <span class="nav__badge">{{ $tradingPurchases->count() }}</span>
+            @if($totalUnread > 0)
+                <span class="nav__badge">{{ $totalUnread }}</span>
             @endif
         </a>
     </div>

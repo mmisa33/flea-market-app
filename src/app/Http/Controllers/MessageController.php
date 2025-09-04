@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    // 取引チャット画面表示
+    // 取引メッセージ画面表示
     public function show(Purchase $purchase)
     {
         $user = Auth::user();
@@ -19,8 +19,14 @@ class MessageController extends Controller
             abort(403, 'この取引にアクセスできません。');
         }
 
-        // 購入者または出品者が見れるチャットメッセージ
+        // メッセージ取得（作成日時順）
         $messages = $purchase->messages()->with('user')->orderBy('created_at')->get();
+
+        // 未読メッセージを自分用に既読に更新
+        $purchase->messages()
+            ->where('user_id', '!=', $user->id)   // 自分以外の投稿
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
 
         return view('message.show', compact('purchase', 'messages', 'user'));
     }

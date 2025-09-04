@@ -15,7 +15,7 @@ class ProfileController extends Controller
     public function show(Request $request)
     {
         $user = auth()->user();
-        $authId = $user->id; // ループ内で毎回呼ばないように
+        $authId = $user->id;
         $page = $request->query('page', 'sell');
 
         // プロフィール情報
@@ -37,30 +37,28 @@ class ProfileController extends Controller
         $tradingPurchases = Purchase::where('status', 'trading')
             ->where(function ($q) use ($authId) {
                 $q->where('user_id', $authId)
-                    ->orWhereHas('item', function ($q2) use ($authId) {
-                        $q2->where('user_id', $authId);
-                    });
+                ->orWhereHas('item', fn($q2) => $q2->where('user_id', $authId));
             })
             ->with(['item.messages' => function($q) {
                 $q->latest()
-                    ->select(
-                        'messages.id',
-                        'messages.purchase_id',
-                        'messages.user_id',
-                        'messages.content',
-                        'messages.is_read',
-                        'messages.created_at'
-                    );
+                ->select(
+                    'messages.id',
+                    'messages.purchase_id',
+                    'messages.user_id',
+                    'messages.content',
+                    'messages.is_read',
+                    'messages.created_at'
+                );
             }])
             ->get()
             ->map(function ($purchase) use ($authId) {
                 $messages = $purchase->item->messages;
-                $latestMessage = $messages->first();
 
                 // 最新メッセージ日時（ソート用）
+                $latestMessage = $messages->first();
                 $purchase->latest_message_at = optional($latestMessage)->created_at;
 
-                // 未読メッセージ数
+                // 未読メッセージ数（通知用）
                 $purchase->unread_count = $messages
                     ->where('user_id', '!=', $authId)
                     ->where('is_read', false)
@@ -68,8 +66,12 @@ class ProfileController extends Controller
 
                 return $purchase;
             })
-            ->sortByDesc('latest_message_at')
+            ->sortByDesc('latest_message_at') // 最新メッセージ順
+            ->sortByDesc(fn($purchase) => $purchase->unread_count > 0 ? 1 : 0) // 未読があるものを上
             ->values();
+
+        // 未読メッセージ合計
+        $totalUnread = $tradingPurchases->sum('unread_count');
 
         // ページ切り替え
         if ($page !== 'sell') $items = collect();
@@ -82,7 +84,8 @@ class ProfileController extends Controller
             'purchasedItems',
             'tradingPurchases',
             'page',
-            'averageRating'
+            'averageRating',
+            'totalUnread',
         ));
     }
 
