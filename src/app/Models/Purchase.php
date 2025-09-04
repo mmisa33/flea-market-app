@@ -41,6 +41,6 @@ class Purchase extends Model
     }
 
     public function ratings() {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Review::class);
     }
 }

@@ -44,8 +44,16 @@ Route::middleware(['auth', 'verified', 'profile.set'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('update');
 
-    // 取引チャット画面
-    Route::get('/messages/{purchase}', [MessageController::class, 'show'])
-        ->name('messages.show');
+        // 取引チャット画面表示
+        Route::get('/message/{purchase}', [MessageController::class, 'show'])
+            ->name('message.show');
+
+        // 取引チャット投稿
+        Route::post('/message/{purchase}', [MessageController::class, 'store'])
+            ->name('message.store');
+
+        // 取引完了ボタン
+        Route::post('/message/{purchase}/complete', [MessageController::class, 'complete'])
+            ->name('message.complete');
     });
 });

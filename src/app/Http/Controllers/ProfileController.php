@@ -20,6 +20,9 @@ class ProfileController extends Controller
         $profileImage = $user->profile->profile_image ?? null;
         $userName = $user->name;
 
+        // ユーザーのレビュー平均を取得し、四捨五入
+        $averageRating = round($user->reviewsReceived()->avg('score') ?? 0);
+
         // 出品商品
         $items = Item::where('user_id', $user->id)->get();
 
@@ -31,10 +34,12 @@ class ProfileController extends Controller
         // 取引中の商品（購入者または出品者として関わるもの）
         $tradingPurchases = Purchase::where('status', 'trading')
             ->where(function ($q) use ($user) {
-                $q->where('user_id', $user->id) // 自分が購入者
-                ->orWhereHas('item', fn($q2) => $q2->where('user_id', $user->id)); // 自分が出品者
+                $q->where('user_id', $user->id)
+                ->orWhereHas('item', fn($q2) => $q2->where('user_id', $user->id));
             })
-            ->with('item.messages') // 商品とメッセージ情報も一緒に取得
+            ->with(['item.messages' => function($q) {
+                $q->orderByDesc('created_at'); // メッセージ最新順
+            }])
             ->get()
             ->map(function ($purchase) {
                 // 未読メッセージ数を追加
@@ -42,8 +47,14 @@ class ProfileController extends Controller
                     ->where('user_id', '!=', auth()->id())
                     ->where('is_read', false)
                     ->count();
+
+                // 最新メッセージの日時を取得（ソート用）
+                $purchase->latest_message_at = $purchase->messages->first()->created_at ?? null;
+
                 return $purchase;
-            });
+            })
+            ->sortByDesc('latest_message_at')
+            ->values();
 
         if ($page !== 'sell') $items = collect();
         if ($page !== 'buy') $purchasedItems = collect();
@@ -54,7 +65,8 @@ class ProfileController extends Controller
             'items',
             'purchasedItems',
             'tradingPurchases',
-            'page'
+            'page',
+            'averageRating'
         ));
     }
 

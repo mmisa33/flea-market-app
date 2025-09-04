@@ -24,38 +24,52 @@
 @endsection
 
 @section('nav')
-        <div class="mypage">
-            <div class="mypage__profile">
-                <div class="mypage__profile-user">
-                    {{-- プロフィール画像 --}}
-                    <div class="mypage__profile-image">
-                        <img src="{{ asset('storage/' . auth()->user()->profile->profile_image ?? '') }}" alt="プロフィール画像">
+<div class="mypage">
+    <div class="mypage__profile">
+        <div class="mypage__profile-user">
+
+            <div class="profile-left">
+                {{-- プロフィール画像 --}}
+                <div class="mypage__profile-image">
+                    <img src="{{ asset('storage/' . auth()->user()->profile->profile_image ?? '') }}" alt="プロフィール画像">
+                </div>
+            </div>
+
+            <div class="profile-right">
+                {{-- ユーザー名 --}}
+                <h2 class="mypage__profile-name">{{ auth()->user()->name }}</h2>
+
+                {{-- 星評価 --}}
+                @if ($averageRating > 0)
+                    <div class="mypage__profile-rating">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span class="star {{ $i <= $averageRating ? 'active' : '' }}">★</span>
+                        @endfor
                     </div>
-
-                    {{-- ユーザー名 --}}
-                    <h2 class="mypage__profile-name">{{ auth()->user()->name }}</h2>
-                </div>
-
-                {{-- プロフィール編集ボタン --}}
-                <div class="profile-edit__btn">
-                    <a href="{{ route('profile.edit') }}" class="profile-edit__btn-submit">プロフィールを編集</a>
-                </div>
+                @endif
             </div>
         </div>
 
-        {{-- ナビ --}}
-        <div class="nav">
-            <div class="nav__inner">
-                <a class="nav__page {{ $page === 'sell' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'sell']) }}">出品した商品</a>
-                <a class="nav__page {{ $page === 'buy' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'buy']) }}">購入した商品</a>
-                <a class="nav__page {{ $page === 'trading' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'trading']) }}">
-                    取引中の商品
-                    @if(isset($tradingPurchases) && $tradingPurchases->count() > 0)
-                        <span class="nav__badge">{{ $tradingPurchases->count() }}</span>
-                    @endif
-                </a>
-            </div>
+        {{-- プロフィール編集ボタン --}}
+        <div class="profile-edit__btn">
+            <a href="{{ route('profile.edit') }}" class="profile-edit__btn-submit">プロフィールを編集</a>
         </div>
+    </div>
+</div>
+
+{{-- ナビ --}}
+<div class="nav">
+    <div class="nav__inner">
+        <a class="nav__page {{ $page === 'sell' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'sell']) }}">出品した商品</a>
+        <a class="nav__page {{ $page === 'buy' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'buy']) }}">購入した商品</a>
+        <a class="nav__page {{ $page === 'trading' ? 'active' : '' }}" href="{{ route('profile.show', ['page' => 'trading']) }}">
+            取引中の商品
+            @if(isset($tradingPurchases) && $tradingPurchases->count() > 0)
+                <span class="nav__badge">{{ $tradingPurchases->count() }}</span>
+            @endif
+        </a>
+    </div>
+</div>
 @endsection
 
 @section('content')
@@ -106,7 +120,7 @@
     <div class="item__list">
         <div class="item__grid-container">
             @foreach ($tradingPurchases as $purchase)
-                <a href="{{ route('profile.messages.show', $purchase) }}" class="item__card-link">
+                <a href="{{ route('profile.message.show', $purchase) }}" class="item__card-link">
                     <div class="item__card">
                         {{-- 未読メッセージ数バッジ --}}
                         @if($purchase->unread_count > 0)
