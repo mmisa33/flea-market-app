@@ -14,6 +14,9 @@
     width: 280px;
     padding: 10px;
     background-color: #868686;
+}
+
+.message__sidebar-title {
     font-size: 30px;
     font-weight: bold;
     color: white;
@@ -21,7 +24,7 @@
 }
 
 /* メインエリア */
-.message__container {
+.message__main {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -29,7 +32,7 @@
 }
 
 /* 取引相手情報 */
-.trade-partner__info {
+.message__trade-partner {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -37,7 +40,7 @@
     border-bottom: 2px solid #5F5F5F;
 }
 
-.trade-partner__left {
+.trade-partner__info {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -56,7 +59,7 @@
     font-weight: bold;
 }
 
-.trade-complete-form__btn {
+.trade-partner__complete-btn {
     padding: 10px 20px;
     background-color: #FF8282;
     color: #fff;
@@ -64,14 +67,14 @@
     font-size: 20px;
     font-weight: bold;
     transition: background-color 0.3s;
-    }
+}
 
-.trade-complete-form__btn:hover {
+.trade-partner__complete-btn:hover {
     background-color: #FF5555;
 }
 
 /* 商品情報 */
-.trade-item__info {
+.message__trade-item {
     display: flex;
     align-items: center;
     padding: 15px 30px;
@@ -95,55 +98,48 @@
     font-size: 36px;
 }
 
-/* チャット */
-.trade-chat {
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-}
-
 /* チャットメッセージ */
-.chat-message {
+.message__chat {
     padding: 30px;
     display: flex;
     flex-direction: column;
     width: 40%;
 }
 
-.chat-message.sent {
+.message__chat.sent {
     align-self: flex-end;
     text-align: right;
 }
 
-.chat-message.received {
+.message__chat.received {
     align-self: flex-start;
     text-align: left;
 }
 
 /* ユーザー情報*/
-.chat-message__user {
+.chat__user {
     display: flex;
     align-items: center;
     gap: 30px;
     margin-bottom: 10px;
 }
 
-.chat-message__user.sent-header {
+.chat__user--sent {
     justify-content: flex-end;
     flex-direction: row;
 }
 
-.chat-message__user.received-header {
+.chat__user--received {
     justify-content: flex-start;
     flex-direction: row;
 }
 
-.chat-message__user-name {
+.chat__username {
     font-weight: bold;
     font-size: 20px;
 }
 
-.chat-message__user-image {
+.chat__user-image {
     width: 60px;
     height: 60px;
     border: 2px solid #D9D9D9;
@@ -152,7 +148,7 @@
 }
 
 /* メッセージ本文 */
-.chat-message__content {
+.chat__content {
     padding: 15px 25px;
     border-radius: 4px;
     background-color: #D9D9D9;
@@ -160,11 +156,11 @@
     text-align: left;
 }
 
-.chat-message__image-wrapper {
+.chat__image-wrapper {
     margin-top: 10px;
 }
 
-.chat-message__image {
+.chat__image {
     width: 300px;
     height: 300px;
     border-radius: 6px;
@@ -172,36 +168,39 @@
     object-fit: cover;
 }
 
-.chat-message__actions {
-    margin-top: 5px;
-    display: flex;
-    justify-content: flex-end;
+.chat__edit-form {
+    display: none;
 }
 
-.chat-message__actions-btn {
-    margin-right: 15px;
-    font-size: 15px;
-    color: #5F5F5F;
-    text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.4);
+.chat__edit-input {
+    padding: 15px 25px;
+    border-radius: 4px;
+    font-size: 18px;
+    text-align: left;
+    border: 1px solid #ccc;
 }
 
-.chat-message__edit-btn {
+.chat__edit-btn {
     margin: 5px 15px 0 0;
     font-size: 15px;
     color: #5555FF;
     text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.4);
 }
 
-.chat-message__edit-input {
-    padding: 15px 25px;
-    border-radius: 4px;
-    font-size: 18px;
-    text-align: left;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+.chat__actions {
+    margin-top: 5px;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.chat-message__empty {
+.chat__actions-btn {
+    margin-right: 15px;
+    font-size: 15px;
+    color: #5F5F5F;
+    text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+.chat__empty {
     margin: 15px 25px;
     padding: 15px 25px;
     border-radius: 4px;
@@ -211,13 +210,13 @@
 }
 
 /* メッセージ投稿フォーム */
-.trade-form {
+.chat__form {
     display: flex;
     padding: 5px 30px 20px 30px;
     gap: 20px;
 }
 
-.trade-form__content {
+.chat__input {
     flex: 1;
     padding: 5px 20px;
     border-radius: 4px;
@@ -227,7 +226,11 @@
     font-weight: bold;
 }
 
-.trade-form__image-btn {
+.chat__image-input {
+    display: none;
+}
+
+.chat__image-btn {
     padding: 5px 20px;
     font-size: 20px;
     font-weight: bold;
@@ -236,7 +239,7 @@
     border-radius: 10px;
 }
 
-.send-icon {
+.chat__submit-icon {
     width: 50px;
     height: 40px;
 }
