@@ -45,7 +45,7 @@ class MessageController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->route('profile.message.show', $purchase->id)
+        return redirect()->route('message.show', $purchase->id)
             ->with('success', 'メッセージを送信しました。');
     }
 
@@ -70,7 +70,7 @@ class MessageController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->route('profile.message.show', $purchase->id)
+        return redirect()->route('message.show', $purchase->id)
             ->with('success', 'メッセージを編集しました。');
     }
 
@@ -88,7 +88,7 @@ class MessageController extends Controller
 
         $message->delete();
 
-        return redirect()->route('profile.message.show', $purchase->id)
+        return redirect()->route('message.show', $purchase->id)
             ->with('success', 'メッセージを削除しました。');
     }
 
@@ -104,7 +104,7 @@ class MessageController extends Controller
         $purchase->status = 'completed';
         $purchase->save();
 
-        return redirect()->route('profile.show', ['page' => 'trading'])
+        return redirect()->route('show', ['page' => 'trading'])
             ->with('success', '取引が完了しました。');
     }
 }

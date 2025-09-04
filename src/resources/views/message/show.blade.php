@@ -24,7 +24,7 @@
 
         {{-- 取引完了ボタン --}}
         @if ($purchase->status !== 'completed' && $user->id === $purchase->user_id)
-            <form action="{{ route('profile.message.complete', $purchase) }}" method="POST" class="trade-complete-form">
+            <form action="{{ route('message.complete', $purchase) }}" method="POST" class="trade-complete-form">
                 @csrf
                 <button type="submit" class="trade-complete-form__btn">取引を完了する</button>
             </form>
@@ -65,7 +65,7 @@
                 </div>
 
                 {{-- 編集フォーム（非表示） --}}
-                <form action="{{ route('profile.message.update', [$purchase->id, $message->id]) }}" method="POST" id="form-{{ $message->id }}" class="chat-message__edit-form" style="display: none;">
+                <form action="{{ route('message.update', [$purchase->id, $message->id]) }}" method="POST" id="form-{{ $message->id }}" class="chat-message__edit-form" style="display: none;">
                     @csrf
                     @method('PATCH')
                     <input type="text" name="content" value="{{ $message->content }}" required class="chat-message__edit-input">
@@ -79,7 +79,7 @@
                 <div class="chat-message__actions">
                     <button type="button" class="chat-message__actions-btn" onclick="editMessage({{ $message->id }})">編集</button>
 
-                    <form action="{{ route('profile.message.destroy', [$purchase->id, $message->id]) }}" method="POST">
+                    <form action="{{ route('message.destroy', [$purchase->id, $message->id]) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="chat-message__actions-btn" onclick="return confirm('削除しますか？')">削除</button>
@@ -95,7 +95,7 @@
 
         {{-- メッセージ投稿フォーム --}}
         @if ($purchase->status !== 'completed')
-            <form action="{{ route('profile.message.store', $purchase) }}" method="POST" class="trade-form">
+            <form action="{{ route('message.store', $purchase) }}" method="POST" class="trade-form">
                 @csrf
                 <input type="text" name="content" class="trade-form__content" placeholder="取引メッセージを記入してください" novalidate>
                 <button type="button" class="trade-form__image-btn">画像を追加</button>

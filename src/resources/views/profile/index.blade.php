@@ -120,7 +120,7 @@
     <div class="item__list">
         <div class="item__grid-container">
             @foreach ($tradingPurchases as $purchase)
-                <a href="{{ route('profile.message.show', $purchase) }}" class="item__card-link">
+                <a href="{{ route('message.show', $purchase) }}" class="item__card-link">
                     <div class="item__card">
                         {{-- 未読メッセージ数バッジ --}}
                         @if($purchase->unread_count > 0)

@@ -43,18 +43,14 @@ Route::middleware(['auth', 'verified', 'profile.set'])->group(function () {
         Route::get('/', [ProfileController::class, 'show'])->name('show');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('update');
+    });
 
-        // 取引チャット画面表示
-        Route::get('/message/{purchase}', [MessageController::class, 'show'])->name('message.show');
-
-        // 取引チャット投稿
-        Route::post('/message/{purchase}', [MessageController::class, 'store'])->name('message.store');
-
-        // 取引チャット編集・削除
-        Route::patch('/message/{purchase}/{message}', [MessageController::class, 'update'])->name('message.update');
-        Route::delete('/message/{purchase}/{message}', [MessageController::class, 'destroy'])->name('message.destroy');
-
-        // 取引完了
-        Route::post('/message/{purchase}/complete', [MessageController::class, 'complete'])->name('message.complete');
+    // 取引メッセージ
+    Route::prefix('message')->name('message.')->group(function () {
+        Route::get('/{purchase}', [MessageController::class, 'show'])->name('show');
+        Route::post('/{purchase}', [MessageController::class, 'store'])->name('store');
+        Route::patch('/{purchase}/{message}', [MessageController::class, 'update'])->name('update');
+        Route::delete('/{purchase}/{message}', [MessageController::class, 'destroy'])->name('destroy');
+        Route::post('/{purchase}/complete', [MessageController::class, 'complete'])->name('complete');
     });
 });

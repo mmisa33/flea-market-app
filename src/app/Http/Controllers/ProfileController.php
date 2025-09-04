@@ -15,47 +15,63 @@ class ProfileController extends Controller
     public function show(Request $request)
     {
         $user = auth()->user();
+        $authId = $user->id; // ループ内で毎回呼ばないように
         $page = $request->query('page', 'sell');
 
-        $profileImage = $user->profile->profile_image ?? null;
+        // プロフィール情報
+        $profileImage = optional($user->profile)->profile_image;
         $userName = $user->name;
 
-        // ユーザーのレビュー平均を取得し、四捨五入
+        // ユーザーのレビュー平均（四捨五入）
         $averageRating = round($user->reviewsReceived()->avg('score') ?? 0);
 
         // 出品商品
-        $items = Item::where('user_id', $user->id)->get();
+        $items = Item::where('user_id', $authId)->get();
 
         // 購入商品
-        $purchasedItems = Purchase::where('user_id', $user->id)
+        $purchasedItems = Purchase::where('user_id', $authId)
             ->with('item')
             ->get();
 
-        // 取引中の商品（購入者または出品者として関わるもの）
+        // 取引中の商品（購入者・出品者）
         $tradingPurchases = Purchase::where('status', 'trading')
-            ->where(function ($q) use ($user) {
-                $q->where('user_id', $user->id)
-                ->orWhereHas('item', fn($q2) => $q2->where('user_id', $user->id));
+            ->where(function ($q) use ($authId) {
+                $q->where('user_id', $authId)
+                    ->orWhereHas('item', function ($q2) use ($authId) {
+                        $q2->where('user_id', $authId);
+                    });
             })
             ->with(['item.messages' => function($q) {
-                $q->orderByDesc('created_at'); // メッセージ最新順
+                $q->latest()
+                    ->select(
+                        'messages.id',
+                        'messages.purchase_id',
+                        'messages.user_id',
+                        'messages.content',
+                        'messages.is_read',
+                        'messages.created_at'
+                    );
             }])
             ->get()
-            ->map(function ($purchase) {
-                // 未読メッセージ数を追加
-                $purchase->unread_count = $purchase->messages
-                    ->where('user_id', '!=', auth()->id())
+            ->map(function ($purchase) use ($authId) {
+                $messages = $purchase->item->messages;
+                $latestMessage = $messages->first();
+
+                // 最新メッセージ日時（ソート用）
+                $purchase->latest_message_at = optional($latestMessage)->created_at;
+
+                // 未読メッセージ数
+                $purchase->unread_count = $messages
+                    ->where('user_id', '!=', $authId)
                     ->where('is_read', false)
                     ->count();
-
-                // 最新メッセージの日時を取得（ソート用）
-                $purchase->latest_message_at = $purchase->messages->first()->created_at ?? null;
 
                 return $purchase;
             })
             ->sortByDesc('latest_message_at')
             ->values();
 
+        // ページ切り替え
         if ($page !== 'sell') $items = collect();
         if ($page !== 'buy') $purchasedItems = collect();
 
