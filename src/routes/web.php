@@ -45,15 +45,16 @@ Route::middleware(['auth', 'verified', 'profile.set'])->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('update');
 
         // 取引チャット画面表示
-        Route::get('/message/{purchase}', [MessageController::class, 'show'])
-            ->name('message.show');
+        Route::get('/message/{purchase}', [MessageController::class, 'show'])->name('message.show');
 
         // 取引チャット投稿
-        Route::post('/message/{purchase}', [MessageController::class, 'store'])
-            ->name('message.store');
+        Route::post('/message/{purchase}', [MessageController::class, 'store'])->name('message.store');
 
-        // 取引完了ボタン
-        Route::post('/message/{purchase}/complete', [MessageController::class, 'complete'])
-            ->name('message.complete');
+        // 取引チャット編集・削除
+        Route::patch('/message/{purchase}/{message}', [MessageController::class, 'update'])->name('message.update');
+        Route::delete('/message/{purchase}/{message}', [MessageController::class, 'destroy'])->name('message.destroy');
+
+        // 取引完了
+        Route::post('/message/{purchase}/complete', [MessageController::class, 'complete'])->name('message.complete');
     });
 });

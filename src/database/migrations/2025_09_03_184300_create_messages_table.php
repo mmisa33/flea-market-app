@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('purchase_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->text('body');
+            $table->text('content');
             $table->string('image_path')->nullable();
             $table->boolean('is_read')->default(false);
             $table->timestamps();

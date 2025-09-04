@@ -36,6 +36,11 @@ class Purchase extends Model
         $this->item->completePurchase();
     }
 
+    public function partner()
+    {
+        return $this->item->user();
+    }
+
     public function messages() {
         return $this->hasMany(Message::class);
     }

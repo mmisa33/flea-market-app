@@ -1,0 +1,234 @@
+/* content のパディングリセット */
+.content {
+    padding: 0;
+}
+
+/* 全体レイアウト */
+.message {
+    display: flex;
+    height: 100%;
+}
+
+/* サイドバー */
+.message__sidebar {
+    width: 280px;
+    padding: 10px;
+    background-color: #868686;
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+/* メインエリア */
+.message__container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* 取引相手情報 */
+.trade-partner__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    border-bottom: 2px solid #5F5F5F;
+}
+
+.trade-partner__left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.trade-partner__image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #D9D9D9;
+    object-fit: cover;
+}
+
+.trade-partner__name {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.trade-complete-form__btn {
+    padding: 10px 20px;
+    background-color: #FF8282;
+    color: #fff;
+    border-radius: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    }
+
+.trade-complete-form__btn:hover {
+    background-color: #FF5555;
+}
+
+/* 商品情報 */
+.trade-item__info {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 2px solid #5F5F5F;
+    gap: 40px;
+}
+
+.trade-item__image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.trade-item__name {
+    margin-bottom: 15px;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.trade-item__price {
+    font-size: 36px;
+}
+
+/* チャット */
+.trade-chat {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* チャットメッセージ */
+.chat-message {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.chat-message.sent {
+    align-self: flex-end;
+    text-align: right;
+}
+
+.chat-message.received {
+    align-self: flex-start;
+    text-align: left;
+}
+
+/* ユーザー情報*/
+.chat-message__user {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 10px;
+}
+
+.chat-message__user.sent-header {
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.chat-message__user.received-header {
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+.chat-message__user-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.chat-message__user-image {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #D9D9D9;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* メッセージ本文 */
+.chat-message__content {
+    padding: 15px 25px;
+    border-radius: 4px;
+    background-color: #D9D9D9;
+    font-size: 18px;
+    text-align: left;
+}
+
+.chat-message__actions {
+    margin-top: 5px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.chat-message__actions-btn {
+    margin-right: 15px;
+    font-size: 15px;
+    color: #5F5F5F;
+    text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+.chat-message__edit-btn {
+    margin: 5px 15px 0 0;
+    font-size: 15px;
+    color: #5555FF;
+    text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+.chat-message__edit-input {
+    padding: 15px 25px;
+    border-radius: 4px;
+    font-size: 18px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.chat-message__empty {
+    margin: 15px 25px;
+    padding: 15px 25px;
+    border-radius: 4px;
+    background-color: #D9D9D9;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* メッセージ投稿フォーム */
+.trade-form {
+    display: flex;
+    padding: 20px 30px;
+    gap: 20px;
+}
+
+.trade-form__content {
+    flex: 1;
+    padding: 5px 20px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+    color: #7B7B7B;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.trade-form__image-btn {
+    padding: 5px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color:#FF5555;
+    border: 2px solid #FF5555;
+    border-radius: 10px;
+}
+
+.send-icon {
+    width: 50px;
+    height: 40px;
+}
+
+/* レスポンシブデザイン (タブレット768px - 850px) */
+@media screen and (min-width: 768px) and (max-width: 850px) {
+}

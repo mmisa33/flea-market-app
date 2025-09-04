@@ -12,7 +12,7 @@ class Message extends Model
     protected $fillable = [
         'purchase_id',
         'user_id',
-        'body',
+        'content',
         'image_path',
         'is_read'
     ];
