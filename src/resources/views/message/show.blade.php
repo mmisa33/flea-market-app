@@ -116,12 +116,26 @@
 
 		{{-- メッセージ投稿フォーム --}}
 		@if ($purchase->status !== 'completed')
-			<div class="message__form-wrapper">
+			<div class="message__form-wrapper fixed-form">
+
+				{{-- エラーメッセージ --}}
+				@if ($errors->has('content') || $errors->has('image'))
+					<div class="error-message error-message__chat">
+						<ul>
+							@foreach ($errors->get('content') as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+							@foreach ($errors->get('image') as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+					</div>
+				@endif
+
 				<form action="{{ route('message.store', $purchase) }}" method="POST" class="chat__form"
 					enctype="multipart/form-data">
 					@csrf
-					<input type="text" name="content" id="chat-input" class="chat__input" placeholder="取引メッセージを記入してください"
-						novalidate>
+					<input type="text" name="content" id="chat-input" class="chat__input" placeholder="取引メッセージを記入してください" novalidate>
 					<input type="file" name="image" class="chat__image-input" accept="image/*">
 					<button type="button" class="chat__image-btn" onclick="document.querySelector('.chat__image-input').click();">
 						画像を追加
@@ -150,6 +164,18 @@
 					@endfor
 				</div>
 				<input type="hidden" name="rating" id="rating" value="">
+
+				{{-- エラーメッセージ --}}
+				@error('rating')
+					<p class="error-message error-message__review">
+						{{ $message }}
+					</p>
+				@enderror
+				@error('evaluatee_id')
+					<p class="error-message error-message__review">
+					{{ $message }}
+					</p>
+				@enderror
 			</div>
 			<div class="modal__btn">
 				<button type="submit" class="modal__btn-submit">送信する</button>
@@ -159,70 +185,75 @@
 </div>
 
 <script>
-	document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
 
-		// メッセージ編集
-		window.editMessage = id => {
-			document.getElementById('content-' + id).style.display = 'none';
-			document.getElementById('form-' + id).style.display = 'block';
-		}
+	// メッセージ編集
+	window.editMessage = id => {
+		document.getElementById('content-' + id).style.display = 'none';
+		document.getElementById('form-' + id).style.display = 'block';
+	}
 
-		window.cancelEdit = id => {
-			document.getElementById('form-' + id).style.display = 'none';
-			document.getElementById('content-' + id).style.display = 'block';
-		}
+	window.cancelEdit = id => {
+		document.getElementById('form-' + id).style.display = 'none';
+		document.getElementById('content-' + id).style.display = 'block';
+	}
 
-		// チャット入力保持
-		const chatInput = document.getElementById('chat-input');
-		const storageKey = 'chat-input-{{ $purchase->id }}';
-		const saved = localStorage.getItem(storageKey);
-		if (saved) chatInput.value = saved;
+	// チャット入力保持
+	const chatInput = document.getElementById('chat-input');
+	const storageKey = 'chat-input-{{ $purchase->id }}';
+	const saved = localStorage.getItem(storageKey);
+	if (saved) chatInput.value = saved;
 
-		chatInput?.addEventListener('input', () => {
-			localStorage.setItem(storageKey, chatInput.value);
+	chatInput?.addEventListener('input', () => {
+		localStorage.setItem(storageKey, chatInput.value);
+	});
+
+	document.querySelector('form.chat__form')?.addEventListener('submit', () => {
+		localStorage.removeItem(storageKey);
+	});
+
+	// モーダル制御
+	const modal = document.getElementById('reviewModal');
+	const stars = document.querySelectorAll('#star-rating .star');
+	const ratingInput = document.getElementById('rating');
+	const evaluateeInput = document.getElementById('evaluatee_id');
+
+	window.openModal = function (evaluateeId = null) {
+		if (!modal) return;
+		if (evaluateeId) evaluateeInput.value = evaluateeId;
+		modal.style.display = 'block';
+		modal.classList.add('active');
+	}
+
+	window.closeModal = function () {
+		if (!modal) return;
+		modal.style.display = 'none';
+		modal.classList.remove('active');
+	}
+
+	// モーダル外クリックで閉じる
+	modal?.addEventListener('click', e => {
+		if (!e.target.closest('.modal__content')) closeModal();
+	});
+
+	// 星クリック
+	stars.forEach(star => {
+		star.addEventListener('click', function () {
+			const value = parseInt(this.dataset.value);
+			ratingInput.value = value;
+			stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.value) <= value));
 		});
+	});
 
-		document.querySelector('form.chat__form')?.addEventListener('submit', () => {
-			localStorage.removeItem(storageKey);
-		});
+	// バリデーションエラー表示
+	@if($errors->has('rating') || $errors->has('evaluatee_id'))
+		if (modal) modal.style.display = 'block';
+	@endif
 
-		// モーダル制御
-		const modal = document.getElementById('reviewModal');
-		const stars = document.querySelectorAll('#star-rating .star');
-		const ratingInput = document.getElementById('rating');
-		const evaluateeInput = document.getElementById('evaluatee_id');
-
-		window.openModal = function (evaluateeId = null) {
-			if (!modal) return;
-			if (evaluateeId) evaluateeInput.value = evaluateeId;
-			modal.style.display = 'block';
-			modal.classList.add('active');
-		}
-
-		window.closeModal = function () {
-			if (!modal) return;
-			modal.style.display = 'none';
-			modal.classList.remove('active');
-		}
-
-		// モーダル外クリックで閉じる
-		modal?.addEventListener('click', e => {
-			if (!e.target.closest('.modal__content')) closeModal();
-		});
-
-		// 星クリック
-		stars.forEach(star => {
-			star.addEventListener('click', function () {
-				const value = parseInt(this.dataset.value);
-				ratingInput.value = value;
-				stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.value) <= value));
-			});
-		});
-
-		// 自動表示条件（出品者のみ）
-		@if($user->id === $purchase->item->user_id && $purchase->buyer_completed && !$purchase->seller_completed)
-			openModal("{{ $purchase->user_id }}"); // 評価対象は購入者
-		@endif
+	// 自動表示条件（出品者のみ）
+	@if($user->id === $purchase->item->user_id && $purchase->buyer_completed && !$purchase->seller_completed)
+		openModal("{{ $purchase->user_id }}"); // 評価対象は購入者
+	@endif
 });
 </script>
 @endsection

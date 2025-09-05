@@ -236,11 +236,21 @@
     gap: 20px;
 }
 
+.fixed-form {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0 0 0;
+    background-color: white;
+    z-index: 100;
+}
+
 .chat__input {
     flex: 1;
-    padding: 5px 20px;
-    border-radius: 4px;
+    padding: 8px 12px;
     border: 1px solid #5F5F5F;
+    border-radius: 6px;
     color: #7B7B7B;
     font-size: 20px;
     font-weight: bold;
