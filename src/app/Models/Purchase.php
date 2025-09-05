@@ -14,6 +14,13 @@ class Purchase extends Model
         'item_id',
         'address_id',
         'payment_method',
+        'buyer_completed',
+        'seller_completed',
+    ];
+
+    protected $casts = [
+        'buyer_completed' => 'boolean',
+        'seller_completed' => 'boolean',
     ];
 
     public function user()
@@ -31,9 +38,14 @@ class Purchase extends Model
         return $this->belongsTo(Address::class);
     }
 
-    public function completePurchase()
+    public function isCompleted(): bool
     {
-        $this->item->completePurchase();
+        return $this->buyer_completed && $this->seller_completed;
+    }
+
+    public function isTrading(): bool
+    {
+        return ! $this->isCompleted();
     }
 
     public function partner()
@@ -45,7 +57,7 @@ class Purchase extends Model
         return $this->hasMany(Message::class);
     }
 
-    public function ratings() {
+    public function reviews() {
         return $this->hasMany(Review::class);
     }
 }

@@ -13,8 +13,7 @@ class Review extends Model
         'purchase_id',
         'from_user_id',
         'to_user_id',
-        'score',
-        'comment'
+        'rating',
     ];
 
     public function purchase() {

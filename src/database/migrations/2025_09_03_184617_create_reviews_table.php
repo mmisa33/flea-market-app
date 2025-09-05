@@ -13,8 +13,7 @@ class CreateReviewsTable extends Migration
             $table->foreignId('purchase_id')->constrained()->cascadeOnDelete();
             $table->foreignId('from_user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('to_user_id')->constrained('users')->cascadeOnDelete();
-            $table->tinyInteger('score');
-            $table->string('comment')->nullable();
+            $table->tinyInteger('rating');
             $table->timestamps();
         });
     }

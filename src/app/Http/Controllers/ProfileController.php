@@ -23,7 +23,7 @@ class ProfileController extends Controller
         $userName = $user->name;
 
         // ユーザーのレビュー平均（四捨五入）
-        $averageRating = round($user->reviewsReceived()->avg('score') ?? 0);
+        $averageRating = round($user->reviewsReceived()->avg('rating') ?? 0);
 
         // 出品商品
         $items = Item::where('user_id', $authId)->get();
@@ -34,21 +34,17 @@ class ProfileController extends Controller
             ->get();
 
         // 取引中の商品（購入者・出品者）
-        $tradingPurchases = Purchase::where('status', 'trading')
-            ->where(function ($q) use ($authId) {
+        $tradingPurchases = Purchase::where(function ($q) use ($authId) {
                 $q->where('user_id', $authId)
                 ->orWhereHas('item', fn($q2) => $q2->where('user_id', $authId));
             })
-            ->with(['item.messages' => function($q) {
+            ->where(function ($q) {
+                $q->where('buyer_completed', false)
+                ->orWhere('seller_completed', false);
+            })
+            ->with(['item.messages' => function ($q) {
                 $q->latest()
-                ->select(
-                    'messages.id',
-                    'messages.purchase_id',
-                    'messages.user_id',
-                    'messages.content',
-                    'messages.is_read',
-                    'messages.created_at'
-                );
+                ->select('messages.id', 'messages.purchase_id', 'messages.user_id', 'messages.content', 'messages.is_read', 'messages.created_at');
             }])
             ->get()
             ->map(function ($purchase) use ($authId) {
@@ -66,16 +62,11 @@ class ProfileController extends Controller
 
                 return $purchase;
             })
-            ->sortByDesc('latest_message_at') // 最新メッセージ順
-            ->sortByDesc(fn($purchase) => $purchase->unread_count > 0 ? 1 : 0) // 未読があるものを上
+            ->sortByDesc(fn($purchase) => [$purchase->unread_count > 0 ? 1 : 0, $purchase->latest_message_at]) // 未読があるものを先頭、最新順
             ->values();
 
         // 未読メッセージ合計
         $totalUnread = $tradingPurchases->sum('unread_count');
-
-        // ページ切り替え
-        if ($page !== 'sell') $items = collect();
-        if ($page !== 'buy') $purchasedItems = collect();
 
         return view('profile.index', compact(
             'profileImage',

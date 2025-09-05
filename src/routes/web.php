@@ -5,6 +5,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 // ログアウト処理
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'verified', 'profile.set'])->group(function () {
         Route::post('/{purchase}', [MessageController::class, 'store'])->name('store');
         Route::patch('/{purchase}/{message}', [MessageController::class, 'update'])->name('update');
         Route::delete('/{purchase}/{message}', [MessageController::class, 'destroy'])->name('destroy');
-        Route::post('/{purchase}/complete', [MessageController::class, 'complete'])->name('complete');
     });
+
+    Route::post('/purchases/{purchase}/review', [ReviewController::class, 'store'])->name('review.store');
 });

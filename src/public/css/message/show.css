@@ -73,6 +73,12 @@
     background-color: #FF5555;
 }
 
+.btn--disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* 商品情報 */
 .message__trade-item {
     display: flex;
@@ -255,7 +261,91 @@
 
 .error-message__chat {
     padding: 5px 40px;
-    font-weight: bold;
+}
+
+/* モーダル */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal__content {
+    width: 40%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #FDFCE6;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.modal__title {
+    padding: 20px 30px;
+    text-align: left;
+    font-size: 35px;
+    font-weight: normal;
+    border-bottom: 1px solid black;
+}
+
+.review-form {
+    padding: 20px 30px;
+}
+
+.review-form__comment {
+    font-size: 20px;
+    color: #868686;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 100px;
+    cursor: pointer;
+}
+
+.star {
+    color: #D9D9D9;
+    transition: color 0.2s;
+}
+
+.star.active {
+    color: #FFF048;
+}
+
+.modal__btn {
+    padding: 20px 30px;
+    border-top: 1px solid black;
+    text-align: right;
+}
+
+.modal__btn-submit {
+    padding: 10px 20px;
+    background-color: #FF8282;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 24px;
+    transition: background-color 0.3s;
+}
+
+.modal__btn-submit:hover {
+    background-color: #FF5555;
+}
+
+.error-message__review {
+    margin-left: 15px;
 }
 
 /* レスポンシブデザイン (タブレット768px - 850px) */

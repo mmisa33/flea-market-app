@@ -43,7 +43,7 @@
                 @if ($averageRating > 0)
                     <div class="mypage__profile-rating">
                         @for ($i = 1; $i <= 5; $i++)
-                            <span class="star {{ $i <= $averageRating ? 'active' : '' }}">★</span>
+                            <span class="star {{ $i <= $averageRating ? 'active' : '' }}">&#9733;</span>
                         @endfor
                     </div>
                 @endif
@@ -120,13 +120,11 @@
     <div class="item__list">
         <div class="item__grid-container">
             @foreach ($tradingPurchases as $purchase)
-                <a href="{{ route('message.show', $purchase) }}" class="item__card-link">
+                <a href="{{ route('message.show', ['purchase' => $purchase->id]) }}" class="item__card-link">
                     <div class="item__card">
-                        {{-- 未読メッセージ数バッジ --}}
                         @if($purchase->unread_count > 0)
                             <span class="notification-badge">{{ $purchase->unread_count }}</span>
                         @endif
-
                         <img class="item__card-image" src="{{ asset('storage/' . $purchase->item->image_path) }}"
                             alt="{{ $purchase->item->name }}">
                         <p class="item__card-title">

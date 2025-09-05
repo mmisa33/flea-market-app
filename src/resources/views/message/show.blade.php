@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/message/show.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/message/show.css') }}">
 @endsection
 
 @section('content')
@@ -17,24 +17,32 @@
 			<div class="trade-partner__info">
 				<img src="{{ asset('storage/' . ($partner->profile ? $partner->profile->profile_image : 'default.png')) }}"
 					class="trade-partner__image" alt="相手のプロフィール画像">
-
 				<h2 class="trade-partner__name">
 					「{{ $partner->name ?? '相手' }}」さんとの取引画面
 				</h2>
 			</div>
 
 			{{-- 取引完了ボタン(購入者のみ) --}}
-			@if ($purchase->status !== 'completed' && $user->id === $purchase->user_id && $user->id !== $purchase->item->user_id)
-				<form action="{{ route('message.complete', $purchase) }}" method="POST" class="trade-partner__complete-form">
-					@csrf
-					<button type="submit" class="trade-partner__complete-btn">取引を完了する</button>
-				</form>
+			@if ($user->id === $purchase->user_id)
+				@if ($purchase->buyer_completed)
+					{{-- 出品者の評価待ち --}}
+					<button type="button" class="trade-partner__complete-btn btn--disabled" disabled>
+						出品者の評価待ち
+					</button>
+				@else
+					{{-- まだ完了していない場合 --}}
+					<button type="button" id="open-review-modal" class="trade-partner__complete-btn"
+						onclick="openModal('{{ $purchase->item->user_id }}')">
+						取引を完了する
+					</button>
+				@endif
 			@endif
 		</div>
 
 		{{-- 商品情報 --}}
 		<div class="message__trade-item">
-			<img src="{{ asset('storage/' . $purchase->item->image_path) }}" alt="{{ $purchase->item->name }}" class="trade-item__image">
+			<img src="{{ asset('storage/' . $purchase->item->image_path) }}" alt="{{ $purchase->item->name }}"
+				class="trade-item__image">
 			<div class="trade-item__info">
 				<div class="trade-item__name">{{ $purchase->item->name }}</div>
 				<p class="trade-item__price">{{ number_format($purchase->item->price) }}円</p>
@@ -44,8 +52,6 @@
 		{{-- チャットメッセージ --}}
 		@forelse ($messages as $message)
 			<div class="message__chat {{ $message->user_id === $user->id ? 'sent' : 'received' }}">
-
-				{{-- ユーザー情報 --}}
 				<div class="chat__user {{ $message->user_id === $user->id ? 'chat__user--sent' : 'chat__user--received' }}">
 					@if ($message->user_id === $user->id)
 						<span class="chat__username">{{ $message->user->name }}</span>
@@ -58,9 +64,7 @@
 					@endif
 				</div>
 
-				{{-- メッセージ本文 --}}
 				<div class="chat__content-wrapper">
-					{{-- 通常表示 --}}
 					<div class="chat__content" id="content-{{ $message->id }}">
 						{{ $message->content }}
 					</div>
@@ -74,8 +78,9 @@
 						</div>
 					@endif
 
-					{{-- 編集フォーム --}}
-					<form action="{{ route('message.update', [$purchase->id, $message->id]) }}" method="POST" id="form-{{ $message->id }}" class="chat__edit-form" novalidate>
+					{{-- メッセージ編集詳細 --}}
+					<form action="{{ route('message.update', [$purchase->id, $message->id]) }}" method="POST"
+						id="form-{{ $message->id }}" class="chat__edit-form" novalidate>
 						@csrf
 						@method('PATCH')
 						<input type="text" name="content" value="{{ $message->content }}" required class="chat__edit-input">
@@ -84,12 +89,10 @@
 					</form>
 				</div>
 
-				{{-- 編集・削除ボタン（自分のメッセージのみ） --}}
+				{{-- メッセージ編集・削除リンク --}}
 				@if ($message->user_id === $user->id)
 					<div class="chat__actions">
-						<button type="button" class="chat__actions-btn
-						" onclick="editMessage({{ $message->id }})">編集</button>
-
+						<button type="button" class="chat__actions-btn" onclick="editMessage({{ $message->id }})">編集</button>
 						<form action="{{ route('message.destroy', [$purchase->id, $message->id]) }}" method="POST">
 							@csrf
 							@method('DELETE')
@@ -98,73 +101,119 @@
 					</div>
 				@endif
 			</div>
-
 		@empty
 			<p class="chat__empty">取引メッセージはありません。</p>
 		@endforelse
 
-
-		<div class="message__form-wrapper">
-			{{-- エラー表示 --}}
-			@if ($errors->any())
-				<div class="error-message error-message__chat">
-					<ul>
-						@foreach ($errors->all() as $error)
-							<li>{{ $error }}</li>
-						@endforeach
-					</ul>
-				</div>
-			@endif
-
-			{{-- メッセージ投稿フォーム --}}
-			@if ($purchase->status !== 'completed')
-				<form action="{{ route('message.store', $purchase) }}" method="POST" class="chat__form" enctype="multipart/form-data">
+		{{-- メッセージ投稿フォーム --}}
+		@if ($purchase->status !== 'completed')
+			<div class="message__form-wrapper">
+				<form action="{{ route('message.store', $purchase) }}" method="POST" class="chat__form"
+					enctype="multipart/form-data">
 					@csrf
-					<input type="text" name="content" id="chat-input" class="chat__input" placeholder="取引メッセージを記入してください" novalidate>
-
-					{{-- 画像添付 --}}
+					<input type="text" name="content" id="chat-input" class="chat__input" placeholder="取引メッセージを記入してください"
+						novalidate>
 					<input type="file" name="image" class="chat__image-input" accept="image/*">
 					<button type="button" class="chat__image-btn" onclick="document.querySelector('.chat__image-input').click();">
 						画像を追加
 					</button>
-
 					<button type="submit" class="chat__submit-btn">
 						<img src="{{ asset('images/icons/send_icon.png') }}" alt="送信" class="chat__submit-icon">
 					</button>
 				</form>
-			@endif
-		</div>
+			</div>
+		@endif
+	</div>
+</div>
+
+{{-- 評価モーダル --}}
+<div id="reviewModal" class="modal">
+	<div class="modal__content">
+		<h3 class="modal__title">取引が完了しました。</h3>
+		<form action="{{ route('review.store', $purchase) }}" method="POST">
+			@csrf
+			<input type="hidden" name="evaluatee_id" id="evaluatee_id" value="">
+			<div class="review-form">
+				<div class="review-form__comment">今回の取引相手はどうでしたか？</div>
+				<div class="stars" id="star-rating">
+					@for ($i = 1; $i <= 5; $i++)
+						<span class="star" data-value="{{ $i }}">&#9733;</span>
+					@endfor
+				</div>
+				<input type="hidden" name="rating" id="rating" value="">
+			</div>
+			<div class="modal__btn">
+				<button type="submit" class="modal__btn-submit">送信する</button>
+			</div>
+		</form>
 	</div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+	document.addEventListener('DOMContentLoaded', () => {
 
-	// 編集フォームを表示
-	window.editMessage = function (id) {
-		document.getElementById('content-' + id).style.display = 'none';
-		document.getElementById('form-' + id).style.display = 'block';
-	}
+		// メッセージ編集
+		window.editMessage = id => {
+			document.getElementById('content-' + id).style.display = 'none';
+			document.getElementById('form-' + id).style.display = 'block';
+		}
 
-	window.cancelEdit = function (id) {
-		document.getElementById('form-' + id).style.display = 'none';
-		document.getElementById('content-' + id).style.display = 'block';
-	}
+		window.cancelEdit = id => {
+			document.getElementById('form-' + id).style.display = 'none';
+			document.getElementById('content-' + id).style.display = 'block';
+		}
 
-	// 入力テキスト保持
-	const chatInput = document.getElementById('chat-input');
-	const storageKey = 'chat-input-{{ $purchase->id }}';
-	const saved = localStorage.getItem(storageKey);
-	if (saved) chatInput.value = saved;
+		// チャット入力保持
+		const chatInput = document.getElementById('chat-input');
+		const storageKey = 'chat-input-{{ $purchase->id }}';
+		const saved = localStorage.getItem(storageKey);
+		if (saved) chatInput.value = saved;
 
-	chatInput.addEventListener('input', () => {
-		localStorage.setItem(storageKey, chatInput.value);
-	});
+		chatInput?.addEventListener('input', () => {
+			localStorage.setItem(storageKey, chatInput.value);
+		});
 
-	document.querySelector('form.chat__form')?.addEventListener('submit', () => {
-		localStorage.removeItem(storageKey);
-	});
+		document.querySelector('form.chat__form')?.addEventListener('submit', () => {
+			localStorage.removeItem(storageKey);
+		});
 
+		// モーダル制御
+		const modal = document.getElementById('reviewModal');
+		const stars = document.querySelectorAll('#star-rating .star');
+		const ratingInput = document.getElementById('rating');
+		const evaluateeInput = document.getElementById('evaluatee_id');
+
+		window.openModal = function (evaluateeId = null) {
+			if (!modal) return;
+			if (evaluateeId) evaluateeInput.value = evaluateeId;
+			modal.style.display = 'block';
+			modal.classList.add('active');
+		}
+
+		window.closeModal = function () {
+			if (!modal) return;
+			modal.style.display = 'none';
+			modal.classList.remove('active');
+		}
+
+		// モーダル外クリックで閉じる
+		modal?.addEventListener('click', e => {
+			if (!e.target.closest('.modal__content')) closeModal();
+		});
+
+		// 星クリック
+		stars.forEach(star => {
+			star.addEventListener('click', function () {
+				const value = parseInt(this.dataset.value);
+				ratingInput.value = value;
+				stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.value) <= value));
+			});
+		});
+
+		// 自動表示条件（出品者のみ）
+		@if($user->id === $purchase->item->user_id && $purchase->buyer_completed && !$purchase->seller_completed)
+			openModal("{{ $purchase->user_id }}"); // 評価対象は購入者
+		@endif
 });
 </script>
 @endsection

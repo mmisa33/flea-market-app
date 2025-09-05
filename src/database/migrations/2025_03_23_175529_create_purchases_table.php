@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreatePurchasesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('purchases', function (Blueprint $table) {
@@ -19,16 +14,13 @@ class CreatePurchasesTable extends Migration
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
             $table->foreignId('address_id')->nullable()->constrained('addresses')->nullOnDelete();
             $table->string('payment_method');
-            $table->enum('status', ['trading', 'completed'])->default('trading');
+            $table->boolean('buyer_completed')->default(false);
+            $table->boolean('seller_completed')->default(false);
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('purchases');

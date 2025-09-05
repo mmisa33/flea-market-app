@@ -24,9 +24,9 @@ class MessageController extends Controller
             abort(403, 'この取引にアクセスできません');
         }
 
-        // メッセージ取得（古い順）
+        // メッセージ取得（昇順）
         $messages = $purchase->messages()
-            ->with('user')
+            ->with('user.profile')
             ->orderBy('created_at')
             ->get();
 
@@ -35,13 +35,38 @@ class MessageController extends Controller
             ? $purchase->item->user   // 自分が購入者 → 相手は出品者
             : $purchase->user;        // 自分が出品者 → 相手は購入者
 
-        // 自分宛の未読を既読化
+        // 未読メッセージ判定
         $purchase->messages()
             ->where('user_id', '!=', $user->id)
             ->where('is_read', false)
             ->update(['is_read' => true]);
 
-        return view('message.show', compact('purchase', 'messages', 'user', 'partner'));
+        // モーダル判定
+        $showReviewModal = false;
+        $evaluateeId = null;
+
+        if ($purchase->status === 'completed' && $purchase->item && $purchase->item->user) {
+            // 購入者がまだ評価していない場合
+            if ($user->id === $purchase->user_id && !$purchase->buyer_completed) {
+                $showReviewModal = true;
+                $evaluateeId = $purchase->item->user->id; // 出品者
+            }
+
+            // 出品者がまだ評価していない場合
+            if ($user->id === $purchase->item->user_id && !$purchase->seller_completed) {
+                $showReviewModal = true;
+                $evaluateeId = $purchase->user_id; // 購入者
+            }
+        }
+
+        return view('message.show', compact(
+            'purchase',
+            'messages',
+            'user',
+            'partner',
+            'showReviewModal',
+            'evaluateeId'
+        ));
     }
 
     // メッセージ投稿
@@ -97,21 +122,5 @@ class MessageController extends Controller
         $message->delete();
 
         return redirect()->route('message.show', $purchase);
-    }
-
-    // 取引完了（購入者のみ）
-    public function complete(Purchase $purchase)
-    {
-        $user = Auth::user();
-
-        if ($user->id !== $purchase->user_id) {
-            abort(403, '取引完了できるのは購入者のみです');
-        }
-
-        $purchase->status = 'completed';
-        $purchase->save();
-
-        return redirect()
-            ->route('profile.show', ['page' => 'trading']);
     }
 }

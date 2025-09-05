@@ -148,6 +148,7 @@ input[type="text"] {
 .error-message {
     margin-top: 5px;
     color: #FF5555;
+    font-weight: bold;
 }
 
 /* レスポンシブデザイン (タブレット768px - 850px) */
