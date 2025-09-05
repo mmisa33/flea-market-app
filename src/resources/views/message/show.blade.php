@@ -9,6 +9,15 @@
 	{{-- サイドバー --}}
 	<aside class="message__sidebar">
 		<div class="message__sidebar-title">その他の取引</div>
+		<ul class="message__sidebar-list">
+			@foreach ($otherPurchases as $p)
+				<li class="message__sidebar-item">
+					<a href="{{ route('message.show', $p->id) }}">
+						{{ $p->item->name }}
+					</a>
+				</li>
+			@endforeach
+		</ul>
 	</aside>
 
 	<div class="message__main">

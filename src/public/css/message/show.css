@@ -11,15 +11,29 @@
 
 /* サイドバー */
 .message__sidebar {
-    width: 280px;
-    padding: 10px;
+    width: 300px;
+    padding: 10px 40px;
     background-color: #868686;
 }
 
+.message__sidebar-list {
+    list-style: none;
+}
+
 .message__sidebar-title {
+    margin-bottom: 60px;
     font-size: 30px;
     font-weight: bold;
     color: white;
+    text-align: center;
+}
+
+.message__sidebar-item {
+    margin-bottom: 40px;
+    padding: 5px;
+    background-color: #EEEFEB;
+    border-radius: 5px;
+    font-size: 24px;
     text-align: center;
 }
 

@@ -24,6 +24,39 @@ class MessageController extends Controller
             abort(403, 'この取引にアクセスできません');
         }
 
+        // サイドバー用の他の取引（未読→新規メッセージ順）
+        $otherPurchases = Purchase::where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                ->orWhereHas('item', fn($q2) => $q2->where('user_id', $user->id));
+            })
+            ->where(function ($q) {
+                $q->where('buyer_completed', false)
+                ->orWhere('seller_completed', false);
+            })
+            ->where('id', '!=', $purchase->id) // 今表示してる取引は除外
+            ->with(['item.messages' => function ($q) {
+                $q->latest()
+                ->select('messages.id', 'messages.purchase_id', 'messages.user_id', 'messages.content', 'messages.is_read', 'messages.created_at');
+            }])
+            ->get()
+            ->map(function ($p) use ($user) {
+                $messages = $p->item->messages;
+
+                // 最新メッセージ日時
+                $latestMessage = $messages->first();
+                $p->latest_message_at = optional($latestMessage)->created_at;
+
+                // 未読メッセージ数
+                $p->unread_count = $messages
+                    ->where('user_id', '!=', $user->id)
+                    ->where('is_read', false)
+                    ->count();
+
+                return $p;
+            })
+            ->sortByDesc(fn($p) => [$p->unread_count > 0 ? 1 : 0, $p->latest_message_at])
+            ->values();
+
         // メッセージ取得（昇順）
         $messages = $purchase->messages()
             ->with('user.profile')
@@ -63,6 +96,7 @@ class MessageController extends Controller
             'purchase',
             'messages',
             'user',
+            'otherPurchases',
             'partner',
             'showReviewModal',
             'evaluateeId'
