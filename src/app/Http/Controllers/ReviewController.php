@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Purchase;
 use App\Models\Review;
+use App\Mail\PurchaseCompleted;
+use Illuminate\Support\Facades\Mail;
 
 class ReviewController extends Controller
 {
@@ -35,6 +37,12 @@ class ReviewController extends Controller
         }
 
         $purchase->save();
+
+        // 購入者が完了したタイミングで出品者へ通知メール送信
+        if ($user->id === $purchase->user_id) {
+            Mail::to($purchase->item->user->email)
+                ->send(new PurchaseCompleted($purchase));
+        }
 
         return redirect()->route('home');
     }

@@ -54,5 +54,6 @@ Route::middleware(['auth', 'verified', 'profile.set'])->group(function () {
         Route::delete('/{purchase}/{message}', [MessageController::class, 'destroy'])->name('destroy');
     });
 
+    // レビュー投稿
     Route::post('/purchases/{purchase}/review', [ReviewController::class, 'store'])->name('review.store');
 });
