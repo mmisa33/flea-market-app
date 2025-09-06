@@ -175,7 +175,7 @@ input[type="text"] {
     }
 
     .search-form__input {
-        padding: 8px 20px;
+        padding: 8px 15px;
     }
 
     .header__links {
@@ -190,12 +190,17 @@ input[type="text"] {
     }
 
     .nav {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
+        padding: 10px 20px;
     }
 
     .nav__inner {
-        display: flex;
-        justify-content: center;
+        justify-content: space-around;
+        align-items: center;
+        gap: 5px;
+        white-space: nowrap;
+    }
+
+    .nav__inner a {
+        font-size: 22px;
     }
 }

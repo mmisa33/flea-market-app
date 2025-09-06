@@ -76,7 +76,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Review::class, 'to_user_id');
     }
 
-    // 自分が「した」レビュー（評価する側）
     public function reviewsGiven()
     {
         return $this->hasMany(Review::class, 'from_user_id');

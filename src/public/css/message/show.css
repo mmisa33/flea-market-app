@@ -241,7 +241,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 20px 0 0 0;
+    padding-top: 20px;
     background-color: white;
     z-index: 100;
 }
@@ -306,7 +306,7 @@
 
 .modal__content {
     width: 40%;
-    position: absolute;
+    position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -374,4 +374,129 @@
 
 /* レスポンシブデザイン (タブレット768px - 850px) */
 @media screen and (min-width: 768px) and (max-width: 850px) {
+
+    /* サイドバー */
+    .message__sidebar {
+        width: 200px;
+        padding: 10px 20px;
+    }
+
+    .message__sidebar-title {
+        margin-bottom: 40px;
+        font-size: 24px;
+    }
+
+    .message__sidebar-item {
+        font-size: 18px;
+        margin-bottom: 25px;
+        padding: 5px;
+    }
+
+    /* 取引相手情報 */
+    .message__trade-partner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 20px;
+    }
+
+    .trade-partner__name {
+        font-size: 28px;
+    }
+
+    .trade-partner__complete-btn {
+        margin: 0 auto;
+        font-size: 18px;
+        padding: 8px 16px;
+    }
+
+    /* 商品情報 */
+    .message__trade-item {
+        flex-direction: column;
+        padding: 15px 20px;
+        gap: 10px;
+    }
+
+    .trade-item__name {
+        margin-bottom: 10px;
+        font-size: 32px;
+    }
+
+    .trade-item__price {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    /* チャットメッセージ */
+    .message__chat {
+        width: 70%;
+        padding: 15px;
+    }
+
+    .chat__user {
+        gap: 15px;
+    }
+
+    .chat__user-image {
+        width: 55px;
+        height: 55px;
+    }
+
+    /* メッセージ本文 */
+    .chat__content {
+        font-size: 16px;
+        padding: 10px 15px;
+    }
+
+    .chat__image {
+        width: 200px;
+        height: 200px;
+    }
+
+    /* メッセージ投稿フォーム */
+    .chat__form {
+        padding: 5px 15px 20px 15px;
+        gap: 10px;
+    }
+
+    .chat__input {
+        font-size: 16px;
+    }
+
+    .chat__image-btn {
+        font-size: 16px;
+        padding: 5px 12px;
+    }
+
+    .chat__submit-icon {
+        width: 40px;
+        height: 35px;
+    }
+
+    /* モーダル */
+    .modal__content {
+        width: 70%;
+    }
+
+    .modal__title {
+        font-size: 28px;
+    }
+
+    .stars {
+        font-size: 60px;
+    }
+
+    .modal__btn-submit {
+        padding: 8px 16px;
+        font-size: 20px;
+    }
+
+    /* エラーメッセージ */
+    .error-message__chat {
+        padding: 5px 20px;
+    }
+
+    .error-message__review {
+        margin-left: 5px;
+    }
 }

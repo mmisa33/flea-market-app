@@ -24,7 +24,7 @@ class MessageController extends Controller
             abort(403, 'この取引にアクセスできません');
         }
 
-        // サイドバー用の他の取引（未読→新規メッセージ順）
+        // サイドバー取引中商品（未読→新規メッセージ順）
         $otherPurchases = Purchase::where(function ($q) use ($user) {
                 $q->where('user_id', $user->id)
                 ->orWhereHas('item', fn($q2) => $q2->where('user_id', $user->id));

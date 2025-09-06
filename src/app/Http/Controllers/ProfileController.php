@@ -76,7 +76,7 @@ class ProfileController extends Controller
             'tradingPurchases',
             'page',
             'averageRating',
-            'totalUnread',
+            'totalUnread'
         ));
     }
 

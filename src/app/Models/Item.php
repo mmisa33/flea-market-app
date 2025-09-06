@@ -57,12 +57,6 @@ class Item extends Model
         return $this->hasMany(Purchase::class);
     }
 
-    public function completePurchase()
-    {
-        $this->sold_status = true;
-        $this->save();
-    }
-
     public function messages()
     {
         return $this->hasManyThrough(
