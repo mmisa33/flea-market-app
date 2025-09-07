@@ -3,7 +3,8 @@
 ## 概要
 このプロジェクトは、Laravelを使用したフリマアプリです。  
 Dockerを利用した環境構築が可能で、MySQLデータベースを使用しています。  
-ユーザー登録、ログイン、商品一覧の表示、購入手続き、コメント機能など、基本的なフリマアプリに必要な機能を実装しています。
+ユーザー登録、ログイン、商品一覧の表示、購入手続き、コメント機能に加え、  
+取引チャット、通知、取引後の相互評価などフリマアプリに必要な機能を実装しています。
 
 ## 環境構築
 
@@ -79,13 +80,13 @@ Dockerを利用した環境構築が可能で、MySQLデータベースを使用
 
 ### 🔐 サンプルユーザー情報
 
- - **田中 太郎**
+ - **田中 太郎**（商品1～5を出品）
    - Email: `taro@example.com`
    - Password: `password123`
- - **鈴木 次郎**
+ - **鈴木 次郎**（商品6～10を出品）
    - Email: `jiro@example.com`
    - Password: `password123`
- - **佐藤 花子**
+ - **佐藤 花子**（出品商品なし）
    - Email: `hanako@example.com`
    - Password: `password123`
 
@@ -107,8 +108,8 @@ Dockerを利用した環境構築が可能で、MySQLデータベースを使用
 ### **テスト実行**
 
 1. PHPコンテナに入る
-   ```bash
-   docker-compose exec php bash
+    ```bash
+    docker-compose exec php bash
 2. マイグレーションをリセットし、再実行
     ```bash
     php artisan migrate:refresh --seed
@@ -121,7 +122,7 @@ Dockerを利用した環境構築が可能で、MySQLデータベースを使用
     > - テスト実行後、データベースの状態が変更される可能性があるため、再度テストを実行する際には上記の手順を繰り返してください。
 
 ## ER図
-![er_contact_form](ER_flea-market-app.png)
+![ER_flea-market-app](ER_flea-market-app.png)
 
 ## URL
 - 開発環境： [http://localhost/](http://localhost/)

@@ -35,13 +35,13 @@ class PurchasesTableSeeder extends Seeder
 
         // 購入データ
         $purchases = [
-            ['user_id' => 1, 'item_id' => 2, 'address_id' => $address1->id, 'payment_method' => 'card'],
-            ['user_id' => 1, 'item_id' => 3, 'address_id' => $address1->id, 'payment_method' => 'konbini'],
+            ['user_id' => 1, 'item_id' => 6, 'address_id' => $address1->id, 'payment_method' => 'card'],
+            ['user_id' => 1, 'item_id' => 7, 'address_id' => $address1->id, 'payment_method' => 'konbini'],
 
-            ['user_id' => 2, 'item_id' => 6, 'address_id' => $address2->id, 'payment_method' => 'konbini'],
-            ['user_id' => 2, 'item_id' => 7, 'address_id' => $address2->id, 'payment_method' => 'card'],
+            ['user_id' => 2, 'item_id' => 1, 'address_id' => $address2->id, 'payment_method' => 'konbini'],
+            ['user_id' => 2, 'item_id' => 3, 'address_id' => $address2->id, 'payment_method' => 'card'],
 
-            ['user_id' => 3, 'item_id' => 10, 'address_id' => $address3->id, 'payment_method' => 'konbini'],
+            ['user_id' => 3, 'item_id' => 5, 'address_id' => $address3->id, 'payment_method' => 'konbini'],
         ];
 
         // 購入登録とアイテムのsold_status更新

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Item;
+use App\Models\Category;
 
 class ItemsTableSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class ItemsTableSeeder extends Seeder
                 'categories' => ['ファッション', 'メンズ'],
             ],
             [
-                'user_id' => 2,
+                'user_id' => 1,
                 'image_path' => 'images/items/HDD_Hard_Disk.jpg',
                 'name' => 'HDD',
                 'brand' => 'ブランド2',
@@ -32,7 +33,7 @@ class ItemsTableSeeder extends Seeder
                 'categories' => ['家電'],
             ],
             [
-                'user_id' => 3,
+                'user_id' => 1,
                 'image_path' => 'images/items/iLoveIMG_d.jpg',
                 'name' => '玉ねぎ3束',
                 'brand' => 'ブランド3',
@@ -52,7 +53,7 @@ class ItemsTableSeeder extends Seeder
                 'categories' => ['ファッション', 'メンズ'],
             ],
             [
-                'user_id' => 2,
+                'user_id' => 1,
                 'image_path' => 'images/items/Living_Room_Laptop.jpg',
                 'name' => 'ノートPC',
                 'brand' => 'ブランド5',
@@ -62,7 +63,7 @@ class ItemsTableSeeder extends Seeder
                 'categories' => ['家電'],
             ],
             [
-                'user_id' => 3,
+                'user_id' => 2,
                 'image_path' => 'images/items/Music_Mic_4632231.jpg',
                 'name' => 'マイク',
                 'brand' => 'ブランド6',
@@ -72,7 +73,7 @@ class ItemsTableSeeder extends Seeder
                 'categories' => ['家電'],
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'image_path' => 'images/items/Purse_fashion_pocket.jpg',
                 'name' => 'ショルダーバッグ',
                 'brand' => 'ブランド7',
@@ -92,7 +93,7 @@ class ItemsTableSeeder extends Seeder
                 'categories' => ['キッチン'],
             ],
             [
-                'user_id' => 3,
+                'user_id' => 2,
                 'image_path' => 'images/items/Waitress_with_Coffee_Grinder.jpg',
                 'name' => 'コーヒーミル',
                 'brand' => 'ブランド9',
@@ -102,7 +103,7 @@ class ItemsTableSeeder extends Seeder
                 'categories' => ['キッチン'],
             ],
             [
-                'user_id' => 1,
+                'user_id' => 2,
                 'image_path' => 'images/items/Makeup_Set.jpg',
                 'name' => 'メイクセット',
                 'brand' => 'ブランド10',
@@ -126,7 +127,7 @@ class ItemsTableSeeder extends Seeder
             ]);
 
             $createdItem->categories()->attach(
-                \App\Models\Category::whereIn('name', $item['categories'])->pluck('id')->toArray()
+                Category::whereIn('name', $item['categories'])->pluck('id')->toArray()
             );
         }
     }
