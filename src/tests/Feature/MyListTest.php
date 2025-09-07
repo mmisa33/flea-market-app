@@ -79,14 +79,17 @@ class MyListTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        // 自分が出品した商品を作成
-        $ownItem = Item::factory()->create(['user_id' => $user->id]);
+        // 自分が出品した商品を作成（名前を明示的に指定）
+        Item::factory()->create([
+            'user_id' => $user->id,
+            'name' => '自分の商品XYZ123',
+        ]);
 
         // マイリストにアクセス
         $response = $this->get('/?page=mylist');
 
         // 自分の商品が表示されないことを確認
-        $response->assertDontSee($ownItem->name);
+        $response->assertDontSeeText('自分の商品XYZ123');
     }
 
     /** @test */

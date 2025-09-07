@@ -70,6 +70,8 @@ class PurchaseTest extends TestCase
             'payment_method' => 'card',
         ]);
 
+        $item->update(['sold_status' => true]);
+
         // 商品一覧画面に「Sold」が表示されることを確認
         $response = $this->get('/');
         $response->assertSee('Sold');
