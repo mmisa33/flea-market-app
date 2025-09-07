@@ -43,6 +43,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding-bottom: 90px;
 }
 
 /* 取引相手情報 */
@@ -237,11 +238,11 @@
 }
 
 .fixed-form {
-    position: sticky;
+    position: fixed;
     bottom: 0;
-    left: 0;
-    width: 100%;
-    padding-top: 20px;
+    left: 300px;
+    width: calc(100% - 300px);
+    padding-top: 10px;
     background-color: white;
     z-index: 100;
 }
@@ -284,7 +285,7 @@
 }
 
 .error-message__chat {
-    padding: 5px 40px;
+    padding: 0px 40px;
 }
 
 /* レスポンシブデザイン (タブレット768px - 850px) */
@@ -305,6 +306,11 @@
         font-size: 18px;
         margin-bottom: 25px;
         padding: 5px;
+    }
+
+    /* メインエリア */
+    .message__main {
+        padding-bottom: 110px;
     }
 
     /* 取引相手情報 */
@@ -372,6 +378,11 @@
     .chat__form {
         padding: 5px 15px 20px 15px;
         gap: 10px;
+    }
+
+    .fixed-form {
+        left: 200px;
+        width: calc(100% - 200px);
     }
 
     .chat__input {
