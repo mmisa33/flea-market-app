@@ -25,8 +25,8 @@ Dockerを利用した環境構築が可能で、MySQLデータベースを使用
 ### **Laravel環境構築**
 
 1. PHPコンテナに入る
-   ```bash
-   docker-compose exec php bash
+    ```bash
+    docker-compose exec php bash
 2. 必要な依存関係をインストール
     ```bash
     composer install
@@ -57,19 +57,27 @@ Dockerを利用した環境構築が可能で、MySQLデータベースを使用
     STRIPE_KEY=[pk_test_XXXXXXXXXXXXXXXXX]  # []に取得した公開可能キーを記載
     STRIPE_SECRET=[sk_test_XXXXXXXXXXXXXXXXX]  # []に取得した秘密キーを記載
 5. アプリケーションキーを生成
-   ```bash
+    ```bash
    php artisan key:generate
 6. データベースをマイグレーション
-   ```bash
-   php artisan migrate
+    ```bash
+    php artisan migrate
 7. データベースに初期データを挿入
-   ```bash
-   php artisan db:seed
-   ```
+    ```bash
+    php artisan db:seed
+    ```
     > **💡 補足**
     > - `CategoriesTableSeeder` は、アプリの動作に必須のカテゴリーデータを挿入するため、**必ず実行が必要**です。
     > - `UsersTableSeeder` や `ItemsTableSeeder` など、その他のシーダーは、アプリを実際に使用しているように見せる**サンプルデータ**を挿入します。
     > - 本番環境では `CategoriesTableSeeder` のみを使い、他は開発やテスト時に利用することを想定しています。
+8. ストレージリンクを作成（画像表示に必要）
+    ```bash
+    php artisan storage:link
+    ```
+    > **💡 補足**
+    > - ホームページで使用する固定画像は `public/images` に配置されているため、そのまま表示されます。
+    > - 商品やユーザーがアップロードした画像は `storage/app/public` に保存されるため、リンク作成が必要です。
+
 
 ## サンプルアカウント（ログイン用）
 
